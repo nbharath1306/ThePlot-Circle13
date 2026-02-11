@@ -146,3 +146,23 @@ export const DIMENSION_LABELS: Record<PsychologicalDimension, string> = {
     values: 'Values & Life Goals',
     emotional_intelligence: 'Emotional Intelligence',
 };
+
+
+export type OutcomeType =
+    | 'success_strong'
+    | 'success_engaged'
+    | 'success_thriving'
+    | 'success_growing'
+    | 'challenge_break'
+    | 'challenge_different_paths'
+    | 'challenge_timing';
+
+export const OUTCOME_NAMES: Record<OutcomeType, string> = {
+    success_strong: 'Still Together: Strong Foundation',
+    success_engaged: 'Engaged: Ready for Next Chapter',
+    success_thriving: 'Thriving: Best Friends & Partners',
+    success_growing: 'Growing Together: Communication Masters',
+    challenge_break: 'Taking a Break: Reassessing Priorities',
+    challenge_different_paths: 'Friendly Separation: Different Paths',
+    challenge_timing: 'On Pause: Timing Wasn\'t Right',
+};
