@@ -64,12 +64,21 @@ CRITICAL RULES:
         const years: YearEvent[] = parsed.years;
         const outcome = parsed.outcome as OutcomeType;
 
+        const compatibility: any = {
+            overallScore: 85,
+            dimensions: [],
+            strengths: parsed.insights || ['Resilience', 'Shared Values'],
+            challenges: ['Communication under stress'],
+            prediction: outcome
+        };
+
         return {
             timeline: years,
             outcome,
-            outcomeName: OUTCOME_NAMES[outcome] || outcome,
-            insights: parsed.insights || [],
             emotionalMetrics: calculateMetrics(years),
+            // Legacy/Fallback fillers for new types
+            scenarios: [],
+            compatibility
         };
     } catch (error) {
         logger.error('Groq simulation failed', error);
@@ -92,12 +101,18 @@ function generateFallbackSimulation(): SimulationResult {
     return {
         timeline: years,
         outcome: 'success_thriving',
-        outcomeName: OUTCOME_NAMES['success_thriving'],
-        insights: [
-            'Strong communication foundation helps navigate challenges',
-            'Complementary values create balance in the relationship',
-            'Willingness to grow together is the key differentiator',
-        ],
         emotionalMetrics: calculateMetrics(years),
+        scenarios: [],
+        compatibility: {
+            overallScore: 90,
+            dimensions: [],
+            strengths: [
+                'Strong communication foundation helps navigate challenges',
+                'Complementary values create balance in the relationship',
+                'Willingness to grow together is the key differentiator',
+            ],
+            challenges: [],
+            prediction: 'success_thriving'
+        }
     };
 }
