@@ -78,6 +78,40 @@ class SoundEngine {
         } catch { /* silent fail */ }
     }
 
+    // Typing sound
+    typeSound() {
+        try {
+            const ctx = this.getCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(600, ctx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.03);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.03);
+        } catch { /* silent fail */ }
+    }
+
+    // Message received sound
+    messageSound() {
+        try {
+            const ctx = this.getCtx();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.type = "sine";
+            osc.frequency.setValueAtTime(800, ctx.currentTime);
+            gain.gain.setValueAtTime(0.05, ctx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+            osc.start(ctx.currentTime);
+            osc.stop(ctx.currentTime + 0.15);
+        } catch { /* silent fail */ }
+    }
+
     // Low ambient hum
     startAmbient(): () => void {
         try {
@@ -125,7 +159,9 @@ export function useSoundEngine() {
     const click = useCallback(() => engineRef.current?.click(), []);
     const whoosh = useCallback(() => engineRef.current?.whoosh(), []);
     const success = useCallback(() => engineRef.current?.success(), []);
+    const typeSound = useCallback(() => engineRef.current?.typeSound(), []);
+    const messageSound = useCallback(() => engineRef.current?.messageSound(), []);
     const startAmbient = useCallback(() => engineRef.current?.startAmbient() || (() => { }), []);
 
-    return { click, whoosh, success, startAmbient };
+    return { click, whoosh, success, typeSound, messageSound, startAmbient };
 }
