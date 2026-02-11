@@ -5,11 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-    apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
-    dangerouslyAllowBrowser: true,
-});
-
 export default function DetectiveVerdictPage() {
     const router = useRouter();
     const [loading, setLoading] = useState(true);
@@ -30,6 +25,11 @@ export default function DetectiveVerdictPage() {
         const parsedAnswers = JSON.parse(answers);
 
         try {
+            const groq = new Groq({
+                apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
+                dangerouslyAllowBrowser: true,
+            });
+
             const response = await groq.chat.completions.create({
                 messages: [
                     {

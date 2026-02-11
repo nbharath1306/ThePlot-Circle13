@@ -5,11 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-    apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
-    dangerouslyAllowBrowser: true,
-});
-
 interface Message {
     role: "user" | "assistant";
     content: string;
@@ -73,6 +68,11 @@ You're on a first date. Be charming, flirty but respectful, ask questions, share
         setIsTyping(true);
 
         try {
+            const groq = new Groq({
+                apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
+                dangerouslyAllowBrowser: true,
+            });
+
             const response = await groq.chat.completions.create({
                 messages: [
                     { role: "system", content: generatePartnerPersonality() },
@@ -174,8 +174,8 @@ You're on a first date. Be charming, flirty but respectful, ask questions, share
                         >
                             <div
                                 className={`max-w-[70%] rounded-2xl px-4 py-3 ${message.role === "user"
-                                        ? "bg-gradient-to-r from-pink-600 to-red-600 text-white"
-                                        : "bg-gray-800 text-gray-100"
+                                    ? "bg-gradient-to-r from-pink-600 to-red-600 text-white"
+                                    : "bg-gray-800 text-gray-100"
                                     }`}
                             >
                                 {message.content}
