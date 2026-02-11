@@ -26,7 +26,7 @@ function OracleAssessmentContent() {
     useEffect(() => {
         if (sessionId) {
             setMyRole("B");
-            setMode("assessment");
+            setMode("join");
 
             const statusA = localStorage.getItem(`session_${sessionId}_status_A`);
             if (statusA === "done") {
@@ -196,6 +196,37 @@ function OracleAssessmentContent() {
                         onClick={startAssessment}
                         variant="ghost"
                         className="w-full mt-8"
+                    >
+                        Start My Assessment →
+                    </Button>
+                </div>
+            </main>
+        );
+    }
+
+    if (mode === "join") {
+        return (
+            <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
+                <div className="max-w-md text-center space-y-6">
+                    <div className="text-6xl mb-4">💕</div>
+                    <h1 className="text-3xl font-bold">Your partner invited you!</h1>
+                    <p className="text-gray-300">
+                        They want to see your relationship's future together using AI.
+                    </p>
+
+                    <div className="bg-gray-900/50 border border-purple-500/30 rounded-xl p-6 text-left space-y-3">
+                        <h3 className="text-lg font-semibold text-purple-400">What happens next:</h3>
+                        <ul className="space-y-2 text-sm text-gray-300">
+                            <li>✨ Answer 105 questions about yourself</li>
+                            <li>🔮 AI simulates your relationship over 10 years</li>
+                            <li>📊 Get a detailed compatibility report</li>
+                            <li>⏱️ Takes about 20 minutes</li>
+                        </ul>
+                    </div>
+
+                    <Button
+                        onClick={() => setMode("assessment")}
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 py-6 text-lg"
                     >
                         Start My Assessment →
                     </Button>
