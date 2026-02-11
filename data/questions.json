@@ -889,6 +889,590 @@
           "placeholder": "From morning to night..."
         }
       ]
+    },
+    {
+      "id": "travel_adventure",
+      "title": "Travel & Adventure",
+      "description": "Where do you want to go?",
+      "questions": [
+        {
+          "id": "travel_frequency",
+          "text": "How often do you want to travel?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Every month",
+              "value": "monthly"
+            },
+            {
+              "label": "Few times a year",
+              "value": "quarterly"
+            },
+            {
+              "label": "Once a year",
+              "value": "yearly"
+            },
+            {
+              "label": "Every few years",
+              "value": "rarely"
+            },
+            {
+              "label": "I'm a homebody",
+              "value": "never"
+            }
+          ]
+        },
+        {
+          "id": "travel_style",
+          "text": "Luxury resort or backpacking adventure?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Backpacking",
+            "10": "Luxury Resort"
+          }
+        },
+        {
+          "id": "bucket_list",
+          "text": "Top 3 places you MUST visit before you die:",
+          "type": "text",
+          "placeholder": "List 3 destinations"
+        },
+        {
+          "id": "live_abroad",
+          "text": "Would you live abroad for a year?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Absolutely"
+          }
+        }
+      ]
+    },
+    {
+      "id": "food_lifestyle",
+      "title": "Food & Lifestyle",
+      "description": "How do you live?",
+      "questions": [
+        {
+          "id": "cooking",
+          "text": "Do you enjoy cooking?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Hate It",
+            "10": "Love It"
+          }
+        },
+        {
+          "id": "diet",
+          "text": "Any dietary restrictions/preferences?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "None, I eat everything",
+              "value": "none"
+            },
+            {
+              "label": "Vegetarian",
+              "value": "vegetarian"
+            },
+            {
+              "label": "Vegan",
+              "value": "vegan"
+            },
+            {
+              "label": "Pescatarian",
+              "value": "pescatarian"
+            },
+            {
+              "label": "Keto/Low-carb",
+              "value": "keto"
+            },
+            {
+              "label": "Other",
+              "value": "other"
+            }
+          ]
+        },
+        {
+          "id": "eating_out",
+          "text": "How often do you eat out?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Daily",
+              "value": "daily"
+            },
+            {
+              "label": "Few times a week",
+              "value": "weekly"
+            },
+            {
+              "label": "Once a week",
+              "value": "once_week"
+            },
+            {
+              "label": "Few times a month",
+              "value": "monthly"
+            },
+            {
+              "label": "Rarely",
+              "value": "rarely"
+            }
+          ]
+        },
+        {
+          "id": "morning_routine",
+          "text": "Describe your ideal morning routine:",
+          "type": "text",
+          "placeholder": "e.g., Coffee, gym, meditation..."
+        }
+      ]
+    },
+    {
+      "id": "hobbies_interests",
+      "title": "Hobbies & Interests",
+      "description": "What do you love?",
+      "questions": [
+        {
+          "id": "main_hobby",
+          "text": "What's your main hobby/passion?",
+          "type": "text",
+          "placeholder": "e.g., Gaming, sports, art, music..."
+        },
+        {
+          "id": "creative_vs_analytical",
+          "text": "Creative or Analytical?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Analytical",
+            "10": "Creative"
+          }
+        },
+        {
+          "id": "sports_fan",
+          "text": "How into sports are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not at All",
+            "10": "Die-Hard Fan"
+          }
+        },
+        {
+          "id": "gaming",
+          "text": "How much do you game?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Never",
+              "value": "never"
+            },
+            {
+              "label": "Casually",
+              "value": "casual"
+            },
+            {
+              "label": "Regularly (few hours/week)",
+              "value": "regular"
+            },
+            {
+              "label": "Hardcore (daily)",
+              "value": "hardcore"
+            },
+            {
+              "label": "It's my life",
+              "value": "lifestyle"
+            }
+          ]
+        },
+        {
+          "id": "reading",
+          "text": "How many books do you read per year?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "0",
+              "value": "none"
+            },
+            {
+              "label": "1-5",
+              "value": "few"
+            },
+            {
+              "label": "6-12",
+              "value": "monthly"
+            },
+            {
+              "label": "12-24",
+              "value": "biweekly"
+            },
+            {
+              "label": "24+",
+              "value": "weekly"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "personality_deep",
+      "title": "Personality Deep Dive",
+      "description": "The real you.",
+      "questions": [
+        {
+          "id": "optimist_pessimist",
+          "text": "Optimist or Pessimist?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Pessimist",
+            "10": "Optimist"
+          }
+        },
+        {
+          "id": "competitive",
+          "text": "How competitive are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not at All",
+            "10": "Ultra Competitive"
+          }
+        },
+        {
+          "id": "perfectionist",
+          "text": "Are you a perfectionist?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Go with Flow",
+            "10": "Total Perfectionist"
+          }
+        },
+        {
+          "id": "procrastinator",
+          "text": "Do you procrastinate?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Always"
+          }
+        },
+        {
+          "id": "stress_response",
+          "text": "When stressed, you:",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Talk it out",
+              "value": "talk"
+            },
+            {
+              "label": "Need alone time",
+              "value": "alone"
+            },
+            {
+              "label": "Exercise/physical activity",
+              "value": "exercise"
+            },
+            {
+              "label": "Distract myself",
+              "value": "distract"
+            },
+            {
+              "label": "Shut down completely",
+              "value": "shutdown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "relationship_history",
+      "title": "Relationship History",
+      "description": "Your past shapes your future.",
+      "questions": [
+        {
+          "id": "longest_relationship",
+          "text": "How long was your longest relationship?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Never been in one",
+              "value": "never"
+            },
+            {
+              "label": "Less than 6 months",
+              "value": "short"
+            },
+            {
+              "label": "6 months - 1 year",
+              "value": "medium"
+            },
+            {
+              "label": "1-3 years",
+              "value": "long"
+            },
+            {
+              "label": "3+ years",
+              "value": "very_long"
+            }
+          ]
+        },
+        {
+          "id": "breakup_pattern",
+          "text": "Who usually ends your relationships?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "I do",
+              "value": "me"
+            },
+            {
+              "label": "They do",
+              "value": "them"
+            },
+            {
+              "label": "Mutual",
+              "value": "mutual"
+            },
+            {
+              "label": "N/A",
+              "value": "na"
+            }
+          ]
+        },
+        {
+          "id": "attachment_style",
+          "text": "What's your attachment style?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Secure",
+              "value": "secure"
+            },
+            {
+              "label": "Anxious",
+              "value": "anxious"
+            },
+            {
+              "label": "Avoidant",
+              "value": "avoidant"
+            },
+            {
+              "label": "Fearful-avoidant",
+              "value": "fearful"
+            },
+            {
+              "label": "No idea",
+              "value": "unknown"
+            }
+          ]
+        },
+        {
+          "id": "learned_from_past",
+          "text": "Biggest lesson from past relationships:",
+          "type": "text",
+          "placeholder": "What did you learn?"
+        }
+      ]
+    },
+    {
+      "id": "future_goals",
+      "title": "Future & Goals",
+      "description": "Where are you going?",
+      "questions": [
+        {
+          "id": "five_year_plan",
+          "text": "Where do you see yourself in 5 years?",
+          "type": "text",
+          "placeholder": "Career, location, lifestyle..."
+        },
+        {
+          "id": "dream_career",
+          "text": "What's your dream career/job?",
+          "type": "text",
+          "placeholder": "If money wasn't an issue..."
+        },
+        {
+          "id": "retirement_age",
+          "text": "What age do you want to retire?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Before 40 (FIRE)",
+              "value": "early"
+            },
+            {
+              "label": "40-50",
+              "value": "mid"
+            },
+            {
+              "label": "50-60",
+              "value": "normal"
+            },
+            {
+              "label": "60-65",
+              "value": "standard"
+            },
+            {
+              "label": "Never, I love working",
+              "value": "never"
+            }
+          ]
+        },
+        {
+          "id": "legacy",
+          "text": "What do you want to be remembered for?",
+          "type": "text",
+          "placeholder": "Your legacy..."
+        }
+      ]
+    },
+    {
+      "id": "random_deep",
+      "title": "Random Deep Questions",
+      "description": "The unexpected ones.",
+      "questions": [
+        {
+          "id": "time_or_money",
+          "text": "Would you rather have more time or more money?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Time",
+              "value": "time"
+            },
+            {
+              "label": "Money",
+              "value": "money"
+            }
+          ]
+        },
+        {
+          "id": "fame_or_fortune",
+          "text": "Fame or Fortune?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Fame",
+              "value": "fame"
+            },
+            {
+              "label": "Fortune",
+              "value": "fortune"
+            }
+          ]
+        },
+        {
+          "id": "mind_reader",
+          "text": "Would you want to read your partner's mind?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Absolutely"
+          }
+        },
+        {
+          "id": "second_chance",
+          "text": "If you could redo one thing in your life, what would it be?",
+          "type": "text",
+          "placeholder": "Be honest..."
+        },
+        {
+          "id": "deal_with_devil",
+          "text": "Would you sacrifice 10 years of your life for guaranteed success?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Depends on the success",
+              "value": "depends"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "wildcard",
+      "title": "Wildcard Round",
+      "description": "The unexpected questions.",
+      "questions": [
+        {
+          "id": "zombie_apocalypse",
+          "text": "Zombie apocalypse: What's your role?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Leader",
+              "value": "leader"
+            },
+            {
+              "label": "Strategist",
+              "value": "strategist"
+            },
+            {
+              "label": "Fighter",
+              "value": "fighter"
+            },
+            {
+              "label": "Medic",
+              "value": "medic"
+            },
+            {
+              "label": "I'd die first",
+              "value": "dead"
+            }
+          ]
+        },
+        {
+          "id": "superpower",
+          "text": "If you could have one superpower?",
+          "type": "text",
+          "placeholder": "e.g., Time travel, mind reading, invisibility"
+        },
+        {
+          "id": "desert_island",
+          "text": "Desert island: 3 things you bring?",
+          "type": "text",
+          "placeholder": "List 3 items"
+        },
+        {
+          "id": "biggest_fear",
+          "text": "What's your biggest fear in a relationship?",
+          "type": "text",
+          "placeholder": "Be honest..."
+        },
+        {
+          "id": "perfect_day",
+          "text": "Describe your perfect day together:",
+          "type": "text",
+          "placeholder": "From morning to night..."
+        }
+      ]
     }
   ]
 }
