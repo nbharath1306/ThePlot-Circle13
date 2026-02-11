@@ -1473,6 +1473,215 @@
           "placeholder": "From morning to night..."
         }
       ]
+    },
+    {
+      "id": "rapid_fire",
+      "title": "Rapid Fire Round",
+      "description": "Quick answers, no overthinking!",
+      "questions": [
+        {
+          "id": "dog_or_cat",
+          "text": "Dog or Cat?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Dog",
+              "value": "dog"
+            },
+            {
+              "label": "Cat",
+              "value": "cat"
+            },
+            {
+              "label": "Both",
+              "value": "both"
+            },
+            {
+              "label": "Neither",
+              "value": "neither"
+            }
+          ]
+        },
+        {
+          "id": "coffee_or_tea",
+          "text": "Coffee or Tea?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Coffee",
+              "value": "coffee"
+            },
+            {
+              "label": "Tea",
+              "value": "tea"
+            },
+            {
+              "label": "Both",
+              "value": "both"
+            },
+            {
+              "label": "Neither",
+              "value": "neither"
+            }
+          ]
+        },
+        {
+          "id": "beach_or_mountains",
+          "text": "Beach or Mountains?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Beach",
+              "value": "beach"
+            },
+            {
+              "label": "Mountains",
+              "value": "mountains"
+            }
+          ]
+        },
+        {
+          "id": "summer_or_winter",
+          "text": "Summer or Winter?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Summer",
+              "value": "summer"
+            },
+            {
+              "label": "Winter",
+              "value": "winter"
+            }
+          ]
+        },
+        {
+          "id": "city_or_countryside",
+          "text": "City or Countryside?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "City",
+              "value": "city"
+            },
+            {
+              "label": "Countryside",
+              "value": "countryside"
+            }
+          ]
+        },
+        {
+          "id": "early_bird_night_owl",
+          "text": "Early bird gets the worm or night owl?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Early bird",
+              "value": "early"
+            },
+            {
+              "label": "Night owl",
+              "value": "night"
+            }
+          ]
+        },
+        {
+          "id": "netflix_or_cinema",
+          "text": "Netflix at home or Cinema?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Netflix",
+              "value": "netflix"
+            },
+            {
+              "label": "Cinema",
+              "value": "cinema"
+            }
+          ]
+        },
+        {
+          "id": "text_or_call",
+          "text": "Text or Call?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Text",
+              "value": "text"
+            },
+            {
+              "label": "Call",
+              "value": "call"
+            }
+          ]
+        },
+        {
+          "id": "sweet_or_savory",
+          "text": "Sweet or Savory?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Sweet",
+              "value": "sweet"
+            },
+            {
+              "label": "Savory",
+              "value": "savory"
+            }
+          ]
+        },
+        {
+          "id": "shower_or_bath",
+          "text": "Shower or Bath?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Shower",
+              "value": "shower"
+            },
+            {
+              "label": "Bath",
+              "value": "bath"
+            }
+          ]
+        },
+        {
+          "id": "plan_or_wing_it",
+          "text": "Plan everything or wing it?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Plan everything",
+              "value": "plan"
+            },
+            {
+              "label": "Wing it",
+              "value": "wing"
+            }
+          ]
+        },
+        {
+          "id": "save_or_spend",
+          "text": "Save for tomorrow or live for today?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Save",
+              "value": "save"
+            },
+            {
+              "label": "Spend",
+              "value": "spend"
+            }
+          ]
+        },
+        {
+          "id": "final_words",
+          "text": "Any final thoughts or dealbreakers we should know?",
+          "type": "text",
+          "placeholder": "Last chance to share anything important..."
+        }
+      ]
     }
   ]
 }
