@@ -1,0 +1,344 @@
+{
+    "sections": [
+        {
+            "id": "basics",
+            "title": "The Basics",
+            "description": "Let's start with the fundamentals.",
+            "questions": [
+                {
+                    "id": "partner_age_range",
+                    "text": "What age range are you looking for?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "18-25",
+                            "value": "18-25"
+                        },
+                        {
+                            "label": "25-30",
+                            "value": "25-30"
+                        },
+                        {
+                            "label": "30-35",
+                            "value": "30-35"
+                        },
+                        {
+                            "label": "35-40",
+                            "value": "35-40"
+                        },
+                        {
+                            "label": "40+",
+                            "value": "40+"
+                        }
+                    ]
+                },
+                {
+                    "id": "partner_personality",
+                    "text": "Introvert or Extrovert?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Introvert",
+                        "10": "Extrovert"
+                    }
+                },
+                {
+                    "id": "partner_energy",
+                    "text": "Calm and chill or high-energy and adventurous?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Calm & Chill",
+                        "10": "High Energy"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "values",
+            "title": "Values & Lifestyle",
+            "description": "What matters most?",
+            "questions": [
+                {
+                    "id": "career_ambition",
+                    "text": "How ambitious should they be?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Work-Life Balance",
+                        "10": "Career Driven"
+                    }
+                },
+                {
+                    "id": "family_oriented",
+                    "text": "How important is family to them?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Independent",
+                        "10": "Family First"
+                    }
+                },
+                {
+                    "id": "want_kids",
+                    "text": "Do you want them to want kids?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Definitely yes",
+                            "value": "yes"
+                        },
+                        {
+                            "label": "Open to it",
+                            "value": "maybe"
+                        },
+                        {
+                            "label": "Definitely no",
+                            "value": "no"
+                        },
+                        {
+                            "label": "Don't care",
+                            "value": "flexible"
+                        }
+                    ]
+                },
+                {
+                    "id": "health_fitness",
+                    "text": "How into health/fitness should they be?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Not Important",
+                        "10": "Gym Rat"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "interests",
+            "title": "Interests & Hobbies",
+            "description": "What do they love?",
+            "questions": [
+                {
+                    "id": "travel_lover",
+                    "text": "How much do they love to travel?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Homebody",
+                        "10": "Wanderlust"
+                    }
+                },
+                {
+                    "id": "social_butterfly",
+                    "text": "Big social life or intimate gatherings?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Intimate",
+                        "10": "Social Butterfly"
+                    }
+                },
+                {
+                    "id": "creative_analytical",
+                    "text": "Creative or Analytical?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Analytical",
+                        "10": "Creative"
+                    }
+                },
+                {
+                    "id": "ideal_weekend",
+                    "text": "Their ideal weekend?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Netflix & chill",
+                            "value": "relaxed"
+                        },
+                        {
+                            "label": "Outdoor adventure",
+                            "value": "adventure"
+                        },
+                        {
+                            "label": "Social events/parties",
+                            "value": "social"
+                        },
+                        {
+                            "label": "Cultural activities (museums, art)",
+                            "value": "cultural"
+                        },
+                        {
+                            "label": "Sports & fitness",
+                            "value": "active"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "romance",
+            "title": "Romance & Connection",
+            "description": "How do they love?",
+            "questions": [
+                {
+                    "id": "love_language",
+                    "text": "Their primary love language?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Words of Affirmation",
+                            "value": "words"
+                        },
+                        {
+                            "label": "Acts of Service",
+                            "value": "service"
+                        },
+                        {
+                            "label": "Receiving Gifts",
+                            "value": "gifts"
+                        },
+                        {
+                            "label": "Quality Time",
+                            "value": "time"
+                        },
+                        {
+                            "label": "Physical Touch",
+                            "value": "touch"
+                        }
+                    ]
+                },
+                {
+                    "id": "romantic_gestures",
+                    "text": "Grand gestures or small daily acts?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Small Daily Acts",
+                        "10": "Grand Gestures"
+                    }
+                },
+                {
+                    "id": "communication_style",
+                    "text": "How do they communicate?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Very expressive & open",
+                            "value": "expressive"
+                        },
+                        {
+                            "label": "Thoughtful & measured",
+                            "value": "thoughtful"
+                        },
+                        {
+                            "label": "Direct & straightforward",
+                            "value": "direct"
+                        },
+                        {
+                            "label": "Gentle & diplomatic",
+                            "value": "gentle"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "dealbreakers",
+            "title": "Dealbreakers",
+            "description": "What's non-negotiable?",
+            "questions": [
+                {
+                    "id": "smoking",
+                    "text": "Smoking?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Absolute dealbreaker",
+                            "value": "no"
+                        },
+                        {
+                            "label": "Prefer not, but flexible",
+                            "value": "prefer_no"
+                        },
+                        {
+                            "label": "Don't care",
+                            "value": "flexible"
+                        }
+                    ]
+                },
+                {
+                    "id": "drinking",
+                    "text": "Drinking habits?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Non-drinker only",
+                            "value": "none"
+                        },
+                        {
+                            "label": "Social drinker is fine",
+                            "value": "social"
+                        },
+                        {
+                            "label": "Don't care",
+                            "value": "flexible"
+                        }
+                    ]
+                },
+                {
+                    "id": "political_alignment",
+                    "text": "Political alignment important?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Not Important",
+                        "10": "Must Align"
+                    }
+                },
+                {
+                    "id": "religious_alignment",
+                    "text": "Religious alignment important?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Not Important",
+                        "10": "Must Align"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "final",
+            "title": "The Final Touch",
+            "description": "One last thing...",
+            "questions": [
+                {
+                    "id": "partner_name",
+                    "text": "Give your dream partner a name:",
+                    "type": "text",
+                    "placeholder": "e.g., Alex, Sam, Jordan..."
+                },
+                {
+                    "id": "special_trait",
+                    "text": "One special trait that makes them unique:",
+                    "type": "text",
+                    "placeholder": "e.g., Amazing sense of humor, incredibly kind..."
+                }
+            ]
+        }
+    ]
+}
