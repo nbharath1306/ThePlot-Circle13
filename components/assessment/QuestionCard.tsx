@@ -9,7 +9,7 @@ import { Card } from "../ui/Card";
 
 interface Question {
     id: string;
-    type: "scale" | "multiple_choice" | "text";
+    type: "scale" | "multiple_choice" | "text" | "number";
     text: string;
     subtitle?: string;
     min?: number;
@@ -45,7 +45,7 @@ export default function QuestionCard({
     }, [question]);
 
     const handleSubmit = () => {
-        if (question.type === "text") {
+        if (question.type === "text" || question.type === "number") {
             if (inputValue.trim()) onAnswer(inputValue);
         } else if (answer !== null) {
             onAnswer(answer);
@@ -53,7 +53,7 @@ export default function QuestionCard({
     };
 
     const isNextDisabled = () => {
-        if (question.type === "text") return !inputValue.trim();
+        if (question.type === "text" || question.type === "number") return !inputValue.trim();
         if (question.type === "multiple_choice") return answer === null;
         return false; // Scale always has a value
     };
@@ -102,8 +102,8 @@ export default function QuestionCard({
                                         key={option.value}
                                         onClick={() => setAnswer(option.value)}
                                         className={`w-full p-4 rounded-lg border text-left transition-all ${answer === option.value
-                                                ? "border-primary bg-primary/20 text-primary"
-                                                : "border-white/10 hover:border-white/20 hover:bg-white/5"
+                                            ? "border-primary bg-primary/20 text-primary"
+                                            : "border-white/10 hover:border-white/20 hover:bg-white/5"
                                             }`}
                                     >
                                         {option.label}
@@ -114,6 +114,22 @@ export default function QuestionCard({
 
                         {question.type === "text" && (
                             <Input
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                placeholder={question.placeholder}
+                                className="h-14 text-lg"
+                                autoFocus
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !isNextDisabled()) {
+                                        handleSubmit();
+                                    }
+                                }}
+                            />
+                        )}
+
+                        {question.type === "number" && (
+                            <Input
+                                type="number"
                                 value={inputValue}
                                 onChange={(e) => setInputValue(e.target.value)}
                                 placeholder={question.placeholder}
