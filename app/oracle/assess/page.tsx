@@ -21,7 +21,7 @@ export default function OracleAssessmentPage() {
     const [myRole, setMyRole] = useState<"A" | "B">("A");
     const [myStatus, setMyStatus] = useState<"answering" | "done">("answering");
 
-    const allQuestions = questionsData.domains.flatMap((domain: any) => domain.questions).slice(0, 11);
+    const allQuestions = questionsData.domains.flatMap((domain: any) => domain.questions);
 
     useEffect(() => {
         if (sessionId) {
