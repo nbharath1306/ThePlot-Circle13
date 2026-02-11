@@ -1,0 +1,426 @@
+{
+    "sections": [
+        {
+            "id": "basics",
+            "title": "The Basics",
+            "description": "Let's start with the facts.",
+            "questions": [
+                {
+                    "id": "relationship_length",
+                    "text": "How long have you been together?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Less than 1 month",
+                            "value": "new"
+                        },
+                        {
+                            "label": "1-3 months",
+                            "value": "early"
+                        },
+                        {
+                            "label": "3-6 months",
+                            "value": "developing"
+                        },
+                        {
+                            "label": "6-12 months",
+                            "value": "established"
+                        },
+                        {
+                            "label": "1+ years",
+                            "value": "long_term"
+                        }
+                    ]
+                },
+                {
+                    "id": "official_status",
+                    "text": "What's your official status?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Just talking/dating",
+                            "value": "talking"
+                        },
+                        {
+                            "label": "Exclusive but not official",
+                            "value": "exclusive"
+                        },
+                        {
+                            "label": "Official relationship",
+                            "value": "official"
+                        },
+                        {
+                            "label": "It's complicated",
+                            "value": "complicated"
+                        }
+                    ]
+                },
+                {
+                    "id": "met_how",
+                    "text": "How did you meet?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Dating app",
+                            "value": "app"
+                        },
+                        {
+                            "label": "Through friends",
+                            "value": "friends"
+                        },
+                        {
+                            "label": "Work/School",
+                            "value": "work_school"
+                        },
+                        {
+                            "label": "Social event",
+                            "value": "social"
+                        },
+                        {
+                            "label": "Online/Social media",
+                            "value": "online"
+                        },
+                        {
+                            "label": "Other",
+                            "value": "other"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "communication",
+            "title": "Communication",
+            "description": "How do you two talk?",
+            "questions": [
+                {
+                    "id": "text_frequency",
+                    "text": "How often do you text/talk?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "All day, every day",
+                            "value": "constant"
+                        },
+                        {
+                            "label": "Multiple times a day",
+                            "value": "frequent"
+                        },
+                        {
+                            "label": "Once a day",
+                            "value": "daily"
+                        },
+                        {
+                            "label": "Every few days",
+                            "value": "occasional"
+                        },
+                        {
+                            "label": "Rarely",
+                            "value": "rare"
+                        }
+                    ]
+                },
+                {
+                    "id": "who_initiates",
+                    "text": "Who usually initiates conversation?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Always me",
+                            "value": "me"
+                        },
+                        {
+                            "label": "Mostly me",
+                            "value": "mostly_me"
+                        },
+                        {
+                            "label": "Equal",
+                            "value": "equal"
+                        },
+                        {
+                            "label": "Mostly them",
+                            "value": "mostly_them"
+                        },
+                        {
+                            "label": "Always them",
+                            "value": "them"
+                        }
+                    ]
+                },
+                {
+                    "id": "response_time",
+                    "text": "How quickly do they usually respond?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Immediately",
+                            "value": "instant"
+                        },
+                        {
+                            "label": "Within an hour",
+                            "value": "quick"
+                        },
+                        {
+                            "label": "Few hours",
+                            "value": "moderate"
+                        },
+                        {
+                            "label": "Takes a day+",
+                            "value": "slow"
+                        },
+                        {
+                            "label": "Very inconsistent",
+                            "value": "inconsistent"
+                        }
+                    ]
+                },
+                {
+                    "id": "deep_talks",
+                    "text": "Do you have deep, meaningful conversations?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Never",
+                        "10": "All the Time"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "effort",
+            "title": "Effort & Investment",
+            "description": "Who's putting in the work?",
+            "questions": [
+                {
+                    "id": "plans_dates",
+                    "text": "Who usually plans dates/hangouts?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Always me",
+                            "value": "me"
+                        },
+                        {
+                            "label": "Mostly me",
+                            "value": "mostly_me"
+                        },
+                        {
+                            "label": "Equal",
+                            "value": "equal"
+                        },
+                        {
+                            "label": "Mostly them",
+                            "value": "mostly_them"
+                        },
+                        {
+                            "label": "Always them",
+                            "value": "them"
+                        }
+                    ]
+                },
+                {
+                    "id": "effort_balance",
+                    "text": "Overall, who puts in more effort?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "All Me",
+                        "10": "All Them"
+                    }
+                },
+                {
+                    "id": "met_friends_family",
+                    "text": "Have you met their friends/family?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Yes, both",
+                            "value": "both"
+                        },
+                        {
+                            "label": "Just friends",
+                            "value": "friends"
+                        },
+                        {
+                            "label": "Just family",
+                            "value": "family"
+                        },
+                        {
+                            "label": "Not yet",
+                            "value": "no"
+                        }
+                    ]
+                },
+                {
+                    "id": "future_talk",
+                    "text": "Do they talk about the future with you in it?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Never",
+                        "10": "Always"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "red_flags",
+            "title": "Red Flags",
+            "description": "Be honest...",
+            "questions": [
+                {
+                    "id": "gut_feeling",
+                    "text": "What does your gut say?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Something's Off",
+                        "10": "Feels Right"
+                    }
+                },
+                {
+                    "id": "hot_cold",
+                    "text": "Are they hot and cold with you?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Very Consistent",
+                        "10": "Very Hot/Cold"
+                    }
+                },
+                {
+                    "id": "breadcrumbing",
+                    "text": "Do they give you just enough attention to keep you interested?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "No",
+                        "10": "Definitely"
+                    }
+                },
+                {
+                    "id": "social_media",
+                    "text": "Are you in their social media life?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Yes, publicly",
+                            "value": "public"
+                        },
+                        {
+                            "label": "We follow each other but no posts",
+                            "value": "private"
+                        },
+                        {
+                            "label": "Not connected",
+                            "value": "none"
+                        },
+                        {
+                            "label": "They hide me",
+                            "value": "hidden"
+                        }
+                    ]
+                },
+                {
+                    "id": "cancel_plans",
+                    "text": "How often do they cancel plans?",
+                    "type": "multiple_choice",
+                    "options": [
+                        {
+                            "label": "Never",
+                            "value": "never"
+                        },
+                        {
+                            "label": "Rarely",
+                            "value": "rare"
+                        },
+                        {
+                            "label": "Sometimes",
+                            "value": "sometimes"
+                        },
+                        {
+                            "label": "Often",
+                            "value": "often"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "intimacy",
+            "title": "Intimacy & Connection",
+            "description": "How close are you?",
+            "questions": [
+                {
+                    "id": "physical_intimacy",
+                    "text": "How's the physical chemistry?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Lacking",
+                        "10": "Amazing"
+                    }
+                },
+                {
+                    "id": "emotional_intimacy",
+                    "text": "Do you feel emotionally connected?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Not Really",
+                        "10": "Very Connected"
+                    }
+                },
+                {
+                    "id": "vulnerability",
+                    "text": "Can you be vulnerable with them?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "No",
+                        "10": "Completely"
+                    }
+                },
+                {
+                    "id": "trust",
+                    "text": "Do you trust them?",
+                    "type": "scale",
+                    "min": 1,
+                    "max": 10,
+                    "labels": {
+                        "1": "Not at All",
+                        "10": "Completely"
+                    }
+                }
+            ]
+        },
+        {
+            "id": "final",
+            "title": "The Truth",
+            "description": "One last thing...",
+            "questions": [
+                {
+                    "id": "biggest_concern",
+                    "text": "What's your biggest concern about this relationship?",
+                    "type": "text",
+                    "placeholder": "Be honest..."
+                },
+                {
+                    "id": "what_you_want",
+                    "text": "What do you actually want from this?",
+                    "type": "text",
+                    "placeholder": "Serious relationship? Casual? Not sure?"
+                }
+            ]
+        }
+    ]
+}
