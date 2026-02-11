@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { getSession, updateSession } from '@/lib/sessions';
 import { SimulateSchema } from '@/lib/validation';
-import { runFullSimulation } from '@/lib/simulationEngine';
+import { runLifetimeSimulation } from '@/lib/lifetime_engine';
 import { buildPersona } from '@/lib/personaBuilder';
 import { logger } from '@/lib/logger';
 
@@ -35,18 +35,18 @@ export async function POST(req: Request) {
 
         logger.info('Simulation starting', { sessionId });
 
-        // Build Personas
+        // Build Personas (New Logic)
         const personaA = buildPersona(session.users.userA.answers);
         const personaB = buildPersona(session.users.userB.answers);
 
-        // Run Multi-Agent Simulation
-        const simulation = await runFullSimulation(personaA, personaB);
+        // Run Lifetime Simulation
+        const simulation = await runLifetimeSimulation(personaA, personaB);
 
         session.simulation = simulation;
         session.status = 'completed';
         updateSession(sessionId, session);
 
-        logger.info('Simulation completed', { sessionId, outcome: simulation.outcome });
+        logger.info('Simulation completed', { sessionId, verdict: simulation.verdict.title });
 
         return NextResponse.json({ success: true, simulation });
     } catch (error) {

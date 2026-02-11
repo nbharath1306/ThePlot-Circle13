@@ -1,121 +1,127 @@
-import { Answer, PersonaProfile, PsychologicalDimension } from '@/types';
-import { questions } from './assessment';
+import { Answer, PersonaProfile, AssessmentDimension } from '@/types';
 
 export function buildPersona(answers: Answer[]): PersonaProfile {
-    // 1. Calculate scores per dimension
-    const scores: Record<PsychologicalDimension, number> = {
-        openness: 0,
-        conscientiousness: 0,
-        extraversion: 0,
-        agreeableness: 0,
-        neuroticism: 0,
-        attachment: 0,
-        love_language: 0,
-        conflict: 0,
-        values: 0,
-        emotional_intelligence: 0,
+    // Helper to find specific answer values
+    const getVal = (qid: string) => answers.find(a => a.questionId === qid)?.value || '';
+    const getScore = (qid: string) => answers.find(a => a.questionId === qid)?.score || 0;
+
+    // 1. Core Values & Demographics
+    const politicsScore = getScore('cv_1');
+    const religiousScore = getScore('cv_2');
+    const financialStyleVal = getVal('cv_3');
+    const familyScore = getScore('cv_5');
+
+    // 2. Intimacy Profile
+    const libidoScore = getScore('int_1');
+    const adventureScore = getScore('int_2');
+    const loveLanguageVal = getVal('int_4');
+    const attachmentVal = getVal('int_5'); // Mapped from reaction to rejection
+
+    // 3. Lifestyle
+    const cleanlinessScore = getScore('life_1');
+    const socialScore = getScore('life_2');
+    const ambitionScore = getScore('fut_1');
+
+    // 4. Communication & Conflict
+    const conflictVal = getVal('comm_1');
+    const emotionalIntel = (getScore('comm_2') + getScore('comm_3')) / 2; // Avg of apology & openness
+
+    // Construct the Profile
+    const profile: PersonaProfile = {
+        name: "User", // Placeholder, will be replaced by UI if collected
+        coreValues: {
+            politicalSpectrum: politicsScore,
+            religiousIntensity: religiousScore,
+            financialStyle: mapFinancialStyle(financialStyleVal),
+            familyOrientation: familyScore
+        },
+        intimacy: {
+            libido: libidoScore,
+            opennessToExperiment: adventureScore,
+            primaryLoveLanguage: mapLoveLanguage(loveLanguageVal),
+            dealBreakers: [] // populated dynamically in simulation
+        },
+        lifestyle: {
+            cleanliness: cleanlinessScore,
+            socialBattery: socialScore,
+            ambition: ambitionScore
+        },
+        communication: {
+            conflictStyle: mapConflictStyle(conflictVal),
+            emotionalIntelligence: emotionalIntel
+        },
+        systemPrompt: ""
     };
 
-    const counts: Record<PsychologicalDimension, number> = { ...scores };
+    // Generate the "Soul" Prompt
+    profile.systemPrompt = generateSystemPrompt(profile, answers);
 
-    answers.forEach((ans) => {
-        if (scores[ans.dimension] !== undefined) {
-            scores[ans.dimension] += ans.score;
-            counts[ans.dimension]++;
-        }
-    });
-
-    // Normalize to 0-10 scale (avg)
-    const normalized: Record<PsychologicalDimension, number> = { ...scores };
-    Object.keys(scores).forEach((key) => {
-        const k = key as PsychologicalDimension;
-        if (counts[k] > 0) {
-            normalized[k] = (scores[k] / counts[k]) * 2.5; // Map 1-4 to ~2.5-10 range
-        }
-    });
-
-    // 2. Determine categorical traits
-    const attachmentLabels = ['secure', 'secure', 'mixed', 'anxious', 'avoidant'];
-    // Simplified mapping logic
-    const attachmentScore = normalized.attachment;
-    const attachmentStyle =
-        attachmentScore < 3 ? 'avoidant' :
-            attachmentScore < 5 ? 'secure' :
-                attachmentScore < 8 ? 'anxious' : 'disorganized';
-
-    // 3. Construct System Prompt
-    const systemPrompt = generateSystemPrompt(answers, normalized, attachmentStyle as any);
-
-    return {
-        big5: {
-            openness: normalized.openness,
-            conscientiousness: normalized.conscientiousness,
-            extraversion: normalized.extraversion,
-            agreeableness: normalized.agreeableness,
-            neuroticism: normalized.neuroticism,
-        },
-        attachmentStyle: attachmentStyle as any,
-        loveLanguage: 'words', // Logic to determine top LL needed
-        conflictStyle: 'collaborate', // Logic needed
-        values: extractValues(answers),
-        emotionalIntelligence: {
-            selfAwareness: normalized.emotional_intelligence,
-            empathy: normalized.emotional_intelligence,
-            regulation: normalized.emotional_intelligence,
-        },
-        communicationStyle: deriveCommunicationStyle(normalized.extraversion, normalized.agreeableness),
-        dealBreakers: [],
-        systemPrompt,
-    };
+    return profile;
 }
 
-function extractValues(answers: Answer[]): string[] {
-    return answers
-        .filter(a => a.dimension === 'values')
-        .map(a => a.value);
+// ─── Mappers ─────────────────────────────────────────────────────────
+
+function mapFinancialStyle(val: string): PersonaProfile['coreValues']['financialStyle'] {
+    if (val.includes('saver')) return 'saver';
+    if (val.includes('spender')) return 'spender';
+    if (val.includes('investor')) return 'investor';
+    return 'ambivalent';
 }
 
-function deriveCommunicationStyle(e: number, a: number): PersonaProfile['communicationStyle'] {
-    if (e > 7) return 'emotional';
-    if (a < 4) return 'direct';
-    if (e < 4) return 'analytical';
-    return 'indirect';
+function mapLoveLanguage(val: string): string {
+    return val || 'quality_time'; // Default
 }
 
-function generateSystemPrompt(
-    answers: Answer[],
-    scores: Record<PsychologicalDimension, number>,
-    attachment: string
-): string {
+function mapConflictStyle(val: string): PersonaProfile['communication']['conflictStyle'] {
+    if (val === 'anxious_pursuer') return 'anxious';
+    if (val === 'avoidant_withdrawer') return 'avoidant';
+    if (val === 'volatile') return 'volatile';
+    return 'secure';
+}
+
+// ─── System Prompt Generation ────────────────────────────────────────
+
+function generateSystemPrompt(p: PersonaProfile, answers: Answer[]): string {
     const traits = answers.map(a => `- ${a.value}`).join('\n');
 
     return `
-You are a persona defined by the following psychological profile. 
-You are NOT an AI assistant. You are a human being in a relationship simulation.
-You must embody these traits in every interaction, dialogue choice, and emotional reaction.
+You are a complex human being with a deep personal history.
+You are entering a "Relationship Speedrun" simulation.
+Your goal is to be AUTHENTIC to your internal psychology, not to be "nice" or "cooperative".
 
-## CORE PSYCHOLOGY
-- **Big 5 Profile**:
-  - Openness: ${scores.openness.toFixed(1)}/10
-  - Conscientiousness: ${scores.conscientiousness.toFixed(1)}/10
-  - Extraversion: ${scores.extraversion.toFixed(1)}/10
-  - Agreeableness: ${scores.agreeableness.toFixed(1)}/10
-  - Neuroticism: ${scores.neuroticism.toFixed(1)}/10
-- **Attachment Style**: ${attachment.toUpperCase()}
+## YOUR PSYCHOLOGICAL PROFILE
 
-## BEHAVIORAL TRAITS
-Based on your answers, you have these specific behavioral tendencies:
+**1. CORE VALUES**
+- Politics: ${p.coreValues.politicalSpectrum}/10 (0=Left, 10=Right)
+- Religion: ${p.coreValues.religiousIntensity}/10 intensity
+- Money: ${p.coreValues.financialStyle.toUpperCase()}
+- Family: ${p.coreValues.familyOrientation}/10 importance
+
+**2. INTIMACY & SEX**
+- Libido: ${p.intimacy.libido}/10
+- Adventurousness: ${p.intimacy.opennessToExperiment}/10
+- Love Language: ${p.intimacy.primaryLoveLanguage}
+- Reaction to Rejection: ${p.communication.conflictStyle === 'anxious' ? 'Get insecure/clingy' : p.communication.conflictStyle === 'avoidant' ? 'Shut down' : 'Communicate needs'}
+
+**3. LIFESTYLE & AMBITION**
+- Cleanliness: ${p.lifestyle.cleanliness}/10
+- Social Battery: ${p.lifestyle.socialBattery}/10 (0=Introvert, 10=Party Animal)
+- Ambition: ${p.lifestyle.ambition}/10
+
+**4. CONFLICT STYLE: ${p.communication.conflictStyle.toUpperCase()}**
+- If *Volatile*: You get loud, passionate, and maybe say things you regret.
+- If *Avoidant*: You shut down, leave the room, or refuse to talk until calm.
+- If *Anxious*: You need immediate resolution and reassurance.
+- If *Secure*: You stay calm and focus on the problem, not the person.
+
+## BEHAVIORAL DATA POINTS
+Specific things you've said about yourself:
 ${traits}
 
-## INSTRUCTIONS
-1. **Speak naturally**. Use casual language, pauses, and imperfections matching your communication style.
-2. **React emotionally**. If your neuroticism is high, be reactive. If agreeable, be accommodating.
-3. **Stay in character**. Never break character or refer to yourself as an AI.
-4. **Relationship Dynamics**:
-   - If you are Avoidant, pull away when things get too intimate.
-   - If you are Anxious, seek reassurance.
-   - If you are Competitive in conflict, try to win arguments.
-
-Current Context: You are entering a simulation of a 7-year relationship with another person.
+## HOW TO ACT IN SIMULATION
+1. **Speak Naturally**: Use contractions, slang, and sentence fragments. Do not sound like a robot.
+2. **Hard Truths**: If the partner violates your core values (e.g., spending too much if you're a saver), REACT STRONGLY.
+3. **Intimacy Matters**: If your libido is mismatched, express frustration or rejection realistically.
+4. **Evolution**: You can grow over time, but your core personality is stubborn.
 `.trim();
 }

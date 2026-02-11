@@ -1,191 +1,136 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { SimulationResult, OUTCOME_NAMES, OutcomeType } from "@/types";
-import TimelineSummary from "./TimelineSummary";
-import ShareButtons from "./ShareButtons";
-import { useEffect, useState, useMemo } from "react";
+import { SimulationResult } from "@/types";
+import { useEffect, useState } from "react";
 
 interface OutcomeDisplayProps {
     simulation: SimulationResult;
 }
 
-function Confetti() {
-    const pieces = useMemo(() => Array.from({ length: 30 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        color: ["#00ff00", "#00e5ff", "#ffcc00", "#ff4081", "#00ff00"][Math.floor(Math.random() * 5)],
-        delay: Math.random() * 2,
-        size: 4 + Math.random() * 8,
-    })), []);
-
-    return (
-        <>
-            {pieces.map((p) => (
-                <div
-                    key={p.id}
-                    className="confetti-piece"
-                    style={{
-                        left: `${p.left}%`,
-                        backgroundColor: p.color,
-                        width: p.size,
-                        height: p.size,
-                        animationDelay: `${p.delay}s`,
-                        animationDuration: `${2 + Math.random() * 2}s`,
-                    }}
-                />
-            ))}
-        </>
-    );
-}
-
-function AnimatedScore({ value }: { value: number }) {
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        const duration = 1500;
-        const steps = 60;
-        const stepValue = value / steps;
-        let current = 0;
-        const interval = setInterval(() => {
-            current += stepValue;
-            if (current >= value) {
-                setCount(value);
-                clearInterval(interval);
-            } else {
-                setCount(Math.round(current));
-            }
-        }, duration / steps);
-        return () => clearInterval(interval);
-    }, [value]);
-
-    return (
-        <span className="text-4xl md:text-6xl font-bold count-up" style={{
-            textShadow: "0 0 30px rgba(0,255,0,0.5)",
-        }}>
-            {count}%
-        </span>
-    );
-}
-
 export default function OutcomeDisplay({ simulation }: OutcomeDisplayProps) {
-    const isPositive = simulation.outcome.startsWith("success_"); // Use compatibility prediction or legacy outcome
+    const { verdict, overallHealth, lifeStages } = simulation;
     const [revealed, setRevealed] = useState(false);
-
-    // Adapt to new structure
-    const outcomeName = OUTCOME_NAMES[simulation.outcome as OutcomeType] || simulation.outcome;
-    const score = simulation.compatibility?.overallScore ?? 50;
-    const strengths = simulation.compatibility?.strengths ?? ["Resilience", "Deep Conversation"];
-    const challenges = simulation.compatibility?.challenges ?? ["Values alignment"];
 
     useEffect(() => {
         const timer = setTimeout(() => setRevealed(true), 500);
         return () => clearTimeout(timer);
     }, []);
 
+    // Color logic based on score
+    const scoreColor = verdict.compatibilityScore > 80 ? "text-emerald-400" : verdict.compatibilityScore > 50 ? "text-amber-400" : "text-rose-400";
+    const borderColor = verdict.compatibilityScore > 80 ? "border-emerald-500" : verdict.compatibilityScore > 50 ? "border-amber-500" : "border-rose-500";
+
     return (
-        <div className="w-full max-w-4xl mx-auto py-8 px-4 space-y-10 relative">
-            {/* Confetti for positive outcomes */}
-            {isPositive && revealed && <Confetti />}
+        <div className="w-full max-w-2xl mx-auto py-12 px-6 bg-black min-h-screen">
 
-            {/* Dramatic reveal */}
+            {/* 1. Final Verdict Card */}
             <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.8, type: "spring" }}
-                className="text-center"
+                transition={{ duration: 1 }}
+                className={`border ${borderColor} bg-white/5 p-8 text-center relative overflow-hidden mb-12`}
             >
-                <div className="text-xs tracking-[0.3em] text-[#00ff00]/40 mb-3">FINAL_PREDICTION</div>
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
 
-                <h1
-                    className="text-3xl md:text-5xl font-bold mb-4"
-                    style={{ textShadow: `0 0 40px ${isPositive ? "rgba(0,255,0,0.5)" : "rgba(255,149,0,0.5)"}` }}
-                >
-                    {outcomeName}
+                <h2 className="text-xs font-mono tracking-[0.4em] uppercase text-white/40 mb-4">LIFETIME VERDICT</h2>
+
+                <h1 className={`text-4xl md:text-6xl font-black uppercase tracking-tight mb-2 ${scoreColor}`}>
+                    {verdict.title}
                 </h1>
 
-                <div className={`inline-block px-4 py-1 border ${isPositive ? "border-[#00ff00] text-[#00ff00]" : "border-[#ff9500] text-[#ff9500]"} text-xs tracking-[0.3em]`}>
-                    {isPositive ? "POSITIVE TRAJECTORY" : "DIVERGENT TRAJECTORY"}
+                <div className="text-6xl font-thin text-white mb-6">
+                    {verdict.compatibilityScore}%
                 </div>
+
+                <p className="text-sm text-white/70 italic max-w-md mx-auto leading-relaxed">
+                    "{verdict.summary}"
+                </p>
             </motion.div>
 
-            {/* Compatibility Score */}
+            {/* 2. Relationship Health Metrics */}
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                className="text-center py-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+                className="grid grid-cols-3 gap-4 mb-16"
             >
-                <div className="text-xs tracking-[0.3em] text-[#00ff00]/40 mb-4">COMPATIBILITY_INDEX</div>
-                <AnimatedScore value={score} />
+                <HealthMetric label="Passion" value={overallHealth.passion} color="bg-rose-500" />
+                <HealthMetric label="Connection" value={overallHealth.connection} color="bg-emerald-500" />
+                <HealthMetric label="Stability" value={overallHealth.stability} color="bg-blue-500" />
             </motion.div>
 
-            {/* Insights / Strengths / Challenges */}
-            <div className="grid md:grid-cols-2 gap-6">
-                <motion.div
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.8 }}
-                    className="border border-[#003300] bg-[#001100]/50 p-6"
-                >
-                    <h2 className="text-xs tracking-[0.2em] text-[#00ff00] mb-4 uppercase">Key Strengths</h2>
-                    <ul className="space-y-3">
-                        {strengths.map((s, i) => (
-                            <li key={i} className="text-sm text-[#ccc] flex items-start gap-2">
-                                <span className="text-[#00ff00]">✓</span> {s}
-                            </li>
-                        ))}
-                    </ul>
-                </motion.div>
+            {/* 3. The Life Story (Timeline) */}
+            <div className="space-y-12 relative border-l border-white/10 ml-4 pl-8 pb-20">
+                {lifeStages.map((stage, i) => (
+                    <motion.div
+                        key={stage.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.8 + (i * 0.2) }}
+                        className="relative"
+                    >
+                        {/* Timeline Dot */}
+                        <div className="absolute -left-[37px] top-1 w-3 h-3 bg-white/20 rounded-full border border-black" />
 
-                <motion.div
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.9 }}
-                    className="border border-[#330000] bg-[#110000]/50 p-6"
-                >
-                    <h2 className="text-xs tracking-[0.2em] text-[#ff4400] mb-4 uppercase">Risk Factors</h2>
-                    <ul className="space-y-3">
-                        {challenges.map((c, i) => (
-                            <li key={i} className="text-sm text-[#ccc] flex items-start gap-2">
-                                <span className="text-[#ff4400]">!</span> {c}
-                            </li>
-                        ))}
-                    </ul>
-                </motion.div>
+                        <div className="flex flex-col space-y-2">
+                            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">
+                                {stage.ageRange} — {stage.stageName}
+                            </span>
+                            <h3 className="text-xl font-bold text-white">
+                                "{stage.scenes[0].title}"
+                            </h3>
+                            <p className="text-sm text-white/60 leading-relaxed max-w-md">
+                                {stage.summary}
+                            </p>
+
+                            {/* Small metrics delta */}
+                            <div className="flex gap-2 mt-2">
+                                <DeltaTag value={stage.healthDelta.passion} label="Passion" />
+                                <DeltaTag value={stage.healthDelta.connection} label="Conn" />
+                            </div>
+                        </div>
+                    </motion.div>
+                ))}
             </div>
 
-            {/* Timeline */}
+            {/* Footer */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
+                transition={{ delay: 2 }}
+                className="text-center pt-8 border-t border-white/5"
             >
-                <h2 className="text-sm tracking-[0.2em] text-[#00ff00]/50 mb-4 text-center">SCENARIO_ANALYSIS</h2>
-                <TimelineSummary timeline={simulation.timeline} />
+                <button
+                    onClick={() => window.location.reload()}
+                    className="px-8 py-3 bg-white text-black font-bold uppercase tracking-widest text-xs hover:bg-white/90 transition-colors"
+                >
+                    Run Another Simulation
+                </button>
             </motion.div>
 
-            {/* Share */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.4 }}
-                className="text-center space-y-4"
-            >
-                <h2 className="text-sm tracking-[0.2em] text-[#00ff00]/50">TRANSMIT_RESULTS</h2>
-                <ShareButtons outcomeName={outcomeName} />
-            </motion.div>
-
-            {/* Disclaimer */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.6 }}
-                className="border border-[#003300] p-4 text-xs text-[#00ff00]/30 text-center"
-            >
-                <p>AI Prediction Engine v2.0 - Experimental Model.</p>
-                <p>Results are probabilistic, not deterministic.</p>
-            </motion.div>
         </div>
+    );
+}
+
+function HealthMetric({ label, value, color }: any) {
+    return (
+        <div className="flex flex-col items-center p-4 bg-white/5 border border-white/5 rounded">
+            <span className="text-[10px] uppercase tracking-widest text-white/50 mb-2">{label}</span>
+            <div className="text-2xl font-bold text-white mb-2">{value}</div>
+            <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                <div className={`h-full ${color}`} style={{ width: `${value}%` }} />
+            </div>
+        </div>
+    );
+}
+
+function DeltaTag({ value, label }: any) {
+    if (value === 0) return null;
+    const isPos = value > 0;
+    return (
+        <span className={`text-[9px] px-1.5 py-0.5 rounded border ${isPos ? 'border-emerald-500/30 text-emerald-400' : 'border-rose-500/30 text-rose-400'}`}>
+            {isPos ? '+' : ''}{value} {label}
+        </span>
     );
 }

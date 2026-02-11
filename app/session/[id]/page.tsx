@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, use } from "react";
 import { useParams } from "next/navigation";
 import { Session, Answer, SimulationResult, SessionStage } from "@/types";
 import Lobby from "@/components/session/Lobby";
 import QuestionFlow from "@/components/questions/QuestionFlow";
-import Terminal from "@/components/simulation/Terminal";
+import LifetimeViewer from "@/components/simulation/LifetimeViewer"; // UPDATED IMPORT
 import OutcomeDisplay from "@/components/results/OutcomeDisplay";
 
-export default function SessionPage() {
-    const params = useParams<{ id: string }>();
-    const sessionId = params.id;
+export default function SessionPage({ params }: { params: Promise<{ id: string }> }) {
+    const { id } = use(params);
+    const sessionId = id;
 
     const [session, setSession] = useState<Session | null>(null);
     const [stage, setStage] = useState<SessionStage>("lobby");
@@ -85,7 +85,6 @@ export default function SessionPage() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ sessionId, userId: `user_bot_${Math.random().toString(36).slice(2, 10)}` }),
                 });
-                // Next poll will pick it up
             } catch {
                 // Demo fallback — just set both users connected
                 setSession((prev) =>
@@ -127,9 +126,8 @@ export default function SessionPage() {
                         sessionId,
                         userId: botUserId,
                         answers: [
-                            { questionId: "q1", value: "Need alone time", timestamp: Date.now() },
-                            { questionId: "q2", value: "Growth", timestamp: Date.now() },
-                            { questionId: "q3", value: "Be hurt but talk about it", timestamp: Date.now() },
+                            { questionId: "cv_1", dimension: "core_values", score: 5, value: "moderate", timestamp: Date.now() },
+                            { questionId: "int_1", dimension: "intimacy", score: 7, value: "weekly_libido", timestamp: Date.now() },
                         ],
                     }),
                 });
@@ -157,69 +155,55 @@ export default function SessionPage() {
         }
 
         // Fallback: generate simulation data client-side so demo always works
+        generateFallback();
+    };
+
+    const generateFallback = () => {
         setSimulation({
-            scenarios: [
+            lifeStages: [
                 {
                     id: 's1',
-                    title: 'The Spark',
-                    transcript: [
-                        { speaker: 'A', content: "I've never met anyone who thinks like you do." },
-                        { speaker: 'B', content: "Is that a good thing?" },
-                        { speaker: 'A', content: "The best thing. It's refreshing." },
-                    ],
-                    emotionalShift: { trust: 10, satisfaction: 15, commitment: 5 },
-                    analysis: "Instant intellectual chemistry."
+                    stageName: 'The Spark',
+                    ageRange: '20s',
+                    scenes: [{
+                        title: "The First Night",
+                        setting: "A Rooftop Bar",
+                        dialogue: [
+                            { speaker: 'A', content: "I didn't think I'd meet someone who gets my obsession with 80s synthpop." },
+                            { speaker: 'B', content: "It's not an obsession, it's a lifestyle. And you're welcome." },
+                            { speaker: 'A', content: "So... where does this go? Are we just talking music?" },
+                            { speaker: 'B', content: "I hope not. I want to see where else we match." }
+                        ],
+                        significance: 'high'
+                    }],
+                    healthDelta: { connection: 20, passion: 30, stability: 5 },
+                    summary: "Instant electric chemistry, bonded over shared niche interests."
                 },
                 {
                     id: 's2',
-                    title: 'The Challenge',
-                    transcript: [
-                        { speaker: 'A', content: "We interpret this situation so differently." },
-                        { speaker: 'B', content: "Because we have different core values here." },
-                        { speaker: 'A', content: "But can we respect that difference?" },
-                        { speaker: 'B', content: "I think we can. If we try." },
-                    ],
-                    emotionalShift: { trust: 5, satisfaction: -5, commitment: 10 },
-                    analysis: "Navigating value misalignment."
-                },
-                {
-                    id: 's3',
-                    title: 'The Future',
-                    transcript: [
-                        { speaker: 'A', content: "Seven years... and I'd choose you all over again." },
-                        { speaker: 'B', content: "Even with the rough patches?" },
-                        { speaker: 'A', content: "Because of them. We built this." },
-                    ],
-                    emotionalShift: { trust: 20, satisfaction: 25, commitment: 25 },
-                    analysis: "Deep, earned security."
+                    stageName: 'The Bind',
+                    ageRange: '30s',
+                    scenes: [{
+                        title: "The Move-In Box",
+                        setting: "Their New Apartment",
+                        dialogue: [
+                            { speaker: 'A', content: "Why do you have three boxes of just... cables?" },
+                            { speaker: 'B', content: "You never know when you'll need a VGA cable! It's prudent." },
+                            { speaker: 'A', content: "It's hoarding. But I guess I can live with it. If you maximize the closet space." },
+                            { speaker: 'B', content: "Deal. But the cables stay." }
+                        ],
+                        significance: 'medium'
+                    }],
+                    healthDelta: { connection: 10, passion: -5, stability: 20 },
+                    summary: "Moved in together. Minor friction over habits, but strong compromise."
                 }
             ],
-            compatibility: {
-                overallScore: 88,
-                dimensions: [],
-                strengths: ['Communication', 'Growth Mindset', 'Shared Values'],
-                challenges: ['Financial Anxiety', 'Risk Tolerance'],
-                prediction: 'success_thriving'
-            },
-            timeline: [
-                { year: 1, events: ['First vacation together in Bali', 'Meeting each other\'s families', 'Both start new careers'], emotionalShift: { trust: 15, satisfaction: 20, commitment: 25 } },
-                { year: 2, events: ['Move in together', 'Adopt a pet named Luna', 'Navigate work-life balance'], emotionalShift: { trust: 10, satisfaction: 15, commitment: 10 } },
-                { year: 3, events: ['Major job change causes stress', 'First real argument about finances', 'Weekend trip heals the rift'], emotionalShift: { trust: -5, satisfaction: -10, commitment: 5 } },
-                { year: 4, events: ['Both invest in personal growth', 'Start a creative project together', 'Deepen shared friendships'], emotionalShift: { trust: 10, satisfaction: 15, commitment: 10 } },
-                { year: 5, events: ['Career breakthrough for one partner', 'Navigate long-distance phase', 'Reunite stronger than before'], emotionalShift: { trust: 5, satisfaction: -5, commitment: 15 } },
-                { year: 6, events: ['Discuss long-term commitment', 'Family pressure from both sides', 'Find their own path together'], emotionalShift: { trust: 10, satisfaction: 10, commitment: 20 } },
-                { year: 7, events: ['Major life decision made together', 'Celebrate anniversary milestone', 'Plan next chapter as a team'], emotionalShift: { trust: 15, satisfaction: 20, commitment: 15 } },
-            ],
-            outcome: 'success_thriving',
-            emotionalMetrics: [
-                { year: 1, trust: 65, satisfaction: 70, commitment: 75 },
-                { year: 2, trust: 75, satisfaction: 85, commitment: 85 },
-                { year: 3, trust: 70, satisfaction: 75, commitment: 90 },
-                { year: 4, trust: 80, satisfaction: 90, commitment: 100 },
-                { year: 5, trust: 85, satisfaction: 85, commitment: 100 },
-                { year: 6, trust: 95, satisfaction: 95, commitment: 100 },
-                { year: 7, trust: 100, satisfaction: 100, commitment: 100 },
-            ],
+            overallHealth: { connection: 85, passion: 70, stability: 90 },
+            verdict: {
+                title: "Electric Soulmates",
+                compatibilityScore: 92,
+                summary: "A rare and enduring connection that survived the tests of time."
+            }
         });
     };
 
@@ -229,14 +213,14 @@ export default function SessionPage() {
 
     if (!session) {
         return (
-            <main className="min-h-screen flex items-center justify-center">
+            <main className="min-h-screen bg-black text-white flex items-center justify-center">
                 <p className="animate-pulse tracking-[0.3em]">CONNECTING TO SESSION...</p>
             </main>
         );
     }
 
     return (
-        <main className="min-h-screen py-8 px-4">
+        <main className="min-h-screen bg-black text-white py-8 px-4 font-sans">
             {stage === "lobby" && (
                 <Lobby
                     session={session}
@@ -249,14 +233,16 @@ export default function SessionPage() {
             {stage === "questions" && <QuestionFlow onComplete={handleQuestionsComplete} />}
 
             {stage === "simulation" && simulation && (
-                <Terminal simulation={simulation} onComplete={handleSimulationComplete} />
+                <div className="flex items-center justify-center min-h-[85vh]">
+                    <LifetimeViewer simulation={simulation} onComplete={handleSimulationComplete} />
+                </div>
             )}
 
             {stage === "simulation" && !simulation && (
                 <div className="flex items-center justify-center min-h-[80vh]">
                     <div className="text-center">
-                        <p className="animate-pulse tracking-[0.3em] text-lg">GENERATING SIMULATION...</p>
-                        <p className="text-xs text-[#003300] mt-2">AI PROCESSING PERSONALITY MATRICES</p>
+                        <p className="animate-pulse tracking-[0.3em] text-lg text-emerald-500">GENERATING LIFETIME...</p>
+                        <p className="text-xs text-emerald-900 mt-2">SIMULATING 50 YEARS OF DATA</p>
                     </div>
                 </div>
             )}
