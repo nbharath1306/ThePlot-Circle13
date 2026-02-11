@@ -30,6 +30,8 @@ export interface Answer {
     timestamp: number;
 }
 
+export type SessionStage = 'lobby' | 'questions' | 'simulation' | 'results';
+
 // ─── Psychometrics ──────────────────────────────────────────
 
 export type PsychologicalDimension =
