@@ -20,129 +20,63 @@
       ]
     },
     {
-      "id": "core_values",
-      "title": "Core Values",
-      "description": "What drives your decisions?",
+      "id": "core_identity",
+      "title": "Core Identity",
+      "description": "Who are you really?",
       "questions": [
         {
-          "id": "cv_1",
-          "text": "How important is career ambition vs. work-life balance?",
+          "id": "morning_person",
+          "text": "Are you a morning person or night owl?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Pure Balance",
-            "10": "Pure Ambition"
+            "1": "Night Owl",
+            "10": "Morning Person"
           }
         },
         {
-          "id": "cv_2",
-          "text": "When making big decisions, do you follow your head or your heart?",
+          "id": "introvert_extrovert",
+          "text": "Introvert or Extrovert?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "100% Logic",
-            "10": "100% Emotion"
+            "1": "Pure Introvert",
+            "10": "Pure Extrovert"
           }
         },
         {
-          "id": "cv_3",
-          "text": "How much do you value tradition vs. novelty/change?",
+          "id": "spontaneous_planner",
+          "text": "Spontaneous or Planner?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Tradition",
-            "10": "Novelty"
+            "1": "Total Planner",
+            "10": "100% Spontaneous"
           }
-        }
-      ]
-    },
-    {
-      "id": "conflict",
-      "title": "Conflict Style",
-      "description": "How do you fight?",
-      "questions": [
-        {
-          "id": "conflict_1",
-          "text": "In a heated argument, what is your instinct?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Fight to win / Prove I'm right",
-              "value": "aggressive"
-            },
-            {
-              "label": "Shut down / Withdraw",
-              "value": "avoidant"
-            },
-            {
-              "label": "Apologize to keep peace",
-              "value": "anxious_pleasing"
-            },
-            {
-              "label": "Pause and discuss calmly",
-              "value": "secure"
-            }
-          ]
         },
         {
-          "id": "conflict_2",
-          "text": "How long do you hold a grudge?",
+          "id": "risk_taker",
+          "text": "How much of a risk-taker are you?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Forgive instantly",
-            "10": "Never forget"
+            "1": "Play it Safe",
+            "10": "YOLO Everything"
           }
         }
       ]
     },
     {
-      "id": "lifestyle",
-      "title": "Lifestyle & Money",
-      "description": "The day-to-day reality.",
+      "id": "love_romance",
+      "title": "Love & Romance",
+      "description": "How do you love?",
       "questions": [
         {
-          "id": "money_1",
-          "text": "You get a $5,000 bonus. What do you do?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Save/Invest it all",
-              "value": "saver"
-            },
-            {
-              "label": "Book a luxury vacation",
-              "value": "spender_experience"
-            },
-            {
-              "label": "Buy that expensive item I've wanted",
-              "value": "spender_material"
-            },
-            {
-              "label": "Pay off debt",
-              "value": "responsible"
-            }
-          ]
-        },
-        {
-          "id": "social_1",
-          "text": "It's Friday night. What is your ideal plan?",
-          "type": "text",
-          "placeholder": "e.g. Clubbing till 4am, or Pizza and Netflix?"
-        }
-      ]
-    },
-    {
-      "id": "romance",
-      "title": "Romance & Intimacy",
-      "description": "The spice of life.",
-      "questions": [
-        {
-          "id": "love_lang",
+          "id": "love_language",
           "text": "What makes you feel most loved?",
           "type": "multiple_choice",
           "options": [
@@ -169,8 +103,109 @@
           ]
         },
         {
-          "id": "romance_1",
-          "text": "How often do you need deep meaningful conversations?",
+          "id": "public_affection",
+          "text": "How do you feel about PDA (public displays of affection)?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Keep it Private",
+            "10": "Kiss Me Anywhere"
+          }
+        },
+        {
+          "id": "romantic_gestures",
+          "text": "Grand romantic gestures or small daily acts?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Small Daily Acts",
+            "10": "Grand Gestures"
+          }
+        },
+        {
+          "id": "jealousy",
+          "text": "How jealous do you get?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not at All",
+            "10": "Very Jealous"
+          }
+        },
+        {
+          "id": "past_relationships",
+          "text": "Are you still friends with any exes?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes, we're cool",
+              "value": "friends"
+            },
+            {
+              "label": "No, clean break",
+              "value": "no_contact"
+            },
+            {
+              "label": "It's complicated",
+              "value": "complicated"
+            },
+            {
+              "label": "Never had a serious ex",
+              "value": "no_ex"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intimacy_sex",
+      "title": "Intimacy & Sex",
+      "description": "Let's get real.",
+      "questions": [
+        {
+          "id": "sex_importance",
+          "text": "How important is physical intimacy in a relationship?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not Very",
+            "10": "Extremely Important"
+          }
+        },
+        {
+          "id": "sex_frequency",
+          "text": "Ideal frequency of sex?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Daily",
+              "value": "daily"
+            },
+            {
+              "label": "Few times a week",
+              "value": "weekly"
+            },
+            {
+              "label": "Once a week",
+              "value": "once_week"
+            },
+            {
+              "label": "Few times a month",
+              "value": "monthly"
+            },
+            {
+              "label": "Whenever it happens",
+              "value": "spontaneous"
+            }
+          ]
+        },
+        {
+          "id": "emotional_intimacy",
+          "text": "How often do you need deep emotional conversations?",
           "type": "scale",
           "min": 1,
           "max": 10,
@@ -178,6 +213,680 @@
             "1": "Rarely",
             "10": "Daily"
           }
+        },
+        {
+          "id": "vulnerability",
+          "text": "How comfortable are you being vulnerable?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Very Guarded",
+            "10": "Open Book"
+          }
+        }
+      ]
+    },
+    {
+      "id": "money_finance",
+      "title": "Money & Finance",
+      "description": "Let's talk about money.",
+      "questions": [
+        {
+          "id": "money_mindset",
+          "text": "You get $10,000 unexpectedly. What do you do?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Invest it all",
+              "value": "invest"
+            },
+            {
+              "label": "Save most, spend a little",
+              "value": "save_mostly"
+            },
+            {
+              "label": "Split 50/50 save and spend",
+              "value": "balanced"
+            },
+            {
+              "label": "Treat myself, I deserve it",
+              "value": "spend"
+            },
+            {
+              "label": "Pay off debt",
+              "value": "debt"
+            }
+          ]
+        },
+        {
+          "id": "financial_transparency",
+          "text": "Should couples share all financial info?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Keep Separate",
+            "10": "100% Transparent"
+          }
+        },
+        {
+          "id": "spending_habits",
+          "text": "Saver or Spender?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Extreme Saver",
+            "10": "YOLO Spender"
+          }
+        },
+        {
+          "id": "luxury_vs_practical",
+          "text": "Luxury experiences or practical necessities?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Practical Only",
+            "10": "Luxury Life"
+          }
+        },
+        {
+          "id": "financial_goals",
+          "text": "What's your biggest financial goal?",
+          "type": "text",
+          "placeholder": "e.g., Buy a house, retire early, travel the world"
+        }
+      ]
+    },
+    {
+      "id": "career_ambition",
+      "title": "Career & Ambition",
+      "description": "What drives you?",
+      "questions": [
+        {
+          "id": "career_importance",
+          "text": "Career ambition vs. Work-life balance?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Pure Balance",
+            "10": "Career First"
+          }
+        },
+        {
+          "id": "work_hours",
+          "text": "How many hours/week are you willing to work?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "40 hours max",
+              "value": "40"
+            },
+            {
+              "label": "40-50 hours",
+              "value": "50"
+            },
+            {
+              "label": "50-60 hours",
+              "value": "60"
+            },
+            {
+              "label": "60+ hours (hustle mode)",
+              "value": "60plus"
+            },
+            {
+              "label": "Whatever it takes",
+              "value": "unlimited"
+            }
+          ]
+        },
+        {
+          "id": "relocation",
+          "text": "Would you relocate for a dream job?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Absolutely",
+              "value": "yes"
+            },
+            {
+              "label": "Only if partner agrees",
+              "value": "partner_agrees"
+            },
+            {
+              "label": "Depends on the city",
+              "value": "depends"
+            },
+            {
+              "label": "No, I'm rooted here",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": "entrepreneurship",
+          "text": "Do you want to start your own business someday?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Definitely"
+          }
+        }
+      ]
+    },
+    {
+      "id": "conflict_communication",
+      "title": "Conflict & Communication",
+      "description": "How do you fight?",
+      "questions": [
+        {
+          "id": "conflict_style",
+          "text": "In a heated argument, what's your instinct?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Fight to win / Prove I'm right",
+              "value": "aggressive"
+            },
+            {
+              "label": "Shut down / Withdraw",
+              "value": "avoidant"
+            },
+            {
+              "label": "Apologize to keep peace",
+              "value": "pleaser"
+            },
+            {
+              "label": "Pause and discuss calmly",
+              "value": "secure"
+            }
+          ]
+        },
+        {
+          "id": "grudge_holder",
+          "text": "How long do you hold a grudge?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Forgive Instantly",
+            "10": "Never Forget"
+          }
+        },
+        {
+          "id": "communication_frequency",
+          "text": "How often do you need to talk to your partner?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Constant texting",
+              "value": "constant"
+            },
+            {
+              "label": "Few times a day",
+              "value": "daily"
+            },
+            {
+              "label": "Once a day check-in",
+              "value": "once_daily"
+            },
+            {
+              "label": "Every few days is fine",
+              "value": "few_days"
+            },
+            {
+              "label": "We're independent",
+              "value": "independent"
+            }
+          ]
+        },
+        {
+          "id": "passive_aggressive",
+          "text": "Do you ever get passive-aggressive?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Often"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lifestyle_habits",
+      "title": "Lifestyle & Habits",
+      "description": "The day-to-day reality.",
+      "questions": [
+        {
+          "id": "cleanliness",
+          "text": "How clean/organized are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Total Mess",
+            "10": "OCD Clean"
+          }
+        },
+        {
+          "id": "social_life",
+          "text": "Ideal Friday night?",
+          "type": "text",
+          "placeholder": "e.g., Clubbing till 4am, or Netflix and chill?"
+        },
+        {
+          "id": "alone_time",
+          "text": "How much alone time do you need?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Always Together",
+            "10": "Need Lots of Space"
+          }
+        },
+        {
+          "id": "health_fitness",
+          "text": "How important is health/fitness to you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not Important",
+            "10": "Gym is Life"
+          }
+        },
+        {
+          "id": "substance_use",
+          "text": "Alcohol/weed/party drugs?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Never touch it",
+              "value": "never"
+            },
+            {
+              "label": "Socially/occasionally",
+              "value": "social"
+            },
+            {
+              "label": "Regularly",
+              "value": "regular"
+            },
+            {
+              "label": "It's a lifestyle",
+              "value": "lifestyle"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "family_children",
+      "title": "Family & Children",
+      "description": "The big questions.",
+      "questions": [
+        {
+          "id": "want_kids",
+          "text": "Do you want kids?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Definitely yes",
+              "value": "yes"
+            },
+            {
+              "label": "Probably yes",
+              "value": "probably_yes"
+            },
+            {
+              "label": "Unsure/open",
+              "value": "unsure"
+            },
+            {
+              "label": "Probably no",
+              "value": "probably_no"
+            },
+            {
+              "label": "Definitely no",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": "number_of_kids",
+          "text": "If yes, how many?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "1",
+              "value": "1"
+            },
+            {
+              "label": "2",
+              "value": "2"
+            },
+            {
+              "label": "3+",
+              "value": "3plus"
+            },
+            {
+              "label": "Don't want kids",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "id": "parenting_style",
+          "text": "Strict parent or chill parent?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Chill/Relaxed",
+            "10": "Strict/Structured"
+          }
+        },
+        {
+          "id": "family_closeness",
+          "text": "How close are you with your family?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not Close",
+            "10": "Super Close"
+          }
+        },
+        {
+          "id": "in_laws",
+          "text": "How often should you see in-laws?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Weekly",
+              "value": "weekly"
+            },
+            {
+              "label": "Monthly",
+              "value": "monthly"
+            },
+            {
+              "label": "Few times a year",
+              "value": "yearly"
+            },
+            {
+              "label": "Holidays only",
+              "value": "holidays"
+            },
+            {
+              "label": "Rarely",
+              "value": "rarely"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "values_beliefs",
+      "title": "Values & Beliefs",
+      "description": "What do you stand for?",
+      "questions": [
+        {
+          "id": "religion_spirituality",
+          "text": "How important is religion/spirituality?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not at All",
+            "10": "Very Important"
+          }
+        },
+        {
+          "id": "politics",
+          "text": "How politically active are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not at All",
+            "10": "Very Active"
+          }
+        },
+        {
+          "id": "tradition_vs_progress",
+          "text": "Tradition or Progress?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Tradition",
+            "10": "Progress"
+          }
+        },
+        {
+          "id": "logic_vs_emotion",
+          "text": "Head or Heart?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "100% Logic",
+            "10": "100% Emotion"
+          }
+        }
+      ]
+    },
+    {
+      "id": "tech_future",
+      "title": "Tech & Future",
+      "description": "Where are you headed?",
+      "questions": [
+        {
+          "id": "tech_savvy",
+          "text": "How tech-savvy are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Technophobe",
+            "10": "Early Adopter"
+          }
+        },
+        {
+          "id": "ai_future",
+          "text": "Are you excited or scared about AI?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Scared",
+            "10": "Excited"
+          }
+        },
+        {
+          "id": "crypto",
+          "text": "What's your take on crypto?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "All in, it's the future",
+              "value": "all_in"
+            },
+            {
+              "label": "Interesting, small investment",
+              "value": "curious"
+            },
+            {
+              "label": "Skeptical but open",
+              "value": "skeptical"
+            },
+            {
+              "label": "Total scam",
+              "value": "scam"
+            }
+          ]
+        },
+        {
+          "id": "social_media",
+          "text": "How much time on social media daily?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "0-30 min",
+              "value": "minimal"
+            },
+            {
+              "label": "30min-1hr",
+              "value": "moderate"
+            },
+            {
+              "label": "1-3 hours",
+              "value": "regular"
+            },
+            {
+              "label": "3+ hours",
+              "value": "heavy"
+            },
+            {
+              "label": "I'm off social media",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "id": "remote_work",
+          "text": "Remote work or office?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Office Always",
+            "10": "Remote Forever"
+          }
+        }
+      ]
+    },
+    {
+      "id": "dealbreakers",
+      "title": "Dealbreakers & Boundaries",
+      "description": "What are your hard lines?",
+      "questions": [
+        {
+          "id": "cheating_definition",
+          "text": "What counts as cheating to you?",
+          "type": "text",
+          "placeholder": "e.g., Emotional affairs, flirting, etc."
+        },
+        {
+          "id": "forgive_cheating",
+          "text": "Could you forgive cheating?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Never",
+              "value": "never"
+            },
+            {
+              "label": "Depends on circumstances",
+              "value": "depends"
+            },
+            {
+              "label": "Yes, with therapy",
+              "value": "therapy"
+            },
+            {
+              "label": "Yes, people make mistakes",
+              "value": "yes"
+            }
+          ]
+        },
+        {
+          "id": "opposite_sex_friends",
+          "text": "Are you okay with your partner having close opposite-sex friends?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Not Comfortable",
+            "10": "Totally Fine"
+          }
+        },
+        {
+          "id": "privacy",
+          "text": "Should couples share phone passwords?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Always"
+          }
+        }
+      ]
+    },
+    {
+      "id": "wildcard",
+      "title": "Wildcard Round",
+      "description": "The unexpected questions.",
+      "questions": [
+        {
+          "id": "zombie_apocalypse",
+          "text": "Zombie apocalypse: What's your role?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Leader",
+              "value": "leader"
+            },
+            {
+              "label": "Strategist",
+              "value": "strategist"
+            },
+            {
+              "label": "Fighter",
+              "value": "fighter"
+            },
+            {
+              "label": "Medic",
+              "value": "medic"
+            },
+            {
+              "label": "I'd die first",
+              "value": "dead"
+            }
+          ]
+        },
+        {
+          "id": "superpower",
+          "text": "If you could have one superpower?",
+          "type": "text",
+          "placeholder": "e.g., Time travel, mind reading, invisibility"
+        },
+        {
+          "id": "desert_island",
+          "text": "Desert island: 3 things you bring?",
+          "type": "text",
+          "placeholder": "List 3 items"
+        },
+        {
+          "id": "biggest_fear",
+          "text": "What's your biggest fear in a relationship?",
+          "type": "text",
+          "placeholder": "Be honest..."
+        },
+        {
+          "id": "perfect_day",
+          "text": "Describe your perfect day together:",
+          "type": "text",
+          "placeholder": "From morning to night..."
         }
       ]
     }
