@@ -21,6 +21,26 @@ export const questions: Question[] = [
             'Plan something anyway',
         ],
     },
+    {
+        id: 'q4',
+        text: 'My attachment style is closest to:',
+        options: [
+            'Secure — I trust easily',
+            'Anxious — I need reassurance',
+            'Avoidant — I value independence',
+            'Complex — It depends on the person',
+        ],
+    },
+    {
+        id: 'q5',
+        text: 'I show love primarily through:',
+        options: [
+            'Words of affirmation',
+            'Quality time together',
+            'Acts of service',
+            'Physical affection',
+        ],
+    },
 ];
 
 export function getQuestions(): Question[] {

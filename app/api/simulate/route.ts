@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSession, updateSession } from '@/lib/sessions';
 import { SimulateSchema } from '@/lib/validation';
-import { runSimulation } from '@/lib/groq';
+import { runFullSimulation } from '@/lib/simulationEngine';
+import { buildPersona } from '@/lib/personaBuilder';
 import { logger } from '@/lib/logger';
 
 export async function POST(req: Request) {
@@ -24,9 +25,22 @@ export async function POST(req: Request) {
             );
         }
 
+        // Ensure answers exist
+        if (!session.users.userA.answers?.length || !session.users.userB.answers?.length) {
+            return NextResponse.json(
+                { success: false, error: 'Incomplete assessments', code: 'VALIDATION_ERROR' },
+                { status: 400 }
+            );
+        }
+
         logger.info('Simulation starting', { sessionId });
 
-        const simulation = await runSimulation(session.users.userA, session.users.userB);
+        // Build Personas
+        const personaA = buildPersona(session.users.userA.answers);
+        const personaB = buildPersona(session.users.userB.answers);
+
+        // Run Multi-Agent Simulation
+        const simulation = await runFullSimulation(personaA, personaB);
 
         session.simulation = simulation;
         session.status = 'completed';
@@ -36,7 +50,7 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ success: true, simulation });
     } catch (error) {
-        logger.error('Simulation failed', error);
+        logger.error('Simulation failed', error as unknown as Error);
         return NextResponse.json(
             { success: false, error: 'AI service unavailable', code: 'AI_SERVICE_ERROR' },
             { status: 500 }

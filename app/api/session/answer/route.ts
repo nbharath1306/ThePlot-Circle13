@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getSession, updateSession } from '@/lib/sessions';
 import { SessionAnswerSchema } from '@/lib/validation';
 import { logger } from '@/lib/logger';
+import { Answer } from '@/types';
 
 export async function POST(req: Request) {
     try {
@@ -27,28 +28,31 @@ export async function POST(req: Request) {
             );
         }
 
-        // Store answers
+        // Store answers - casting to Answer[] as Zod schema matches structure
+        const typedAnswers = answers as unknown as Answer[];
+
         if (isUserA && session.users.userA) {
-            session.users.userA.answers = answers;
+            session.users.userA.answers = typedAnswers;
         } else if (isUserB && session.users.userB) {
-            session.users.userB.answers = answers;
+            session.users.userB.answers = typedAnswers;
         }
 
         updateSession(sessionId, session);
 
+        const TOTAL_QUESTIONS = 50;
         const bothReady =
-            (session.users.userA?.answers?.length ?? 0) === 3 &&
-            (session.users.userB?.answers?.length ?? 0) === 3;
+            (session.users.userA?.answers?.length ?? 0) >= TOTAL_QUESTIONS &&
+            (session.users.userB?.answers?.length ?? 0) >= TOTAL_QUESTIONS;
 
-        logger.info('Answers submitted', { sessionId, userId, bothReady });
+        logger.info('Answers submitted', { sessionId, userId, answersCount: answers.length, bothReady });
 
         return NextResponse.json({
             success: true,
             bothUsersReady: bothReady,
-            message: bothReady ? 'Answers submitted. Starting simulation...' : 'Answers submitted. Waiting for partner.',
+            message: bothReady ? 'Assessment complete. Proceed to simulation.' : 'Answers saved. Waiting for partner.',
         });
     } catch (error) {
-        logger.error('Submit answers failed', error);
+        logger.error('Submit answers failed', error as unknown as Error);
         return NextResponse.json(
             { success: false, error: 'Invalid answer format', code: 'VALIDATION_ERROR' },
             { status: 400 }

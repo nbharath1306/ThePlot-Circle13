@@ -1,8 +1,10 @@
 import { z } from 'zod';
 
 export const AnswerSchema = z.object({
-    questionId: z.string().regex(/^q[1-3]$/),
-    value: z.string().min(1).max(200),
+    questionId: z.string(),
+    dimension: z.string(),
+    value: z.string(),
+    score: z.number(),
     timestamp: z.number(),
 });
 
@@ -14,7 +16,7 @@ export const SessionJoinSchema = z.object({
 export const SessionAnswerSchema = z.object({
     sessionId: z.string().uuid(),
     userId: z.string().min(1).max(100),
-    answers: z.array(AnswerSchema).length(3),
+    answers: z.array(AnswerSchema).min(1), // Allow incremental updates or full submission
 });
 
 export const SimulateSchema = z.object({
