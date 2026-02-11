@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&display=swap');
+
+@import "tailwindcss";
+
+:root {
+  --matrix: #00ff00;
+  --matrix-dim: #003300;
+  --matrix-dark: #001100;
+  --bg: #000000;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--matrix-dim) var(--bg);
+}
+
+body {
+  font-family: 'IBM Plex Mono', monospace;
+  background-color: var(--bg);
+  color: var(--matrix);
+  min-height: 100vh;
+}
+
+/* ─── CRT Scanlines ──────────────────────────────────────── */
+.crt::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 255, 0, 0.02) 0px,
+      rgba(0, 255, 0, 0.02) 1px,
+      transparent 1px,
+      transparent 3px);
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ─── Custom Scrollbar ───────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--matrix-dim);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--matrix);
+}
+
+/* ─── Selection ──────────────────────────────────────────── */
+::selection {
+  background: var(--matrix);
+  color: var(--bg);
+}
+
+/* ─── Global Glow ────────────────────────────────────────── */
+@keyframes glow {
+
+  0%,
+  100% {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  }
+
+  50% {
+    text-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+  }
+}
+
+.glow-text {
+  animation: glow 2s ease-in-out infinite;
+}
