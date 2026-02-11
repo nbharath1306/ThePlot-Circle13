@@ -13,7 +13,7 @@ function OracleAssessmentContent() {
     const searchParams = useSearchParams();
     const sessionId = searchParams.get("session");
 
-    const [mode, setMode] = useState<"landing" | "solo" | "waiting" | "ready" | "assessment">("landing");
+    const [mode, setMode] = useState<"landing" | "solo" | "join" | "waiting" | "ready" | "assessment">("landing");
     const [shareLink, setShareLink] = useState("");
     const [qrCode, setQrCode] = useState("");
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
