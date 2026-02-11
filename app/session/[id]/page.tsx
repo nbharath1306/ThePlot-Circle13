@@ -158,6 +158,49 @@ export default function SessionPage() {
 
         // Fallback: generate simulation data client-side so demo always works
         setSimulation({
+            scenarios: [
+                {
+                    id: 's1',
+                    title: 'The Spark',
+                    transcript: [
+                        { speaker: 'A', content: "I've never met anyone who thinks like you do." },
+                        { speaker: 'B', content: "Is that a good thing?" },
+                        { speaker: 'A', content: "The best thing. It's refreshing." },
+                    ],
+                    emotionalShift: { trust: 10, satisfaction: 15, commitment: 5 },
+                    analysis: "Instant intellectual chemistry."
+                },
+                {
+                    id: 's2',
+                    title: 'The Challenge',
+                    transcript: [
+                        { speaker: 'A', content: "We interpret this situation so differently." },
+                        { speaker: 'B', content: "Because we have different core values here." },
+                        { speaker: 'A', content: "But can we respect that difference?" },
+                        { speaker: 'B', content: "I think we can. If we try." },
+                    ],
+                    emotionalShift: { trust: 5, satisfaction: -5, commitment: 10 },
+                    analysis: "Navigating value misalignment."
+                },
+                {
+                    id: 's3',
+                    title: 'The Future',
+                    transcript: [
+                        { speaker: 'A', content: "Seven years... and I'd choose you all over again." },
+                        { speaker: 'B', content: "Even with the rough patches?" },
+                        { speaker: 'A', content: "Because of them. We built this." },
+                    ],
+                    emotionalShift: { trust: 20, satisfaction: 25, commitment: 25 },
+                    analysis: "Deep, earned security."
+                }
+            ],
+            compatibility: {
+                overallScore: 88,
+                dimensions: [],
+                strengths: ['Communication', 'Growth Mindset', 'Shared Values'],
+                challenges: ['Financial Anxiety', 'Risk Tolerance'],
+                prediction: 'success_thriving'
+            },
             timeline: [
                 { year: 1, events: ['First vacation together in Bali', 'Meeting each other\'s families', 'Both start new careers'], emotionalShift: { trust: 15, satisfaction: 20, commitment: 25 } },
                 { year: 2, events: ['Move in together', 'Adopt a pet named Luna', 'Navigate work-life balance'], emotionalShift: { trust: 10, satisfaction: 15, commitment: 10 } },
@@ -168,8 +211,6 @@ export default function SessionPage() {
                 { year: 7, events: ['Major life decision made together', 'Celebrate anniversary milestone', 'Plan next chapter as a team'], emotionalShift: { trust: 15, satisfaction: 20, commitment: 15 } },
             ],
             outcome: 'success_thriving',
-            outcomeName: 'Thriving: Best Friends & Partners',
-            insights: ['Strong communication foundation helps navigate challenges', 'Complementary values create balance in the relationship', 'Willingness to grow together is the key differentiator'],
             emotionalMetrics: [
                 { year: 1, trust: 65, satisfaction: 70, commitment: 75 },
                 { year: 2, trust: 75, satisfaction: 85, commitment: 85 },

@@ -43,7 +43,10 @@ export async function runFullSimulation(
         compatibility,
         timeline: timelineEvents,
         outcome: compatibility.prediction,
-        emotionalMetrics: scenarioResults.map(s => s.emotionalShift)
+        emotionalMetrics: scenarioResults.map((s, i) => ({
+            ...s.emotionalShift,
+            year: i + 1
+        }))
     };
 }
 
