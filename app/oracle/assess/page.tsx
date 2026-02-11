@@ -133,27 +133,17 @@ function OracleAssessmentContent() {
             <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
                 <div className="max-w-md text-center space-y-6">
                     <div className="text-6xl mb-4">🔮</div>
-                    <h1 className="text-3xl font-bold">How do you want to play?</h1>
+                    <h1 className="text-3xl font-bold">See Your Future Together</h1>
+                    <p className="text-gray-400">
+                        AI-powered relationship simulation for couples
+                    </p>
 
-                    <div className="space-y-4">
-                        <Button
-                            onClick={createSession}
-                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 py-6"
-                        >
-                            Play with Partner (Online)
-                        </Button>
-
-                        <Button
-                            onClick={() => {
-                                setMode("assessment");
-                                setMyRole("A");
-                            }}
-                            variant="ghost"
-                            className="w-full py-6"
-                        >
-                            Play Solo (Answer for both)
-                        </Button>
-                    </div>
+                    <Button
+                        onClick={createSession}
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 py-6 text-lg"
+                    >
+                        Start Assessment →
+                    </Button>
                 </div>
             </main>
         );
