@@ -1,123 +1,183 @@
 {
   "domains": [
     {
-      "id": "core_values",
-      "name": "Core Values",
+      "id": "intro",
+      "title": "The Basics",
+      "description": "Let's start with who you are.",
       "questions": [
         {
-          "id": "cv_1",
-          "type": "scale",
-          "text": "How important is career success to you?",
-          "subtitle": "1 = Not important, 10 = Extremely important",
-          "min": 1,
-          "max": 10
+          "id": "name",
+          "text": "What is your first name?",
+          "type": "text",
+          "placeholder": "Enter your name"
         },
         {
-          "id": "cv_2",
-          "type": "scale",
-          "text": "How much do you value tradition vs. innovation?",
-          "subtitle": "1 = Strictly traditional, 10 = Always trying new things",
-          "min": 1,
-          "max": 10
-        },
-        {
-          "id": "cv_3",
-          "type": "multiple_choice",
-          "text": "Which of these matters most to you in a partner?",
-          "options": [
-            { "value": "ambition", "label": "Ambition and drive" },
-            { "value": "kindness", "label": "Kindness and empathy" },
-            { "value": "stability", "label": "Stability and reliability" },
-            { "value": "excitement", "label": "Excitement and spontaneity" }
-          ]
+          "id": "age",
+          "text": "How old are you?",
+          "type": "number",
+          "placeholder": "Age"
         }
       ]
     },
     {
-      "id": "communication",
-      "name": "Communication Style",
+      "id": "core_values",
+      "title": "Core Values",
+      "description": "What drives your decisions?",
       "questions": [
         {
-          "id": "comm_1",
+          "id": "cv_1",
+          "text": "How important is career ambition vs. work-life balance?",
           "type": "scale",
-          "text": "How direct are you when expressing needs?",
-          "subtitle": "1 = Very subtle/indirect, 10 = Extremely direct",
           "min": 1,
-          "max": 10
+          "max": 10,
+          "labels": {
+            "1": "Pure Balance",
+            "10": "Pure Ambition"
+          }
         },
         {
-          "id": "comm_2",
-          "type": "multiple_choice",
-          "text": "When you're improper, how do you usually react?",
-          "options": [
-            { "value": "withdraw", "label": "I need space to process alone" },
-            { "value": "vent", "label": "I need to talk it out immediately" },
-            { "value": "distract", "label": "I try to distract myself" }
-          ]
+          "id": "cv_2",
+          "text": "When making big decisions, do you follow your head or your heart?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "100% Logic",
+            "10": "100% Emotion"
+          }
+        },
+        {
+          "id": "cv_3",
+          "text": "How much do you value tradition vs. novelty/change?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Tradition",
+            "10": "Novelty"
+          }
         }
       ]
     },
     {
       "id": "conflict",
-      "name": "Conflict Resolution",
+      "title": "Conflict Style",
+      "description": "How do you fight?",
       "questions": [
         {
-          "id": "conf_1",
+          "id": "conflict_1",
+          "text": "In a heated argument, what is your instinct?",
           "type": "multiple_choice",
-          "text": "In a heated argument, you exist mostly to:",
           "options": [
-            { "value": "win", "label": "Win the point" },
-            { "value": "peace", "label": "Keep the peace" },
-            { "value": "understand", "label": "Understand the other side" }
+            {
+              "label": "Fight to win / Prove I'm right",
+              "value": "aggressive"
+            },
+            {
+              "label": "Shut down / Withdraw",
+              "value": "avoidant"
+            },
+            {
+              "label": "Apologize to keep peace",
+              "value": "anxious_pleasing"
+            },
+            {
+              "label": "Pause and discuss calmly",
+              "value": "secure"
+            }
           ]
         },
         {
-          "id": "conf_2",
+          "id": "conflict_2",
+          "text": "How long do you hold a grudge?",
           "type": "scale",
-          "text": "How quickly do you forgive and forget?",
-          "subtitle": "1 = I hold grudges, 10 = Almost immediately",
           "min": 1,
-          "max": 10
+          "max": 10,
+          "labels": {
+            "1": "Forgive instantly",
+            "10": "Never forget"
+          }
         }
       ]
     },
     {
       "id": "lifestyle",
-      "name": "Lifestyle & Habits",
+      "title": "Lifestyle & Money",
+      "description": "The day-to-day reality.",
       "questions": [
         {
-          "id": "life_1",
-          "type": "scale",
-          "text": "Are you a morning person or a night owl?",
-          "subtitle": "1 = Early bird, 10 = Night owl",
-          "min": 1,
-          "max": 10
+          "id": "money_1",
+          "text": "You get a $5,000 bonus. What do you do?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Save/Invest it all",
+              "value": "saver"
+            },
+            {
+              "label": "Book a luxury vacation",
+              "value": "spender_experience"
+            },
+            {
+              "label": "Buy that expensive item I've wanted",
+              "value": "spender_material"
+            },
+            {
+              "label": "Pay off debt",
+              "value": "responsible"
+            }
+          ]
         },
         {
-          "id": "life_2",
-          "type": "scale",
-          "text": "How organized is your living space usually?",
-          "subtitle": "1 = Chaotic/Messy, 10 = Minimalist/Spotless",
-          "min": 1,
-          "max": 10
+          "id": "social_1",
+          "text": "It's Friday night. What is your ideal plan?",
+          "type": "text",
+          "placeholder": "e.g. Clubbing till 4am, or Pizza and Netflix?"
         }
       ]
     },
     {
-      "id": "open_ended",
-      "name": "In Your Own Words",
+      "id": "romance",
+      "title": "Romance & Intimacy",
+      "description": "The spice of life.",
       "questions": [
         {
-          "id": "open_1",
-          "type": "text",
-          "text": "Describe your ideal Sunday morning.",
-          "placeholder": "Sleeping in, making pancakes, going for a hike..."
+          "id": "love_lang",
+          "text": "What makes you feel most loved?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Words of Affirmation",
+              "value": "words"
+            },
+            {
+              "label": "Acts of Service",
+              "value": "service"
+            },
+            {
+              "label": "Receiving Gifts",
+              "value": "gifts"
+            },
+            {
+              "label": "Quality Time",
+              "value": "time"
+            },
+            {
+              "label": "Physical Touch",
+              "value": "touch"
+            }
+          ]
         },
         {
-          "id": "open_2",
-          "type": "text",
-          "text": "What is a major dealbreaker for you in relationships?",
-          "placeholder": "Dishonesty, lack of ambition, smoking..."
+          "id": "romance_1",
+          "text": "How often do you need deep meaningful conversations?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Rarely",
+            "10": "Daily"
+          }
         }
       ]
     }

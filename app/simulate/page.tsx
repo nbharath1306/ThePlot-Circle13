@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import ChatMessage from "@/components/simulation/ChatMessage";
-import { AgentPersona, generatePersonaFromAnswers } from "@/lib/prompts";
+import VerdictCard from "@/components/simulation/VerdictCard";
+import { AgentPersona } from "@/lib/prompts";
 
 interface Message {
     speaker: string;
@@ -17,33 +18,27 @@ interface Message {
 export default function SimulationPage() {
     const router = useRouter();
     const [agentA, setAgentA] = useState<AgentPersona | null>(null);
+    const [agentB, setAgentB] = useState<AgentPersona | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [isPlaying, setIsPlaying] = useState(false);
     const [turnCount, setTurnCount] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [analyzing, setAnalyzing] = useState(false);
+    const [verdict, setVerdict] = useState<any>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
-
-    // Hardcoded Agent B for MVP
-    const agentB: AgentPersona = {
-        name: "Jordan",
-        traits: ["Relaxed", "Creative"],
-        style: "Casual and avoiding conflict",
-        values: ["Freedom", "Creativity"],
-        background: "An artist who hates rigid schedules.",
-    };
 
     const scenario = "You are discussing where to go for your first anniversary dinner. One of you wants something fancy, the other wants something low-key.";
 
     useEffect(() => {
-        // Load assessment results
-        const savedAnswers = localStorage.getItem("theplot_assessment_answers");
-        if (!savedAnswers) {
+        const savedAgentA = localStorage.getItem("theplot_agent_a");
+        const savedAgentB = localStorage.getItem("theplot_agent_b");
+
+        if (savedAgentA && savedAgentB) {
+            setAgentA(JSON.parse(savedAgentA));
+            setAgentB(JSON.parse(savedAgentB));
+        } else {
             router.push("/assess");
-            return;
         }
-        const answers = JSON.parse(savedAnswers);
-        const generatedAgent = generatePersonaFromAnswers(answers);
-        setAgentA(generatedAgent);
     }, [router]);
 
     useEffect(() => {
@@ -51,19 +46,15 @@ export default function SimulationPage() {
     }, [messages]);
 
     const runTurn = async () => {
-        if (!agentA || loading) return;
+        if (!agentA || !agentB || loading) return;
         setLoading(true);
 
         try {
-            // Determine whose turn it is
             const isAgentATurn = turnCount % 2 === 0;
             const currentAgent = isAgentATurn ? agentA : agentB;
             const otherAgentName = isAgentATurn ? agentB.name : agentA.name;
             const role = isAgentATurn ? "Agent A" : "Agent B";
 
-            // Prepare history for API
-            // Filter out internal thoughts for prompt history to keep it clean? 
-            // For MVP, passing full history as text is simpler.
             const conversationHistory = messages.map(m => ({
                 role: m.role,
                 content: `${m.speaker}: ${m.text}`
@@ -90,7 +81,7 @@ export default function SimulationPage() {
                 text: data.text,
                 emotion: data.emotion,
                 internal_thought: data.internal_thought,
-                role: "assistant" // In LLM context, previously spoken lines are context
+                role: "assistant"
             };
 
             setMessages((prev) => [...prev, newMessage]);
@@ -104,18 +95,46 @@ export default function SimulationPage() {
         }
     };
 
-    // Effect to run loop when playing
+    const analyzeRelationship = async () => {
+        if (!agentA || !agentB) return;
+        setAnalyzing(true);
+        setIsPlaying(false);
+
+        try {
+            const res = await fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    messages,
+                    agentA,
+                    agentB,
+                }),
+            });
+
+            const data = await res.json();
+            if (res.ok) {
+                setVerdict(data);
+            }
+        } catch (error) {
+            console.error("Analysis error:", error);
+        } finally {
+            setAnalyzing(false);
+        }
+    };
+
     useEffect(() => {
         let timeout: NodeJS.Timeout;
-        if (isPlaying && !loading && turnCount < 10) { // Limit to 10 turns for MVP
+        if (isPlaying && !loading && turnCount < 10) {
             timeout = setTimeout(() => {
                 runTurn();
-            }, 2000); // 2 second delay between turns
+            }, 2000);
+        } else if (turnCount >= 10 && isPlaying && !analyzing && !verdict) {
+            analyzeRelationship();
         }
         return () => clearTimeout(timeout);
-    }, [isPlaying, loading, turnCount]);
+    }, [isPlaying, loading, turnCount, analyzing, verdict]);
 
-    if (!agentA) return <div className="text-white text-center mt-20">Loading profile...</div>;
+    if (!agentA || !agentB) return <div className="text-white text-center mt-20 animate-pulse">Loading profiles...</div>;
 
     return (
         <main className="min-h-screen bg-black flex flex-col">
@@ -134,6 +153,7 @@ export default function SimulationPage() {
                         variant={isPlaying ? "secondary" : "primary"}
                         onClick={() => setIsPlaying(!isPlaying)}
                         className="w-24 transition-all"
+                        disabled={turnCount >= 10}
                     >
                         {isPlaying ? "Pause" : "Play"}
                     </Button>
@@ -168,8 +188,29 @@ export default function SimulationPage() {
                     </div>
                 )}
 
+                {analyzing && (
+                    <div className="flex flex-col items-center gap-4 text-purple-400 text-sm py-8">
+                        <div className="w-16 h-16 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
+                        <span className="font-mono text-base uppercase tracking-wider animate-pulse">
+                            Analyzing your future...
+                        </span>
+                    </div>
+                )}
+
                 <div ref={messagesEndRef} />
             </div>
+
+            {verdict && (
+                <VerdictCard
+                    label={verdict.label}
+                    survival_probability={verdict.survival_probability}
+                    verdict={verdict.verdict}
+                    vibe={verdict.vibe}
+                    agentA={agentA.name}
+                    agentB={agentB.name}
+                    onClose={() => setVerdict(null)}
+                />
+            )}
 
         </main>
     );
