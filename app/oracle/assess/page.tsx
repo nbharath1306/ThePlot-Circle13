@@ -6,51 +6,68 @@ import QuestionCard from "@/components/assessment/QuestionCard";
 import { generatePersonaFromAnswers } from "@/lib/prompts";
 import questionsData from "@/data/questions.json";
 import { Button } from "@/components/ui/Button";
+import QRCode from "qrcode";
 
 export default function OracleAssessmentPage() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const sessionId = searchParams.get("session");
 
-    const [mode, setMode] = useState<"solo" | "create" | "join">("solo");
+    const [mode, setMode] = useState<"landing" | "solo" | "waiting" | "ready" | "assessment">("landing");
     const [shareLink, setShareLink] = useState("");
+    const [qrCode, setQrCode] = useState("");
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, any>>({});
-    const [partnerReady, setPartnerReady] = useState(false);
     const [myRole, setMyRole] = useState<"A" | "B">("A");
+    const [myStatus, setMyStatus] = useState<"answering" | "done">("answering");
 
-    // Extract all questions from domains
     const allQuestions = questionsData.domains.flatMap((domain: any) => domain.questions).slice(0, 11);
 
     useEffect(() => {
-        // Check if joining via link
         if (sessionId) {
-            setMode("join");
+            // Joining via link
             setMyRole("B");
-            // In a real app, this would connect to a backend
-            // For now, we'll use localStorage with session ID
+            setMode("assessment");
+
+            // Check if partner A is done
+            const statusA = localStorage.getItem(`session_${sessionId}_status_A`);
+            if (statusA === "done") {
+                checkBothReady();
+            }
         }
     }, [sessionId]);
 
-    const createSession = () => {
-        const newSessionId = Math.random().toString(36).substring(7);
+    const createSession = async () => {
+        const newSessionId = Math.random().toString(36).substring(2, 15);
         const link = `${window.location.origin}/oracle/assess?session=${newSessionId}`;
         setShareLink(link);
-        setMode("create");
-        setMyRole("A");
 
-        // Store session in localStorage
-        localStorage.setItem(`session_${newSessionId}`, JSON.stringify({
-            creatorReady: false,
-            joinerReady: false,
-            creatorAnswers: {},
-            joinerAnswers: {}
-        }));
+        // Generate QR code
+        const qr = await QRCode.toDataURL(link, {
+            width: 300,
+            margin: 2,
+            color: { dark: "#8B5CF6", light: "#000000" }
+        });
+        setQrCode(qr);
+
+        setMyRole("A");
+        setMode("solo");
+
+        // Store session creation
+        localStorage.setItem(`session_${newSessionId}_creator`, "true");
+    };
+
+    const startAssessment = () => {
+        setMode("assessment");
     };
 
     const copyLink = () => {
         navigator.clipboard.writeText(shareLink);
-        alert("Link copied! Send it to your partner.");
+    };
+
+    const shareOnWhatsApp = () => {
+        const message = encodeURIComponent(`Let's see our future together! 🔮\n\nJoin me on ThePlot:\n${shareLink}`);
+        window.open(`https://wa.me/?text=${message}`, '_blank');
     };
 
     const handleAnswer = (answer: any) => {
@@ -69,10 +86,19 @@ export default function OracleAssessmentPage() {
         const persona = generatePersonaFromAnswers(finalAnswers);
         if (finalAnswers["name"]) persona.name = finalAnswers["name"];
 
-        if (mode === "solo" || mode === "create") {
-            // Solo mode or creating session: create both agents yourself
-            localStorage.setItem("theplot_agent_a", JSON.stringify(persona));
-            // For solo, we'll create a generic partner
+        // Store in localStorage
+        const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
+        localStorage.setItem(key, JSON.stringify(persona));
+
+        if (sessionId) {
+            // Mark as done in session
+            localStorage.setItem(`session_${sessionId}_status_${myRole}`, "done");
+            localStorage.setItem(`session_${sessionId}_agent_${myRole}`, JSON.stringify(persona));
+
+            setMyStatus("done");
+            checkBothReady();
+        } else {
+            // Solo mode - create generic partner
             const genericPartner = {
                 name: "Partner",
                 traits: ["thoughtful", "caring", "independent"],
@@ -83,24 +109,27 @@ export default function OracleAssessmentPage() {
             };
             localStorage.setItem("theplot_agent_b", JSON.stringify(genericPartner));
             router.push("/oracle/timeline");
-        } else {
-            // Multi-user mode
-            const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
-            localStorage.setItem(key, JSON.stringify(persona));
-
-            // Check if partner is ready
-            checkPartnerStatus();
         }
     };
 
-    const checkPartnerStatus = () => {
-        // In a real app, this would check a backend
-        // For now, show waiting screen
-        setPartnerReady(false);
-        // Simulate partner joining after 3 seconds (for demo)
-        setTimeout(() => {
-            setPartnerReady(true);
-        }, 3000);
+    const checkBothReady = () => {
+        if (!sessionId) return;
+
+        const statusA = localStorage.getItem(`session_${sessionId}_status_A`);
+        const statusB = localStorage.getItem(`session_${sessionId}_status_B`);
+
+        if (statusA === "done" && statusB === "done") {
+            // Both done! Load partner's data
+            const agentA = localStorage.getItem(`session_${sessionId}_agent_A`);
+            const agentB = localStorage.getItem(`session_${sessionId}_agent_B`);
+
+            if (agentA) localStorage.setItem("theplot_agent_a", agentA);
+            if (agentB) localStorage.setItem("theplot_agent_b", agentB);
+
+            setMode("ready");
+        } else {
+            setMode("waiting");
+        }
     };
 
     const startSimulation = () => {
@@ -108,7 +137,7 @@ export default function OracleAssessmentPage() {
     };
 
     // Landing screen
-    if (mode === "solo") {
+    if (mode === "landing") {
         return (
             <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
                 <div className="max-w-md text-center space-y-6">
@@ -125,7 +154,7 @@ export default function OracleAssessmentPage() {
 
                         <Button
                             onClick={() => {
-                                setMode("create");
+                                setMode("assessment");
                                 setMyRole("A");
                             }}
                             variant="ghost"
@@ -140,28 +169,43 @@ export default function OracleAssessmentPage() {
     }
 
     // Share link screen
-    if (mode === "create" && shareLink && currentQuestionIndex === 0) {
+    if (mode === "solo") {
         return (
             <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
                 <div className="max-w-md text-center space-y-6">
                     <div className="text-6xl mb-4">📱</div>
-                    <h1 className="text-3xl font-bold">Send this link to your partner</h1>
+                    <h1 className="text-3xl font-bold">Share with your partner</h1>
+                    <p className="text-gray-400 text-sm">They'll answer on their own device</p>
+
+                    {qrCode && (
+                        <div className="bg-white p-4 rounded-xl inline-block">
+                            <img src={qrCode} alt="QR Code" className="w-64 h-64" />
+                        </div>
+                    )}
 
                     <div className="bg-gray-900 p-4 rounded-lg border border-purple-500/30">
-                        <code className="text-sm text-purple-400 break-all">{shareLink}</code>
+                        <code className="text-xs text-purple-400 break-all">{shareLink}</code>
+                    </div>
+
+                    <div className="flex gap-3">
+                        <Button
+                            onClick={copyLink}
+                            className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600"
+                        >
+                            📋 Copy
+                        </Button>
+                        <Button
+                            onClick={shareOnWhatsApp}
+                            className="flex-1 bg-green-600 hover:bg-green-500"
+                        >
+                            WhatsApp
+                        </Button>
                     </div>
 
                     <Button
-                        onClick={copyLink}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
-                    >
-                        Copy Link
-                    </Button>
-
-                    <Button
-                        onClick={() => setCurrentQuestionIndex(0)}
+                        onClick={startAssessment}
                         variant="ghost"
-                        className="w-full"
+                        className="w-full mt-8"
                     >
                         Start My Assessment →
                     </Button>
@@ -170,21 +214,31 @@ export default function OracleAssessmentPage() {
         );
     }
 
-    // Waiting for partner screen
-    if (currentQuestionIndex >= allQuestions.length && !partnerReady) {
+    // Waiting for partner
+    if (mode === "waiting") {
         return (
             <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
                 <div className="max-w-md text-center space-y-6">
                     <div className="text-6xl mb-4 animate-pulse">⏳</div>
-                    <h1 className="text-3xl font-bold">Waiting for your partner...</h1>
-                    <p className="text-gray-400">They're still answering questions.</p>
+                    <h1 className="text-3xl font-bold">You're done!</h1>
+                    <p className="text-gray-400">Waiting for your partner to finish...</p>
+
+                    <div className="bg-gray-900/50 border border-purple-500/30 rounded-xl p-6">
+                        <p className="text-sm text-gray-400 mb-4">Ask them to click "I'm Done" when they finish</p>
+                        <Button
+                            onClick={checkBothReady}
+                            className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
+                        >
+                            Check if Partner is Ready
+                        </Button>
+                    </div>
                 </div>
             </main>
         );
     }
 
-    // Both ready screen
-    if (currentQuestionIndex >= allQuestions.length && partnerReady) {
+    // Both ready
+    if (mode === "ready") {
         return (
             <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
                 <div className="max-w-md text-center space-y-6">
@@ -194,7 +248,7 @@ export default function OracleAssessmentPage() {
 
                     <Button
                         onClick={startSimulation}
-                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 py-6"
+                        className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 py-6 text-lg"
                     >
                         Start Simulation →
                     </Button>

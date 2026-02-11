@@ -1,46 +1,41 @@
-# ThePlot - Deployment Guide
+# ThePlot - Zero-Cost Deployment
 
-## Quick Deploy to Vercel
+## 🎉 100% FREE Forever
 
-### 1. Set up Upstash Redis (Free)
-1. Go to [upstash.com](https://upstash.com)
-2. Create a free account
-3. Create a new Redis database
-4. Copy the REST URL and Token
+This app uses **zero backend** - everything runs in the browser!
 
-### 2. Deploy to Vercel
+### How It Works
+1. **Person A** creates session → Gets shareable link + QR code
+2. **Person B** scans/clicks link → Opens on their device
+3. Both answer questions → Stored in **their own browser** (localStorage)
+4. When both finish → They click "Check if Partner is Ready"
+5. Both see "Ready" → Start simulation together
+
+### Technology
+- ✅ **No database** (localStorage only)
+- ✅ **No backend** (pure client-side)
+- ✅ **QR codes** (generated in browser)
+- ✅ **Unlimited users** (no server limits)
+
+## Deploy to Vercel (Free)
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
 
 # Deploy
-vercel
-```
-
-### 3. Add Environment Variables in Vercel
-Go to your Vercel project settings and add:
-- `UPSTASH_REDIS_REST_URL`
-- `UPSTASH_REDIS_REST_TOKEN`
-- `GROQ_API_KEY`
-
-### 4. Redeploy
-```bash
 vercel --prod
 ```
 
-## Features
-- ✅ Multi-user sessions with unique links
-- ✅ QR code generation for easy sharing
-- ✅ Real-time session synchronization
-- ✅ Automatic session expiry (1 hour)
-- ✅ Handles unlimited concurrent couples
+### Environment Variables
+Only need one:
+- `GROQ_API_KEY` (for AI simulation)
 
-## How It Works
-1. User A creates a session → Gets unique link + QR code
-2. User A shares link/QR on WhatsApp
-3. User B scans/clicks → Joins session
-4. Both answer questions simultaneously
-5. When both finish → Simulation starts
+That's it! No Redis, no database, no costs.
 
-## Local Development
-For local dev without Redis, the app falls back to localStorage.
+## Capacity
+- **Unlimited couples** ✅
+- **Zero cost** ✅
+- **Works offline** ✅
+
+The only limit is Groq's free tier (14,400 requests/day = ~700 couples/day).
