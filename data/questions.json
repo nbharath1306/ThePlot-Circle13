@@ -1,0 +1,125 @@
+{
+  "domains": [
+    {
+      "id": "core_values",
+      "name": "Core Values",
+      "questions": [
+        {
+          "id": "cv_1",
+          "type": "scale",
+          "text": "How important is career success to you?",
+          "subtitle": "1 = Not important, 10 = Extremely important",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "cv_2",
+          "type": "scale",
+          "text": "How much do you value tradition vs. innovation?",
+          "subtitle": "1 = Strictly traditional, 10 = Always trying new things",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "cv_3",
+          "type": "multiple_choice",
+          "text": "Which of these matters most to you in a partner?",
+          "options": [
+            { "value": "ambition", "label": "Ambition and drive" },
+            { "value": "kindness", "label": "Kindness and empathy" },
+            { "value": "stability", "label": "Stability and reliability" },
+            { "value": "excitement", "label": "Excitement and spontaneity" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "name": "Communication Style",
+      "questions": [
+        {
+          "id": "comm_1",
+          "type": "scale",
+          "text": "How direct are you when expressing needs?",
+          "subtitle": "1 = Very subtle/indirect, 10 = Extremely direct",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "comm_2",
+          "type": "multiple_choice",
+          "text": "When you're improper, how do you usually react?",
+          "options": [
+            { "value": "withdraw", "label": "I need space to process alone" },
+            { "value": "vent", "label": "I need to talk it out immediately" },
+            { "value": "distract", "label": "I try to distract myself" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "conflict",
+      "name": "Conflict Resolution",
+      "questions": [
+        {
+          "id": "conf_1",
+          "type": "multiple_choice",
+          "text": "In a heated argument, you exist mostly to:",
+          "options": [
+            { "value": "win", "label": "Win the point" },
+            { "value": "peace", "label": "Keep the peace" },
+            { "value": "understand", "label": "Understand the other side" }
+          ]
+        },
+        {
+          "id": "conf_2",
+          "type": "scale",
+          "text": "How quickly do you forgive and forget?",
+          "subtitle": "1 = I hold grudges, 10 = Almost immediately",
+          "min": 1,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "id": "lifestyle",
+      "name": "Lifestyle & Habits",
+      "questions": [
+        {
+          "id": "life_1",
+          "type": "scale",
+          "text": "Are you a morning person or a night owl?",
+          "subtitle": "1 = Early bird, 10 = Night owl",
+          "min": 1,
+          "max": 10
+        },
+        {
+          "id": "life_2",
+          "type": "scale",
+          "text": "How organized is your living space usually?",
+          "subtitle": "1 = Chaotic/Messy, 10 = Minimalist/Spotless",
+          "min": 1,
+          "max": 10
+        }
+      ]
+    },
+    {
+      "id": "open_ended",
+      "name": "In Your Own Words",
+      "questions": [
+        {
+          "id": "open_1",
+          "type": "text",
+          "text": "Describe your ideal Sunday morning.",
+          "placeholder": "Sleeping in, making pancakes, going for a hike..."
+        },
+        {
+          "id": "open_2",
+          "type": "text",
+          "text": "What is a major dealbreaker for you in relationships?",
+          "placeholder": "Dishonesty, lack of ambition, smoking..."
+        }
+      ]
+    }
+  ]
+}
