@@ -9,7 +9,7 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Missing id' }, { status: 400 });
     }
 
-    const session = getSession(id);
+    const session = await getSession(id);
     if (!session) {
         return NextResponse.json({ error: 'Session not found' }, { status: 404 });
     }
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
         if (action === 'create') {
             const newId = Math.random().toString(36).substring(2, 10);
-            const session = saveSession(newId, {
+            const session = await saveSession(newId, {
                 id: newId,
                 created_at: Date.now(),
                 status_A: 'answering',
@@ -45,7 +45,7 @@ export async function POST(request: Request) {
             if (typeof body.progress === 'number') updateData[`progress_${role}`] = body.progress;
             updateData[`last_active_${role}`] = Date.now();
 
-            const session = saveSession(id, updateData);
+            const session = await saveSession(id, updateData);
             return NextResponse.json(session);
         }
 
