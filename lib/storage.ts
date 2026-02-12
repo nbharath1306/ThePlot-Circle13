@@ -37,16 +37,25 @@ async function getFsSessions(): Promise<Record<string, SessionData>> {
     }
 }
 
+// Helper to get KV config
+const getKvConfig = () => {
+    const url = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+    const token = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+    return { url, token };
+};
+
 export async function getSession(id: string): Promise<SessionData | null> {
+    const { url, token } = getKvConfig();
+
     // KV Implementation
-    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    if (url && token) {
         try {
             // Using Vercel KV REST API commands
             // GET session:{id}
-            const res = await fetch(`${process.env.KV_REST_API_URL}`, {
+            const res = await fetch(url, {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(["GET", `session:${id}`]),
                 cache: 'no-store'
@@ -54,8 +63,6 @@ export async function getSession(id: string): Promise<SessionData | null> {
 
             if (res.ok) {
                 const json = await res.json();
-                // response format: { result: "stringified_json_value" } or { result: null } if using SET key value
-                // If we store as JSON string, we need to parse.
                 if (json.result) {
                     return typeof json.result === 'string' ? JSON.parse(json.result) : json.result;
                 }
@@ -73,9 +80,10 @@ export async function getSession(id: string): Promise<SessionData | null> {
 }
 
 export async function saveSession(id: string, data: Partial<SessionData>): Promise<SessionData> {
+    const { url, token } = getKvConfig();
 
     // KV Implementation
-    if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
+    if (url && token) {
         // Fetch current to merge
         let current = await getSession(id);
         if (!current) {
@@ -91,10 +99,10 @@ export async function saveSession(id: string, data: Partial<SessionData>): Promi
 
         try {
             // SET session:{id} value
-            await fetch(`${process.env.KV_REST_API_URL}`, {
+            await fetch(url, {
                 method: 'POST',
                 headers: {
-                    Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify(["SET", `session:${id}`, JSON.stringify(updated)])
             });

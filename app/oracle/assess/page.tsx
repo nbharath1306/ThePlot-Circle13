@@ -24,6 +24,7 @@ function OracleAssessmentContent() {
     const [myRole, setMyRole] = useState<"A" | "B">("A");
     const [myStatus, setMyStatus] = useState<"answering" | "done">("answering");
     const [copied, setCopied] = useState(false);
+    const [myPersona, setMyPersona] = useState<any>(null);
 
     const allQuestions = questionsData.domains.flatMap((domain: any) => domain.questions);
 
@@ -92,6 +93,8 @@ function OracleAssessmentContent() {
         const persona = generatePersonaFromAnswers(finalAnswers);
         if (finalAnswers["name"]) persona.name = finalAnswers["name"];
 
+        setMyPersona(persona);
+
         // Save locally just in case
         const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
         localStorage.setItem(key, JSON.stringify(persona));
@@ -145,6 +148,15 @@ function OracleAssessmentContent() {
 
         return () => clearInterval(interval);
     }, [mode, sessionId]);
+
+    // Hydrate persona on refresh
+    useEffect(() => {
+        if (!myPersona && (mode === "waiting" || mode === "ready")) {
+            const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
+            const stored = localStorage.getItem(key);
+            if (stored) setMyPersona(JSON.parse(stored));
+        }
+    }, [mode, myPersona, myRole]);
 
     const createSession = async () => {
         try {
@@ -471,6 +483,7 @@ function OracleAssessmentContent() {
                 <QuestionCard
                     question={allQuestions[currentQuestionIndex]}
                     onAnswer={handleAnswer}
+                    defaultValue={answers[allQuestions[currentQuestionIndex].id]}
                     onBack={
                         currentQuestionIndex > 0
                             ? () => setCurrentQuestionIndex((prev) => prev - 1)

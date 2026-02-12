@@ -22,6 +22,7 @@ interface QuestionCardProps {
     question: Question;
     onAnswer: (answer: any) => void;
     onBack?: () => void;
+    defaultValue?: any;
     isLastQuestion?: boolean;
 }
 
@@ -29,19 +30,30 @@ export default function QuestionCard({
     question,
     onAnswer,
     onBack,
+    defaultValue,
     isLastQuestion,
 }: QuestionCardProps) {
     const [answer, setAnswer] = useState<any>(null);
     const [inputValue, setInputValue] = useState("");
 
     useEffect(() => {
-        if (question.type === "scale") {
-            setAnswer(5);
+        if (defaultValue !== undefined && defaultValue !== null) {
+            if (question.type === "text" || question.type === "number") {
+                setInputValue(defaultValue);
+                setAnswer(null); // Text input relies on inputValue
+            } else {
+                setAnswer(defaultValue);
+            }
         } else {
-            setAnswer(null);
-            setInputValue("");
+            // Default initialization if no previous answer
+            if (question.type === "scale") {
+                setAnswer(5);
+            } else {
+                setAnswer(null);
+                setInputValue("");
+            }
         }
-    }, [question]);
+    }, [question, defaultValue]);
 
     const handleSubmit = () => {
         if (question.type === "text" || question.type === "number") {
