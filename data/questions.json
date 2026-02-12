@@ -16,6 +16,52 @@
           "text": "How old are you?",
           "type": "number",
           "placeholder": "Age"
+        },
+        {
+          "id": "gender",
+          "text": "What is your gender?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Male",
+              "value": "male"
+            },
+            {
+              "label": "Female",
+              "value": "female"
+            },
+            {
+              "label": "Non-binary",
+              "value": "non_binary"
+            },
+            {
+              "label": "Other",
+              "value": "other"
+            }
+          ]
+        },
+        {
+          "id": "orientation",
+          "text": "Sexual orientation?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Heterosexual",
+              "value": "hetero"
+            },
+            {
+              "label": "Homosexual",
+              "value": "homo"
+            },
+            {
+              "label": "Bisexual",
+              "value": "bi"
+            },
+            {
+              "label": "Other",
+              "value": "other"
+            }
+          ]
         }
       ]
     },
@@ -67,6 +113,61 @@
             "1": "Play it Safe",
             "10": "YOLO Everything"
           }
+        },
+        {
+          "id": "optimist_pessimist",
+          "text": "Optimist or Pessimist?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Pessimist",
+            "10": "Optimist"
+          }
+        },
+        {
+          "id": "emotional_vs_logical",
+          "text": "Do you make decisions with your head or heart?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "100% Head",
+            "10": "100% Heart"
+          }
+        },
+        {
+          "id": "confidence",
+          "text": "How confident are you generally?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Insecure",
+            "10": "Unstoppable"
+          }
+        },
+        {
+          "id": "patience",
+          "text": "How patient are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Zero Patience",
+            "10": "Saint-like"
+          }
+        },
+        {
+          "id": "adaptability",
+          "text": "How adaptable are you to change?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Hate Change",
+            "10": "Thrive in Chaos"
+          }
         }
       ]
     },
@@ -104,7 +205,7 @@
         },
         {
           "id": "public_affection",
-          "text": "How do you feel about PDA (public displays of affection)?",
+          "text": "How do you feel about PDA?",
           "type": "scale",
           "min": 1,
           "max": 10,
@@ -136,49 +237,109 @@
           }
         },
         {
-          "id": "past_relationships",
-          "text": "Are you still friends with any exes?",
+          "id": "ex_partners",
+          "text": "Are you friends with your exes?",
           "type": "multiple_choice",
           "options": [
             {
-              "label": "Yes, we're cool",
-              "value": "friends"
+              "label": "Yes",
+              "value": "yes"
             },
             {
-              "label": "No, clean break",
-              "value": "no_contact"
+              "label": "No",
+              "value": "no"
             },
             {
               "label": "It's complicated",
               "value": "complicated"
-            },
-            {
-              "label": "Never had a serious ex",
-              "value": "no_ex"
             }
           ]
+        },
+        {
+          "id": "ideal_date",
+          "text": "What's an ideal date?",
+          "type": "text",
+          "placeholder": "Dinner, hike, movie, etc."
+        },
+        {
+          "id": "falling_in_love",
+          "text": "How fast do you fall in love?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Very Slow",
+            "10": "Instantly"
+          }
+        },
+        {
+          "id": "commitment",
+          "text": "How much do you value commitment?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Free Spirit",
+            "10": "Ride or Die"
+          }
+        },
+        {
+          "id": "flirting_style",
+          "text": "How do you flirt?",
+          "type": "text",
+          "placeholder": "Subtle, direct, funny..."
+        },
+        {
+          "id": "dealbreakers_cheating",
+          "text": "Is cheating ever forgivable?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Never",
+              "value": "never"
+            },
+            {
+              "label": "Depends",
+              "value": "depends"
+            },
+            {
+              "label": "Yes",
+              "value": "yes"
+            }
+          ]
+        },
+        {
+          "id": "soulmates",
+          "text": "Do you believe in soulmates?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "No",
+            "10": "Yes"
+          }
         }
       ]
     },
     {
       "id": "intimacy_sex",
       "title": "Intimacy & Sex",
-      "description": "Let's get real.",
+      "description": "Let's keep it real.",
       "questions": [
         {
           "id": "sex_importance",
-          "text": "How important is physical intimacy in a relationship?",
+          "text": "How important is sex in a relationship?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Not Very",
-            "10": "Extremely Important"
+            "1": "Not Important",
+            "10": "Crucial"
           }
         },
         {
           "id": "sex_frequency",
-          "text": "Ideal frequency of sex?",
+          "text": "Ideal frequency?",
           "type": "multiple_choice",
           "options": [
             {
@@ -186,43 +347,86 @@
               "value": "daily"
             },
             {
-              "label": "Few times a week",
+              "label": "Weekly",
               "value": "weekly"
             },
             {
-              "label": "Once a week",
-              "value": "once_week"
-            },
-            {
-              "label": "Few times a month",
+              "label": "Monthly",
               "value": "monthly"
             },
             {
-              "label": "Whenever it happens",
-              "value": "spontaneous"
+              "label": "Rarely",
+              "value": "rarely"
             }
           ]
         },
         {
-          "id": "emotional_intimacy",
-          "text": "How often do you need deep emotional conversations?",
+          "id": "kink_level",
+          "text": "How adventurous are you in bed?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Rarely",
-            "10": "Daily"
+            "1": "Vanilla",
+            "10": "Try Anything"
           }
         },
         {
-          "id": "vulnerability",
-          "text": "How comfortable are you being vulnerable?",
+          "id": "initiation",
+          "text": "Who should initiate intimacy?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Me mainly",
+              "value": "me"
+            },
+            {
+              "label": "Partner mainly",
+              "value": "partner"
+            },
+            {
+              "label": "Both equally",
+              "value": "both"
+            }
+          ]
+        },
+        {
+          "id": "cuddling",
+          "text": "How much do you like cuddling?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Very Guarded",
-            "10": "Open Book"
+            "1": "Don't Touch Me",
+            "10": "Human Koala"
+          }
+        },
+        {
+          "id": "pillow_talk",
+          "text": "Importance of pillow talk?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Sleep Immediately",
+            "10": "Talk for Hours"
+          }
+        },
+        {
+          "id": "turn_ons",
+          "text": "Biggest turn on?",
+          "type": "text",
+          "placeholder": "Intelligence, humor, looks..."
+        },
+        {
+          "id": "fantasies",
+          "text": "Do you share your fantasies?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Always"
           }
         }
       ]
@@ -230,46 +434,8 @@
     {
       "id": "money_finance",
       "title": "Money & Finance",
-      "description": "Let's talk about money.",
+      "description": "Financial compatibility.",
       "questions": [
-        {
-          "id": "money_mindset",
-          "text": "You get $10,000 unexpectedly. What do you do?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Invest it all",
-              "value": "invest"
-            },
-            {
-              "label": "Save most, spend a little",
-              "value": "save_mostly"
-            },
-            {
-              "label": "Split 50/50 save and spend",
-              "value": "balanced"
-            },
-            {
-              "label": "Treat myself, I deserve it",
-              "value": "spend"
-            },
-            {
-              "label": "Pay off debt",
-              "value": "debt"
-            }
-          ]
-        },
-        {
-          "id": "financial_transparency",
-          "text": "Should couples share all financial info?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Keep Separate",
-            "10": "100% Transparent"
-          }
-        },
         {
           "id": "spending_habits",
           "text": "Saver or Spender?",
@@ -282,888 +448,66 @@
           }
         },
         {
-          "id": "luxury_vs_practical",
-          "text": "Luxury experiences or practical necessities?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Practical Only",
-            "10": "Luxury Life"
-          }
+          "id": "shared_finances",
+          "text": "Joint bank accounts?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Everything Shared",
+              "value": "shared"
+            },
+            {
+              "label": "Separate Only",
+              "value": "separate"
+            },
+            {
+              "label": "Hybrid",
+              "value": "hybrid"
+            }
+          ]
         },
         {
           "id": "financial_goals",
-          "text": "What's your biggest financial goal?",
+          "text": "Top financial goal?",
           "type": "text",
-          "placeholder": "e.g., Buy a house, retire early, travel the world"
-        }
-      ]
-    },
-    {
-      "id": "career_ambition",
-      "title": "Career & Ambition",
-      "description": "What drives you?",
-      "questions": [
+          "placeholder": "House, travel, retirement..."
+        },
         {
-          "id": "career_importance",
-          "text": "Career ambition vs. Work-life balance?",
+          "id": "debt_views",
+          "text": "View on debt?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Pure Balance",
-            "10": "Career First"
+            "1": "Avoid like Plague",
+            "10": "Tool for Growth"
           }
         },
         {
-          "id": "work_hours",
-          "text": "How many hours/week are you willing to work?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "40 hours max",
-              "value": "40"
-            },
-            {
-              "label": "40-50 hours",
-              "value": "50"
-            },
-            {
-              "label": "50-60 hours",
-              "value": "60"
-            },
-            {
-              "label": "60+ hours (hustle mode)",
-              "value": "60plus"
-            },
-            {
-              "label": "Whatever it takes",
-              "value": "unlimited"
-            }
-          ]
-        },
-        {
-          "id": "relocation",
-          "text": "Would you relocate for a dream job?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Absolutely",
-              "value": "yes"
-            },
-            {
-              "label": "Only if partner agrees",
-              "value": "partner_agrees"
-            },
-            {
-              "label": "Depends on the city",
-              "value": "depends"
-            },
-            {
-              "label": "No, I'm rooted here",
-              "value": "no"
-            }
-          ]
-        },
-        {
-          "id": "entrepreneurship",
-          "text": "Do you want to start your own business someday?",
+          "id": "luxury_vs_necessity",
+          "text": "Splurge on luxury or stick to basics?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Never",
-            "10": "Definitely"
+            "1": "Basics",
+            "10": "Luxury"
           }
-        }
-      ]
-    },
-    {
-      "id": "conflict_communication",
-      "title": "Conflict & Communication",
-      "description": "How do you fight?",
-      "questions": [
-        {
-          "id": "conflict_style",
-          "text": "In a heated argument, what's your instinct?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Fight to win / Prove I'm right",
-              "value": "aggressive"
-            },
-            {
-              "label": "Shut down / Withdraw",
-              "value": "avoidant"
-            },
-            {
-              "label": "Apologize to keep peace",
-              "value": "pleaser"
-            },
-            {
-              "label": "Pause and discuss calmly",
-              "value": "secure"
-            }
-          ]
         },
         {
-          "id": "grudge_holder",
-          "text": "How long do you hold a grudge?",
+          "id": "investment_risk",
+          "text": "Investment risk tolerance?",
           "type": "scale",
           "min": 1,
           "max": 10,
           "labels": {
-            "1": "Forgive Instantly",
-            "10": "Never Forget"
+            "1": "Zero Risk",
+            "10": "High Risk/Crypto"
           }
         },
         {
-          "id": "communication_frequency",
-          "text": "How often do you need to talk to your partner?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Constant texting",
-              "value": "constant"
-            },
-            {
-              "label": "Few times a day",
-              "value": "daily"
-            },
-            {
-              "label": "Once a day check-in",
-              "value": "once_daily"
-            },
-            {
-              "label": "Every few days is fine",
-              "value": "few_days"
-            },
-            {
-              "label": "We're independent",
-              "value": "independent"
-            }
-          ]
-        },
-        {
-          "id": "passive_aggressive",
-          "text": "Do you ever get passive-aggressive?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Never",
-            "10": "Often"
-          }
-        }
-      ]
-    },
-    {
-      "id": "lifestyle_habits",
-      "title": "Lifestyle & Habits",
-      "description": "The day-to-day reality.",
-      "questions": [
-        {
-          "id": "cleanliness",
-          "text": "How clean/organized are you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Total Mess",
-            "10": "OCD Clean"
-          }
-        },
-        {
-          "id": "social_life",
-          "text": "Ideal Friday night?",
-          "type": "text",
-          "placeholder": "e.g., Clubbing till 4am, or Netflix and chill?"
-        },
-        {
-          "id": "alone_time",
-          "text": "How much alone time do you need?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Always Together",
-            "10": "Need Lots of Space"
-          }
-        },
-        {
-          "id": "health_fitness",
-          "text": "How important is health/fitness to you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not Important",
-            "10": "Gym is Life"
-          }
-        },
-        {
-          "id": "substance_use",
-          "text": "Alcohol/weed/party drugs?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Never touch it",
-              "value": "never"
-            },
-            {
-              "label": "Socially/occasionally",
-              "value": "social"
-            },
-            {
-              "label": "Regularly",
-              "value": "regular"
-            },
-            {
-              "label": "It's a lifestyle",
-              "value": "lifestyle"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "family_children",
-      "title": "Family & Children",
-      "description": "The big questions.",
-      "questions": [
-        {
-          "id": "want_kids",
-          "text": "Do you want kids?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Definitely yes",
-              "value": "yes"
-            },
-            {
-              "label": "Probably yes",
-              "value": "probably_yes"
-            },
-            {
-              "label": "Unsure/open",
-              "value": "unsure"
-            },
-            {
-              "label": "Probably no",
-              "value": "probably_no"
-            },
-            {
-              "label": "Definitely no",
-              "value": "no"
-            }
-          ]
-        },
-        {
-          "id": "number_of_kids",
-          "text": "If yes, how many?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "1",
-              "value": "1"
-            },
-            {
-              "label": "2",
-              "value": "2"
-            },
-            {
-              "label": "3+",
-              "value": "3plus"
-            },
-            {
-              "label": "Don't want kids",
-              "value": "none"
-            }
-          ]
-        },
-        {
-          "id": "parenting_style",
-          "text": "Strict parent or chill parent?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Chill/Relaxed",
-            "10": "Strict/Structured"
-          }
-        },
-        {
-          "id": "family_closeness",
-          "text": "How close are you with your family?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not Close",
-            "10": "Super Close"
-          }
-        },
-        {
-          "id": "in_laws",
-          "text": "How often should you see in-laws?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Weekly",
-              "value": "weekly"
-            },
-            {
-              "label": "Monthly",
-              "value": "monthly"
-            },
-            {
-              "label": "Few times a year",
-              "value": "yearly"
-            },
-            {
-              "label": "Holidays only",
-              "value": "holidays"
-            },
-            {
-              "label": "Rarely",
-              "value": "rarely"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "values_beliefs",
-      "title": "Values & Beliefs",
-      "description": "What do you stand for?",
-      "questions": [
-        {
-          "id": "religion_spirituality",
-          "text": "How important is religion/spirituality?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not at All",
-            "10": "Very Important"
-          }
-        },
-        {
-          "id": "politics",
-          "text": "How politically active are you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not at All",
-            "10": "Very Active"
-          }
-        },
-        {
-          "id": "tradition_vs_progress",
-          "text": "Tradition or Progress?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Tradition",
-            "10": "Progress"
-          }
-        },
-        {
-          "id": "logic_vs_emotion",
-          "text": "Head or Heart?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "100% Logic",
-            "10": "100% Emotion"
-          }
-        }
-      ]
-    },
-    {
-      "id": "tech_future",
-      "title": "Tech & Future",
-      "description": "Where are you headed?",
-      "questions": [
-        {
-          "id": "tech_savvy",
-          "text": "How tech-savvy are you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Technophobe",
-            "10": "Early Adopter"
-          }
-        },
-        {
-          "id": "ai_future",
-          "text": "Are you excited or scared about AI?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Scared",
-            "10": "Excited"
-          }
-        },
-        {
-          "id": "crypto",
-          "text": "What's your take on crypto?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "All in, it's the future",
-              "value": "all_in"
-            },
-            {
-              "label": "Interesting, small investment",
-              "value": "curious"
-            },
-            {
-              "label": "Skeptical but open",
-              "value": "skeptical"
-            },
-            {
-              "label": "Total scam",
-              "value": "scam"
-            }
-          ]
-        },
-        {
-          "id": "social_media",
-          "text": "How much time on social media daily?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "0-30 min",
-              "value": "minimal"
-            },
-            {
-              "label": "30min-1hr",
-              "value": "moderate"
-            },
-            {
-              "label": "1-3 hours",
-              "value": "regular"
-            },
-            {
-              "label": "3+ hours",
-              "value": "heavy"
-            },
-            {
-              "label": "I'm off social media",
-              "value": "none"
-            }
-          ]
-        },
-        {
-          "id": "remote_work",
-          "text": "Remote work or office?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Office Always",
-            "10": "Remote Forever"
-          }
-        }
-      ]
-    },
-    {
-      "id": "dealbreakers",
-      "title": "Dealbreakers & Boundaries",
-      "description": "What are your hard lines?",
-      "questions": [
-        {
-          "id": "cheating_definition",
-          "text": "What counts as cheating to you?",
-          "type": "text",
-          "placeholder": "e.g., Emotional affairs, flirting, etc."
-        },
-        {
-          "id": "forgive_cheating",
-          "text": "Could you forgive cheating?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Never",
-              "value": "never"
-            },
-            {
-              "label": "Depends on circumstances",
-              "value": "depends"
-            },
-            {
-              "label": "Yes, with therapy",
-              "value": "therapy"
-            },
-            {
-              "label": "Yes, people make mistakes",
-              "value": "yes"
-            }
-          ]
-        },
-        {
-          "id": "opposite_sex_friends",
-          "text": "Are you okay with your partner having close opposite-sex friends?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not Comfortable",
-            "10": "Totally Fine"
-          }
-        },
-        {
-          "id": "privacy",
-          "text": "Should couples share phone passwords?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Never",
-            "10": "Always"
-          }
-        }
-      ]
-    },
-    {
-      "id": "wildcard",
-      "title": "Wildcard Round",
-      "description": "The unexpected questions.",
-      "questions": [
-        {
-          "id": "zombie_apocalypse",
-          "text": "Zombie apocalypse: What's your role?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Leader",
-              "value": "leader"
-            },
-            {
-              "label": "Strategist",
-              "value": "strategist"
-            },
-            {
-              "label": "Fighter",
-              "value": "fighter"
-            },
-            {
-              "label": "Medic",
-              "value": "medic"
-            },
-            {
-              "label": "I'd die first",
-              "value": "dead"
-            }
-          ]
-        },
-        {
-          "id": "superpower",
-          "text": "If you could have one superpower?",
-          "type": "text",
-          "placeholder": "e.g., Time travel, mind reading, invisibility"
-        },
-        {
-          "id": "desert_island",
-          "text": "Desert island: 3 things you bring?",
-          "type": "text",
-          "placeholder": "List 3 items"
-        },
-        {
-          "id": "biggest_fear",
-          "text": "What's your biggest fear in a relationship?",
-          "type": "text",
-          "placeholder": "Be honest..."
-        },
-        {
-          "id": "perfect_day",
-          "text": "Describe your perfect day together:",
-          "type": "text",
-          "placeholder": "From morning to night..."
-        }
-      ]
-    },
-    {
-      "id": "travel_adventure",
-      "title": "Travel & Adventure",
-      "description": "Where do you want to go?",
-      "questions": [
-        {
-          "id": "travel_frequency",
-          "text": "How often do you want to travel?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Every month",
-              "value": "monthly"
-            },
-            {
-              "label": "Few times a year",
-              "value": "quarterly"
-            },
-            {
-              "label": "Once a year",
-              "value": "yearly"
-            },
-            {
-              "label": "Every few years",
-              "value": "rarely"
-            },
-            {
-              "label": "I'm a homebody",
-              "value": "never"
-            }
-          ]
-        },
-        {
-          "id": "travel_style",
-          "text": "Luxury resort or backpacking adventure?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Backpacking",
-            "10": "Luxury Resort"
-          }
-        },
-        {
-          "id": "bucket_list",
-          "text": "Top 3 places you MUST visit before you die:",
-          "type": "text",
-          "placeholder": "List 3 destinations"
-        },
-        {
-          "id": "live_abroad",
-          "text": "Would you live abroad for a year?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Never",
-            "10": "Absolutely"
-          }
-        }
-      ]
-    },
-    {
-      "id": "food_lifestyle",
-      "title": "Food & Lifestyle",
-      "description": "How do you live?",
-      "questions": [
-        {
-          "id": "cooking",
-          "text": "Do you enjoy cooking?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Hate It",
-            "10": "Love It"
-          }
-        },
-        {
-          "id": "diet",
-          "text": "Any dietary restrictions/preferences?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "None, I eat everything",
-              "value": "none"
-            },
-            {
-              "label": "Vegetarian",
-              "value": "vegetarian"
-            },
-            {
-              "label": "Vegan",
-              "value": "vegan"
-            },
-            {
-              "label": "Pescatarian",
-              "value": "pescatarian"
-            },
-            {
-              "label": "Keto/Low-carb",
-              "value": "keto"
-            },
-            {
-              "label": "Other",
-              "value": "other"
-            }
-          ]
-        },
-        {
-          "id": "eating_out",
-          "text": "How often do you eat out?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Daily",
-              "value": "daily"
-            },
-            {
-              "label": "Few times a week",
-              "value": "weekly"
-            },
-            {
-              "label": "Once a week",
-              "value": "once_week"
-            },
-            {
-              "label": "Few times a month",
-              "value": "monthly"
-            },
-            {
-              "label": "Rarely",
-              "value": "rarely"
-            }
-          ]
-        },
-        {
-          "id": "morning_routine",
-          "text": "Describe your ideal morning routine:",
-          "type": "text",
-          "placeholder": "e.g., Coffee, gym, meditation..."
-        }
-      ]
-    },
-    {
-      "id": "hobbies_interests",
-      "title": "Hobbies & Interests",
-      "description": "What do you love?",
-      "questions": [
-        {
-          "id": "main_hobby",
-          "text": "What's your main hobby/passion?",
-          "type": "text",
-          "placeholder": "e.g., Gaming, sports, art, music..."
-        },
-        {
-          "id": "creative_vs_analytical",
-          "text": "Creative or Analytical?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Analytical",
-            "10": "Creative"
-          }
-        },
-        {
-          "id": "sports_fan",
-          "text": "How into sports are you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not at All",
-            "10": "Die-Hard Fan"
-          }
-        },
-        {
-          "id": "gaming",
-          "text": "How much do you game?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Never",
-              "value": "never"
-            },
-            {
-              "label": "Casually",
-              "value": "casual"
-            },
-            {
-              "label": "Regularly (few hours/week)",
-              "value": "regular"
-            },
-            {
-              "label": "Hardcore (daily)",
-              "value": "hardcore"
-            },
-            {
-              "label": "It's my life",
-              "value": "lifestyle"
-            }
-          ]
-        },
-        {
-          "id": "reading",
-          "text": "How many books do you read per year?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "0",
-              "value": "none"
-            },
-            {
-              "label": "1-5",
-              "value": "few"
-            },
-            {
-              "label": "6-12",
-              "value": "monthly"
-            },
-            {
-              "label": "12-24",
-              "value": "biweekly"
-            },
-            {
-              "label": "24+",
-              "value": "weekly"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "personality_deep",
-      "title": "Personality Deep Dive",
-      "description": "The real you.",
-      "questions": [
-        {
-          "id": "optimist_pessimist",
-          "text": "Optimist or Pessimist?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Pessimist",
-            "10": "Optimist"
-          }
-        },
-        {
-          "id": "competitive",
-          "text": "How competitive are you?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Not at All",
-            "10": "Ultra Competitive"
-          }
-        },
-        {
-          "id": "perfectionist",
-          "text": "Are you a perfectionist?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Go with Flow",
-            "10": "Total Perfectionist"
-          }
-        },
-        {
-          "id": "procrastinator",
-          "text": "Do you procrastinate?",
+          "id": "borrowing_money",
+          "text": "Would you lend money to friends?",
           "type": "scale",
           "min": 1,
           "max": 10,
@@ -1173,231 +517,8 @@
           }
         },
         {
-          "id": "stress_response",
-          "text": "When stressed, you:",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Talk it out",
-              "value": "talk"
-            },
-            {
-              "label": "Need alone time",
-              "value": "alone"
-            },
-            {
-              "label": "Exercise/physical activity",
-              "value": "exercise"
-            },
-            {
-              "label": "Distract myself",
-              "value": "distract"
-            },
-            {
-              "label": "Shut down completely",
-              "value": "shutdown"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "relationship_history",
-      "title": "Relationship History",
-      "description": "Your past shapes your future.",
-      "questions": [
-        {
-          "id": "longest_relationship",
-          "text": "How long was your longest relationship?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Never been in one",
-              "value": "never"
-            },
-            {
-              "label": "Less than 6 months",
-              "value": "short"
-            },
-            {
-              "label": "6 months - 1 year",
-              "value": "medium"
-            },
-            {
-              "label": "1-3 years",
-              "value": "long"
-            },
-            {
-              "label": "3+ years",
-              "value": "very_long"
-            }
-          ]
-        },
-        {
-          "id": "breakup_pattern",
-          "text": "Who usually ends your relationships?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "I do",
-              "value": "me"
-            },
-            {
-              "label": "They do",
-              "value": "them"
-            },
-            {
-              "label": "Mutual",
-              "value": "mutual"
-            },
-            {
-              "label": "N/A",
-              "value": "na"
-            }
-          ]
-        },
-        {
-          "id": "attachment_style",
-          "text": "What's your attachment style?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Secure",
-              "value": "secure"
-            },
-            {
-              "label": "Anxious",
-              "value": "anxious"
-            },
-            {
-              "label": "Avoidant",
-              "value": "avoidant"
-            },
-            {
-              "label": "Fearful-avoidant",
-              "value": "fearful"
-            },
-            {
-              "label": "No idea",
-              "value": "unknown"
-            }
-          ]
-        },
-        {
-          "id": "learned_from_past",
-          "text": "Biggest lesson from past relationships:",
-          "type": "text",
-          "placeholder": "What did you learn?"
-        }
-      ]
-    },
-    {
-      "id": "future_goals",
-      "title": "Future & Goals",
-      "description": "Where are you going?",
-      "questions": [
-        {
-          "id": "five_year_plan",
-          "text": "Where do you see yourself in 5 years?",
-          "type": "text",
-          "placeholder": "Career, location, lifestyle..."
-        },
-        {
-          "id": "dream_career",
-          "text": "What's your dream career/job?",
-          "type": "text",
-          "placeholder": "If money wasn't an issue..."
-        },
-        {
-          "id": "retirement_age",
-          "text": "What age do you want to retire?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Before 40 (FIRE)",
-              "value": "early"
-            },
-            {
-              "label": "40-50",
-              "value": "mid"
-            },
-            {
-              "label": "50-60",
-              "value": "normal"
-            },
-            {
-              "label": "60-65",
-              "value": "standard"
-            },
-            {
-              "label": "Never, I love working",
-              "value": "never"
-            }
-          ]
-        },
-        {
-          "id": "legacy",
-          "text": "What do you want to be remembered for?",
-          "type": "text",
-          "placeholder": "Your legacy..."
-        }
-      ]
-    },
-    {
-      "id": "random_deep",
-      "title": "Random Deep Questions",
-      "description": "The unexpected ones.",
-      "questions": [
-        {
-          "id": "time_or_money",
-          "text": "Would you rather have more time or more money?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Time",
-              "value": "time"
-            },
-            {
-              "label": "Money",
-              "value": "money"
-            }
-          ]
-        },
-        {
-          "id": "fame_or_fortune",
-          "text": "Fame or Fortune?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Fame",
-              "value": "fame"
-            },
-            {
-              "label": "Fortune",
-              "value": "fortune"
-            }
-          ]
-        },
-        {
-          "id": "mind_reader",
-          "text": "Would you want to read your partner's mind?",
-          "type": "scale",
-          "min": 1,
-          "max": 10,
-          "labels": {
-            "1": "Never",
-            "10": "Absolutely"
-          }
-        },
-        {
-          "id": "second_chance",
-          "text": "If you could redo one thing in your life, what would it be?",
-          "type": "text",
-          "placeholder": "Be honest..."
-        },
-        {
-          "id": "deal_with_devil",
-          "text": "Would you sacrifice 10 years of your life for guaranteed success?",
+          "id": "prenup",
+          "text": "Would you sign a prenup?",
           "type": "multiple_choice",
           "options": [
             {
@@ -1409,7 +530,7 @@
               "value": "no"
             },
             {
-              "label": "Depends on the success",
+              "label": "Depends",
               "value": "depends"
             }
           ]
@@ -1417,13 +538,725 @@
       ]
     },
     {
-      "id": "wildcard",
-      "title": "Wildcard Round",
-      "description": "The unexpected questions.",
+      "id": "career_ambition",
+      "title": "Career & Ambition",
+      "description": "Work-life balance and goals.",
       "questions": [
         {
-          "id": "zombie_apocalypse",
-          "text": "Zombie apocalypse: What's your role?",
+          "id": "career_priority",
+          "text": "Career vs. Family?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Family First",
+            "10": "Career First"
+          }
+        },
+        {
+          "id": "work_hours",
+          "text": "Typical work week?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Part-time",
+              "value": "part_time"
+            },
+            {
+              "label": "9-5",
+              "value": "standard"
+            },
+            {
+              "label": "All the time",
+              "value": "hustle"
+            }
+          ]
+        },
+        {
+          "id": "relocation",
+          "text": "Relocate for a job?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Depends",
+              "value": "depends"
+            }
+          ]
+        },
+        {
+          "id": "entrepreneurship",
+          "text": "Want to start a business?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Dream"
+          }
+        },
+        {
+          "id": "stress_handling",
+          "text": "How do you handle work stress?",
+          "type": "text",
+          "placeholder": "Gym, vent, bottle it up..."
+        },
+        {
+          "id": "ambition_level",
+          "text": "How ambitious are you?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Content",
+            "10": "World Domination"
+          }
+        },
+        {
+          "id": "retirement_age",
+          "text": "Ideal retirement age?",
+          "type": "number",
+          "placeholder": "e.g. 60"
+        }
+      ]
+    },
+    {
+      "id": "communication",
+      "title": "Communication & Conflict",
+      "description": "How we talk.",
+      "questions": [
+        {
+          "id": "conflict_style",
+          "text": "Fight style?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yell it out",
+              "value": "yell"
+            },
+            {
+              "label": "Silent treatment",
+              "value": "silent"
+            },
+            {
+              "label": "Discuss calmly",
+              "value": "calm"
+            },
+            {
+              "label": "Avoid conflict",
+              "value": "avoid"
+            }
+          ]
+        },
+        {
+          "id": "texting_frequency",
+          "text": "Texting frequency?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Minimal",
+            "10": "24/7"
+          }
+        },
+        {
+          "id": "apology_style",
+          "text": "How do you apologize?",
+          "type": "text",
+          "placeholder": "Words, actions, gifts..."
+        },
+        {
+          "id": "grudge_holding",
+          "text": "Do you hold grudges?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Forgive Fast",
+            "10": "Never Forget"
+          }
+        },
+        {
+          "id": "venting",
+          "text": "Do you need to vent often?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Internalize",
+            "10": "Vent Everything"
+          }
+        },
+        {
+          "id": "deep_convos",
+          "text": "Love deep conversations?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Small Talk",
+            "10": "Deep Dive"
+          }
+        },
+        {
+          "id": "listening_skills",
+          "text": "Are you a good listener?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "I Interrupt",
+            "10": "All Ears"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lifestyle",
+      "title": "Lifestyle & Habits",
+      "description": "Daily life.",
+      "questions": [
+        {
+          "id": "cleanliness",
+          "text": "Neat freak or messy?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Total Chaos",
+            "10": "Surgery Room"
+          }
+        },
+        {
+          "id": "cooking",
+          "text": "Do you cook?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "UberEats",
+            "10": "MasterChef"
+          }
+        },
+        {
+          "id": "smoking",
+          "text": "Do you smoke?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Socially",
+              "value": "social"
+            }
+          ]
+        },
+        {
+          "id": "drinking",
+          "text": "Do you drink alcohol?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Socially",
+              "value": "social"
+            }
+          ]
+        },
+        {
+          "id": "pets",
+          "text": "Pet preference?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Dogs",
+              "value": "dogs"
+            },
+            {
+              "label": "Cats",
+              "value": "cats"
+            },
+            {
+              "label": "Both",
+              "value": "both"
+            },
+            {
+              "label": "None",
+              "value": "none"
+            }
+          ]
+        },
+        {
+          "id": "weekend_vibe",
+          "text": "Ideal weekend?",
+          "type": "text",
+          "placeholder": "Party, chill, adventure..."
+        },
+        {
+          "id": "fitness",
+          "text": "Importance of fitness?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Couch Potato",
+            "10": "Athlete"
+          }
+        },
+        {
+          "id": "dietary_restrictions",
+          "text": "Dietary restrictions?",
+          "type": "text",
+          "placeholder": "Vegan, Keto, None..."
+        }
+      ]
+    },
+    {
+      "id": "family",
+      "title": "Family & Values",
+      "description": "Roots and future.",
+      "questions": [
+        {
+          "id": "kids",
+          "text": "Do you want kids?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Unsure",
+              "value": "unsure"
+            }
+          ]
+        },
+        {
+          "id": "number_kids",
+          "text": "How many kids?",
+          "type": "number",
+          "placeholder": "0, 1, 2..."
+        },
+        {
+          "id": "family_closeness",
+          "text": "Close to your family?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Estranged",
+            "10": "Very Close"
+          }
+        },
+        {
+          "id": "religion",
+          "text": "Religious?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Atheist",
+            "10": "Devout"
+          }
+        },
+        {
+          "id": "politics",
+          "text": "Political views?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Liberal",
+              "value": "liberal"
+            },
+            {
+              "label": "Conservative",
+              "value": "conservative"
+            },
+            {
+              "label": "Moderate",
+              "value": "moderate"
+            },
+            {
+              "label": "Apolitical",
+              "value": "apolitical"
+            }
+          ]
+        },
+        {
+          "id": "parenting_style",
+          "text": "Hypothetical parenting style?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Strict",
+            "10": "Lenient"
+          }
+        },
+        {
+          "id": "care_for_parents",
+          "text": "Will parents live with you in old age?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Nursing Home",
+              "value": "home"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "future",
+      "title": "Tech & Future",
+      "description": "Looking ahead.",
+      "questions": [
+        {
+          "id": "ai_outlook",
+          "text": "Thoughts on AI?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Scared",
+            "10": "Excited"
+          }
+        },
+        {
+          "id": "tech_adoption",
+          "text": "Tech adoption?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Luddite",
+            "10": "Early Adopter"
+          }
+        },
+        {
+          "id": "crypto",
+          "text": "Own crypto?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            }
+          ]
+        },
+        {
+          "id": "space_travel",
+          "text": "Would you go to Mars?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Hell No",
+            "10": "Sign Me Up"
+          }
+        },
+        {
+          "id": "social_media_usage",
+          "text": "Social media addict?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Deleted Apps",
+            "10": "Influencer"
+          }
+        },
+        {
+          "id": "biohacking",
+          "text": "Would you chip your brain?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Yes"
+          }
+        }
+      ]
+    },
+    {
+      "id": "travel",
+      "title": "Travel & Adventure",
+      "description": "Exploring the world.",
+      "questions": [
+        {
+          "id": "travel_frequency",
+          "text": "How often to travel?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Monthly",
+              "value": "monthly"
+            },
+            {
+              "label": "Yearly",
+              "value": "yearly"
+            },
+            {
+              "label": "Rarely",
+              "value": "rarely"
+            }
+          ]
+        },
+        {
+          "id": "travel_style",
+          "text": "Style?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Backpacking",
+            "10": "5-Star Resort"
+          }
+        },
+        {
+          "id": "bucket_list",
+          "text": "Top bucket list destination?",
+          "type": "text",
+          "placeholder": "Japan, Paris, etc."
+        },
+        {
+          "id": "nature_city",
+          "text": "Nature or City?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Deep Nature",
+            "10": "Urban Jungle"
+          }
+        },
+        {
+          "id": "museums_parties",
+          "text": "Museums or Parties?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "All Culture",
+            "10": "All Party"
+          }
+        },
+        {
+          "id": "live_abroad",
+          "text": "Ever live abroad?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "Want to",
+              "value": "want"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hobbies",
+      "title": "Hobbies & Fun",
+      "description": "What you do for fun.",
+      "questions": [
+        {
+          "id": "music_taste",
+          "text": "Music taste?",
+          "type": "text",
+          "placeholder": "Rock, Pop, EDM..."
+        },
+        {
+          "id": "movies_books",
+          "text": "Movies or Books?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Movies Only",
+            "10": "Books Only"
+          }
+        },
+        {
+          "id": "artistic",
+          "text": "Are you artistic?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Stick Figures",
+            "10": "Artist"
+          }
+        },
+        {
+          "id": "gaming",
+          "text": "Gamer?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Never",
+            "10": "Hardcore"
+          }
+        },
+        {
+          "id": "sports",
+          "text": "Watch sports?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Boring",
+            "10": "Obsessed"
+          }
+        },
+        {
+          "id": "dancing",
+          "text": "Do you dance?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Two Left Feet",
+            "10": "Pro"
+          }
+        }
+      ]
+    },
+    {
+      "id": "deep_dive",
+      "title": "Deep Dive",
+      "description": "Getting philosophical.",
+      "questions": [
+        {
+          "id": "meaning_life",
+          "text": "Is there a meaning to life?",
+          "type": "multiple_choice",
+          "options": [
+            {
+              "label": "Yes",
+              "value": "yes"
+            },
+            {
+              "label": "No",
+              "value": "no"
+            },
+            {
+              "label": "We make it",
+              "value": "make_it"
+            }
+          ]
+        },
+        {
+          "id": "ghosts",
+          "text": "Believe in ghosts?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Nonsense",
+            "10": "Seen One"
+          }
+        },
+        {
+          "id": "aliens",
+          "text": "Aliens exist?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Alone",
+            "10": "Among Us"
+          }
+        },
+        {
+          "id": "biggest_fear",
+          "text": "Biggest fear?",
+          "type": "text",
+          "placeholder": "Spiders, failure, heights..."
+        },
+        {
+          "id": "perfect_day",
+          "text": "Describe a perfect day.",
+          "type": "text",
+          "placeholder": "Start to finish..."
+        },
+        {
+          "id": "death_views",
+          "text": "Fear death?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Terrified",
+            "10": "Accepted"
+          }
+        },
+        {
+          "id": "fate_freewill",
+          "text": "Fate or Free Will?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Fate",
+            "10": "Free Will"
+          }
+        }
+      ]
+    },
+    {
+      "id": "random",
+      "title": "Wildcards",
+      "description": "Just for fun.",
+      "questions": [
+        {
+          "id": "zombie_role",
+          "text": "Role in Zombie Apocalypse?",
           "type": "multiple_choice",
           "options": [
             {
@@ -1431,255 +1264,54 @@
               "value": "leader"
             },
             {
-              "label": "Strategist",
-              "value": "strategist"
-            },
-            {
               "label": "Fighter",
               "value": "fighter"
             },
             {
-              "label": "Medic",
-              "value": "medic"
-            },
-            {
-              "label": "I'd die first",
-              "value": "dead"
+              "label": "Bait",
+              "value": "bait"
             }
           ]
         },
         {
           "id": "superpower",
-          "text": "If you could have one superpower?",
+          "text": "Choose a superpower.",
           "type": "text",
-          "placeholder": "e.g., Time travel, mind reading, invisibility"
+          "placeholder": "Flight, strength..."
+        },
+        {
+          "id": "time_travel",
+          "text": "Past or Future?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Past",
+            "10": "Future"
+          }
+        },
+        {
+          "id": "lottery",
+          "text": "Win lottery: Spend or Save?",
+          "type": "scale",
+          "min": 1,
+          "max": 10,
+          "labels": {
+            "1": "Blow it all",
+            "10": "Invest it all"
+          }
+        },
+        {
+          "id": "animal",
+          "text": "What animal are you?",
+          "type": "text",
+          "placeholder": "Lion, sloth..."
         },
         {
           "id": "desert_island",
-          "text": "Desert island: 3 things you bring?",
+          "text": "Three items on desert island?",
           "type": "text",
-          "placeholder": "List 3 items"
-        },
-        {
-          "id": "biggest_fear",
-          "text": "What's your biggest fear in a relationship?",
-          "type": "text",
-          "placeholder": "Be honest..."
-        },
-        {
-          "id": "perfect_day",
-          "text": "Describe your perfect day together:",
-          "type": "text",
-          "placeholder": "From morning to night..."
-        }
-      ]
-    },
-    {
-      "id": "rapid_fire",
-      "title": "Rapid Fire Round",
-      "description": "Quick answers, no overthinking!",
-      "questions": [
-        {
-          "id": "dog_or_cat",
-          "text": "Dog or Cat?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Dog",
-              "value": "dog"
-            },
-            {
-              "label": "Cat",
-              "value": "cat"
-            },
-            {
-              "label": "Both",
-              "value": "both"
-            },
-            {
-              "label": "Neither",
-              "value": "neither"
-            }
-          ]
-        },
-        {
-          "id": "coffee_or_tea",
-          "text": "Coffee or Tea?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Coffee",
-              "value": "coffee"
-            },
-            {
-              "label": "Tea",
-              "value": "tea"
-            },
-            {
-              "label": "Both",
-              "value": "both"
-            },
-            {
-              "label": "Neither",
-              "value": "neither"
-            }
-          ]
-        },
-        {
-          "id": "beach_or_mountains",
-          "text": "Beach or Mountains?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Beach",
-              "value": "beach"
-            },
-            {
-              "label": "Mountains",
-              "value": "mountains"
-            }
-          ]
-        },
-        {
-          "id": "summer_or_winter",
-          "text": "Summer or Winter?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Summer",
-              "value": "summer"
-            },
-            {
-              "label": "Winter",
-              "value": "winter"
-            }
-          ]
-        },
-        {
-          "id": "city_or_countryside",
-          "text": "City or Countryside?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "City",
-              "value": "city"
-            },
-            {
-              "label": "Countryside",
-              "value": "countryside"
-            }
-          ]
-        },
-        {
-          "id": "early_bird_night_owl",
-          "text": "Early bird gets the worm or night owl?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Early bird",
-              "value": "early"
-            },
-            {
-              "label": "Night owl",
-              "value": "night"
-            }
-          ]
-        },
-        {
-          "id": "netflix_or_cinema",
-          "text": "Netflix at home or Cinema?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Netflix",
-              "value": "netflix"
-            },
-            {
-              "label": "Cinema",
-              "value": "cinema"
-            }
-          ]
-        },
-        {
-          "id": "text_or_call",
-          "text": "Text or Call?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Text",
-              "value": "text"
-            },
-            {
-              "label": "Call",
-              "value": "call"
-            }
-          ]
-        },
-        {
-          "id": "sweet_or_savory",
-          "text": "Sweet or Savory?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Sweet",
-              "value": "sweet"
-            },
-            {
-              "label": "Savory",
-              "value": "savory"
-            }
-          ]
-        },
-        {
-          "id": "shower_or_bath",
-          "text": "Shower or Bath?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Shower",
-              "value": "shower"
-            },
-            {
-              "label": "Bath",
-              "value": "bath"
-            }
-          ]
-        },
-        {
-          "id": "plan_or_wing_it",
-          "text": "Plan everything or wing it?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Plan everything",
-              "value": "plan"
-            },
-            {
-              "label": "Wing it",
-              "value": "wing"
-            }
-          ]
-        },
-        {
-          "id": "save_or_spend",
-          "text": "Save for tomorrow or live for today?",
-          "type": "multiple_choice",
-          "options": [
-            {
-              "label": "Save",
-              "value": "save"
-            },
-            {
-              "label": "Spend",
-              "value": "spend"
-            }
-          ]
-        },
-        {
-          "id": "final_words",
-          "text": "Any final thoughts or dealbreakers we should know?",
-          "type": "text",
-          "placeholder": "Last chance to share anything important..."
+          "placeholder": "Knife, book, sunscreen..."
         }
       ]
     }

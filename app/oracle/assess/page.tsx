@@ -11,8 +11,9 @@ import QRCode from "qrcode";
 function OracleAssessmentContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const sessionId = searchParams.get("session");
+    const urlSessionId = searchParams.get("session");
 
+    const [sessionId, setSessionId] = useState<string | null>(urlSessionId);
     const [mode, setMode] = useState<"landing" | "solo" | "join" | "waiting" | "ready" | "assessment">("landing");
     const [shareLink, setShareLink] = useState("");
     const [qrCode, setQrCode] = useState("");
@@ -20,45 +21,101 @@ function OracleAssessmentContent() {
     const [answers, setAnswers] = useState<Record<string, any>>({});
     const [myRole, setMyRole] = useState<"A" | "B">("A");
     const [myStatus, setMyStatus] = useState<"answering" | "done">("answering");
+    const [copied, setCopied] = useState(false);
 
     const allQuestions = questionsData.domains.flatMap((domain: any) => domain.questions);
 
+    // Initial check for session
     useEffect(() => {
-        if (sessionId) {
+        if (urlSessionId) {
+            setSessionId(urlSessionId);
             setMyRole("B");
             setMode("join");
 
-            const statusA = localStorage.getItem(`session_${sessionId}_status_A`);
-            if (statusA === "done") {
-                checkBothReady();
-            }
+            // Check if A is already done (optional optimization)
+            checkSessionStatus(urlSessionId);
         }
-    }, [sessionId]);
+    }, [urlSessionId]);
+
+    // Polling when waiting
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (mode === "waiting" && sessionId) {
+            interval = setInterval(() => {
+                checkSessionStatus(sessionId);
+            }, 3000);
+        }
+        return () => clearInterval(interval);
+    }, [mode, sessionId]);
+
+    const checkSessionStatus = async (id: string) => {
+        try {
+            const res = await fetch(`/api/session?id=${id}`);
+            if (res.ok) {
+                const session = await res.json();
+
+                // If I am waiting, check if both are done
+                if (session.status_A === 'done' && session.status_B === 'done') {
+                    // Sync partner agent data
+                    const partnerRole = myRole === 'A' ? 'B' : 'A';
+                    const partnerAgent = session[`agent_${partnerRole}`];
+                    const myAgent = session[`agent_${myRole}`];
+
+                    if (partnerAgent) {
+                        localStorage.setItem(`theplot_agent_${partnerRole.toLowerCase()}`, JSON.stringify(partnerAgent));
+                    }
+                    if (myAgent) {
+                        localStorage.setItem(`theplot_agent_${myRole.toLowerCase()}`, JSON.stringify(myAgent));
+                    }
+
+                    setMode("ready");
+                }
+            }
+        } catch (error) {
+            console.error("Failed to poll session:", error);
+        }
+    };
 
     const createSession = async () => {
-        const newSessionId = Math.random().toString(36).substring(2, 15);
-        const link = `${window.location.origin}/oracle/assess?session=${newSessionId}`;
-        setShareLink(link);
+        try {
+            const res = await fetch('/api/session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'create' })
+            });
+            const session = await res.json();
+            const newSessionId = session.id;
 
-        const qr = await QRCode.toDataURL(link, {
-            width: 300,
-            margin: 2,
-            color: { dark: "#8B5CF6", light: "#000000" }
-        });
-        setQrCode(qr);
+            setSessionId(newSessionId);
+            const link = `${window.location.origin}/oracle/assess?session=${newSessionId}`;
+            setShareLink(link);
 
-        setMyRole("A");
-        setMode("solo");
+            const qr = await QRCode.toDataURL(link, {
+                width: 300,
+                margin: 2,
+                color: { dark: "#8B5CF6", light: "#000000" }
+            });
+            setQrCode(qr);
 
-        localStorage.setItem(`session_${newSessionId}_creator`, "true");
+            setMyRole("A");
+            setMode("solo");
+        } catch (e) {
+            console.error("Error creating session", e);
+        }
     };
 
     const startAssessment = () => {
         setMode("assessment");
     };
 
-    const copyLink = () => {
-        navigator.clipboard.writeText(shareLink);
+    const copyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareLink);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
     };
 
     const shareOnWhatsApp = () => {
@@ -78,20 +135,34 @@ function OracleAssessmentContent() {
         }
     };
 
-    const completeAssessment = (finalAnswers: Record<string, any>) => {
+    const completeAssessment = async (finalAnswers: Record<string, any>) => {
         const persona = generatePersonaFromAnswers(finalAnswers);
         if (finalAnswers["name"]) persona.name = finalAnswers["name"];
 
+        // Save locally just in case
         const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
         localStorage.setItem(key, JSON.stringify(persona));
 
         if (sessionId) {
-            localStorage.setItem(`session_${sessionId}_status_${myRole}`, "done");
-            localStorage.setItem(`session_${sessionId}_agent_${myRole}`, JSON.stringify(persona));
+            // Update server
+            await fetch('/api/session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'update',
+                    id: sessionId,
+                    role: myRole,
+                    status: 'done',
+                    agent: persona
+                })
+            });
 
             setMyStatus("done");
-            checkBothReady();
+            setMode("waiting");
+            checkSessionStatus(sessionId); // Immediate check
         } else {
+            // Solo mode fallback (no session ID?) - shouldn't happen if initialized correctly
+            // But if user just goes to /assess without session
             const genericPartner = {
                 name: "Partner",
                 traits: ["thoughtful", "caring", "independent"],
@@ -105,23 +176,9 @@ function OracleAssessmentContent() {
         }
     };
 
+    // Manual check button
     const checkBothReady = () => {
-        if (!sessionId) return;
-
-        const statusA = localStorage.getItem(`session_${sessionId}_status_A`);
-        const statusB = localStorage.getItem(`session_${sessionId}_status_B`);
-
-        if (statusA === "done" && statusB === "done") {
-            const agentA = localStorage.getItem(`session_${sessionId}_agent_A`);
-            const agentB = localStorage.getItem(`session_${sessionId}_agent_B`);
-
-            if (agentA) localStorage.setItem("theplot_agent_a", agentA);
-            if (agentB) localStorage.setItem("theplot_agent_b", agentB);
-
-            setMode("ready");
-        } else {
-            setMode("waiting");
-        }
+        if (sessionId) checkSessionStatus(sessionId);
     };
 
     const startSimulation = () => {
@@ -172,7 +229,7 @@ function OracleAssessmentContent() {
                             onClick={copyLink}
                             className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600"
                         >
-                            📋 Copy
+                            {copied ? "✅ Copied!" : "📋 Copy"}
                         </Button>
                         <Button
                             onClick={shareOnWhatsApp}
@@ -207,7 +264,7 @@ function OracleAssessmentContent() {
                     <div className="bg-gray-900/50 border border-purple-500/30 rounded-xl p-6 text-left space-y-3">
                         <h3 className="text-lg font-semibold text-purple-400">What happens next:</h3>
                         <ul className="space-y-2 text-sm text-gray-300">
-                            <li>✨ Answer 105 questions about yourself</li>
+                            <li>✨ Answer {allQuestions.length} questions about yourself</li>
                             <li>🔮 AI simulates your relationship over 10 years</li>
                             <li>📊 Get a detailed compatibility report</li>
                             <li>⏱️ Takes about 20 minutes</li>
@@ -234,7 +291,7 @@ function OracleAssessmentContent() {
                     <p className="text-gray-400">Waiting for your partner to finish...</p>
 
                     <div className="bg-gray-900/50 border border-purple-500/30 rounded-xl p-6">
-                        <p className="text-sm text-gray-400 mb-4">Ask them to click "I'm Done" when they finish</p>
+                        <p className="text-sm text-gray-400 mb-4">Ask them to click "I'm Done" when they finish (or check automatically)</p>
                         <Button
                             onClick={checkBothReady}
                             className="w-full bg-gradient-to-r from-purple-600 to-pink-600"
