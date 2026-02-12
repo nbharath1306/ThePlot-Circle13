@@ -42,6 +42,8 @@ export async function POST(request: Request) {
             const updateData: any = {};
             if (status) updateData[`status_${role}`] = status;
             if (agent) updateData[`agent_${role}`] = agent;
+            if (typeof body.progress === 'number') updateData[`progress_${role}`] = body.progress;
+            updateData[`last_active_${role}`] = Date.now();
 
             const session = saveSession(id, updateData);
             return NextResponse.json(session);

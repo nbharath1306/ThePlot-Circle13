@@ -10,6 +10,10 @@ export interface SessionData {
     created_at: number;
     status_A: 'answering' | 'done';
     status_B: 'waiting' | 'answering' | 'done';
+    progress_A?: number;
+    progress_B?: number;
+    last_active_A?: number;
+    last_active_B?: number;
     agent_A?: any;
     agent_B?: any;
 }

@@ -38,16 +38,12 @@ function OracleAssessmentContent() {
     }, [urlSessionId]);
 
     // Polling when waiting
-    useEffect(() => {
-        let interval: NodeJS.Timeout;
-        if (mode === "waiting" && sessionId) {
-            interval = setInterval(() => {
-                checkSessionStatus(sessionId);
-            }, 3000);
-        }
-        return () => clearInterval(interval);
-    }, [mode, sessionId]);
+    // State for partner tracking
+    const [partnerProgress, setPartnerProgress] = useState(0);
+    const [partnerActive, setPartnerActive] = useState(false);
+    const [lastPartnerUpdate, setLastPartnerUpdate] = useState(0);
 
+    // Define checkSessionStatus FIRST so it can be used
     const checkSessionStatus = async (id: string) => {
         try {
             const res = await fetch(`/api/session?id=${id}`);
@@ -68,13 +64,85 @@ function OracleAssessmentContent() {
                         localStorage.setItem(`theplot_agent_${myRole.toLowerCase()}`, JSON.stringify(myAgent));
                     }
 
-                    setMode("ready");
+                    if (mode === 'waiting') setMode("ready");
+                }
+
+                // Update Partner Progress
+                const partnerRole = myRole === 'A' ? 'B' : 'A';
+                const pProgress = session[`progress_${partnerRole}`] || 0;
+                setPartnerProgress(pProgress);
+
+                const lastActive = session[`last_active_${partnerRole}`] || 0;
+                // Active if updated in last 10 seconds
+                const isActive = (Date.now() - lastActive) < 10000;
+                setPartnerActive(isActive);
+                if (isActive && lastActive > lastPartnerUpdate) {
+                    setLastPartnerUpdate(lastActive);
                 }
             }
         } catch (error) {
             console.error("Failed to poll session:", error);
         }
     };
+
+    // Define completeAssessment SECOND
+    const completeAssessment = async (finalAnswers: Record<string, any>) => {
+        const persona = generatePersonaFromAnswers(finalAnswers);
+        if (finalAnswers["name"]) persona.name = finalAnswers["name"];
+
+        // Save locally just in case
+        const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
+        localStorage.setItem(key, JSON.stringify(persona));
+
+        if (sessionId) {
+            // Update server
+            await fetch('/api/session', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    action: 'update',
+                    id: sessionId,
+                    role: myRole,
+                    status: 'done',
+                    agent: persona
+                })
+            });
+
+            setMyStatus("done");
+            setMode("waiting");
+            checkSessionStatus(sessionId); // Immediate check
+        } else {
+            // Solo mode fallback
+            const genericPartner = {
+                name: "Partner",
+                traits: ["thoughtful", "caring", "independent"],
+                values: ["honesty", "growth", "adventure"],
+                conflictStyle: "collaborative",
+                loveLanguage: "quality time",
+                style: "balanced and considerate"
+            };
+            localStorage.setItem("theplot_agent_b", JSON.stringify(genericPartner));
+            router.push("/oracle/timeline");
+        }
+    };
+
+    // Now Effects can use them safely
+    useEffect(() => {
+        let interval: NodeJS.Timeout;
+        if (mode === "waiting" && sessionId) {
+            interval = setInterval(() => {
+                checkSessionStatus(sessionId);
+            }, 3000);
+        }
+        // Poll for partner progress during assessment
+        if (mode === "assessment" && sessionId) {
+            interval = setInterval(() => {
+                checkSessionStatus(sessionId);
+            }, 2000);
+        }
+
+        return () => clearInterval(interval);
+    }, [mode, sessionId]);
 
     const createSession = async () => {
         try {
@@ -123,56 +191,35 @@ function OracleAssessmentContent() {
         window.open(`https://wa.me/?text=${message}`, '_blank');
     };
 
-    const handleAnswer = (answer: any) => {
+
+
+    const handleAnswer = async (answer: any) => {
         const questionId = allQuestions[currentQuestionIndex].id;
         const newAnswers = { ...answers, [questionId]: answer };
         setAnswers(newAnswers);
 
-        if (currentQuestionIndex < allQuestions.length - 1) {
-            setCurrentQuestionIndex((prev) => prev + 1);
-        } else {
-            completeAssessment(newAnswers);
-        }
-    };
+        // Optimistic UI update
+        const nextIndex = currentQuestionIndex + 1;
 
-    const completeAssessment = async (finalAnswers: Record<string, any>) => {
-        const persona = generatePersonaFromAnswers(finalAnswers);
-        if (finalAnswers["name"]) persona.name = finalAnswers["name"];
-
-        // Save locally just in case
-        const key = myRole === "A" ? "theplot_agent_a" : "theplot_agent_b";
-        localStorage.setItem(key, JSON.stringify(persona));
-
+        // Send progress update
         if (sessionId) {
-            // Update server
-            await fetch('/api/session', {
+            // Fire and forget to not block UI
+            fetch('/api/session', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     action: 'update',
                     id: sessionId,
                     role: myRole,
-                    status: 'done',
-                    agent: persona
+                    progress: nextIndex // sending 1-based index or 0-based index? let's stick to index
                 })
-            });
+            }).catch(console.error);
+        }
 
-            setMyStatus("done");
-            setMode("waiting");
-            checkSessionStatus(sessionId); // Immediate check
+        if (currentQuestionIndex < allQuestions.length - 1) {
+            setCurrentQuestionIndex((prev) => prev + 1);
         } else {
-            // Solo mode fallback (no session ID?) - shouldn't happen if initialized correctly
-            // But if user just goes to /assess without session
-            const genericPartner = {
-                name: "Partner",
-                traits: ["thoughtful", "caring", "independent"],
-                values: ["honesty", "growth", "adventure"],
-                conflictStyle: "collaborative",
-                loveLanguage: "quality time",
-                style: "balanced and considerate"
-            };
-            localStorage.setItem("theplot_agent_b", JSON.stringify(genericPartner));
-            router.push("/oracle/timeline");
+            completeAssessment(newAnswers);
         }
     };
 
@@ -326,23 +373,52 @@ function OracleAssessmentContent() {
     return (
         <main className="min-h-screen bg-black text-white p-4">
             <div className="max-w-4xl mx-auto py-8">
-                <div className="mb-8">
-                    <div className="flex justify-between items-center mb-4">
+                <div className="mb-8 space-y-2">
+                    <div className="flex justify-between items-center mb-2">
                         <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
                             The Oracle Assessment
                         </h1>
-                        <span className="text-sm text-gray-400">
+                        <span className="text-sm text-gray-400 font-mono">
                             {currentQuestionIndex + 1}/{allQuestions.length}
                         </span>
                     </div>
-                    <div className="w-full bg-gray-800 rounded-full h-2">
+
+                    {/* Dual Progress Bar */}
+                    <div className="relative w-full h-3 bg-gray-800 rounded-full overflow-hidden shadow-inner">
+                        {/* My Progress */}
                         <div
-                            className="bg-gradient-to-r from-purple-600 to-pink-600 h-2 rounded-full transition-all duration-300"
+                            className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-600 to-pink-600 transition-all duration-300 z-20"
                             style={{
                                 width: `${((currentQuestionIndex + 1) / allQuestions.length) * 100}%`,
                             }}
                         />
+                        {/* Partner Progress (Ghost) */}
+                        {sessionId && (
+                            <div
+                                className="absolute top-0 left-0 h-full bg-white/20 transition-all duration-1000 ease-out z-10"
+                                style={{
+                                    width: `${((partnerProgress + 1) / allQuestions.length) * 100}%`,
+                                }}
+                            />
+                        )}
                     </div>
+
+                    {/* Partner Status Indicator */}
+                    {sessionId && (
+                        <div className="flex justify-end items-center gap-2 h-6">
+                            {partnerActive ? (
+                                <>
+                                    <span className="relative flex h-2 w-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+                                    </span>
+                                    <span className="text-xs text-green-400 animate-pulse">Partner is answering...</span>
+                                </>
+                            ) : (
+                                <span className="text-xs text-gray-500">Partner offline</span>
+                            )}
+                        </div>
+                    )}
                 </div>
 
                 <QuestionCard

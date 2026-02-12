@@ -109,14 +109,21 @@ export default function OracleTimelinePage() {
         return () => clearTimeout(timeout);
     }, [isPlaying, loading, turnCount]);
 
+    const [fullHistory, setFullHistory] = useState<Message[]>([]);
+
     const handleNextScenario = () => {
+        // Accumulate history
+        const updatedHistory = [...fullHistory, ...messages];
+        setFullHistory(updatedHistory);
+
         if (!isLastScenario) {
             setCurrentScenarioIndex(prev => prev + 1);
             setMessages([]);
             setTurnCount(0);
             setScenarioComplete(false);
         } else {
-            // Navigate to final report
+            // Save full history for report
+            localStorage.setItem("theplot_sim_history", JSON.stringify(updatedHistory));
             router.push("/oracle/report");
         }
     };
