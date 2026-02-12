@@ -1,8 +1,10 @@
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
+// Initialize Groq client only if API key is available
+// This prevents build-time errors when the key is not set
+const groq = process.env.GROQ_API_KEY
+    ? new Groq({ apiKey: process.env.GROQ_API_KEY })
+    : null;
 
 export interface AgentResponse {
     message: string;
@@ -16,6 +18,15 @@ export async function createAgentResponse(
     temperature: number = 0.7
 ): Promise<AgentResponse> {
     try {
+        // Check if Groq client is initialized
+        if (!groq) {
+            return {
+                message: "",
+                success: false,
+                error: "GROQ API key is not configured. Please add GROQ_API_KEY to your environment variables.",
+            };
+        }
+
         const chatCompletion = await groq.chat.completions.create({
             messages: [
                 { role: "system", content: systemPrompt },

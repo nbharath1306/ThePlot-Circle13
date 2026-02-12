@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import Groq from "groq-sdk";
 
-const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,
-});
+// Initialize Groq client only if API key is available
+const groq = process.env.GROQ_API_KEY
+    ? new Groq({ apiKey: process.env.GROQ_API_KEY })
+    : null;
 
 export async function POST(req: NextRequest) {
     try {
@@ -14,6 +15,14 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(
                 { error: "Missing required fields" },
                 { status: 400 }
+            );
+        }
+
+        // Check if Groq client is initialized
+        if (!groq) {
+            return NextResponse.json(
+                { error: "GROQ API key is not configured. Please add GROQ_API_KEY to your environment variables." },
+                { status: 500 }
             );
         }
 
