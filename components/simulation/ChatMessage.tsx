@@ -16,35 +16,48 @@ interface ChatMessageProps {
 export default function ChatMessage({ message, isLeft }: ChatMessageProps) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ type: "spring", stiffness: 500, damping: 30 }}
-            className={cn("flex w-full mb-6", isLeft ? "justify-start" : "justify-end")}
+            initial={{ opacity: 0, x: isLeft ? -20 : 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className={cn("flex w-full mb-8", isLeft ? "justify-start" : "justify-end")}
         >
             <div
                 className={cn(
-                    "max-w-[85%] sm:max-w-[75%] rounded-3xl p-5 relative shadow-lg backdrop-blur-sm",
+                    "max-w-[90%] md:max-w-[80%] p-6 relative border transition-all duration-300 group",
                     isLeft
-                        ? "bg-gray-800/80 rounded-tl-none text-white border border-white/5"
-                        : "bg-primary/20 rounded-tr-none text-white border border-primary/20"
+                        ? "bg-gray-900/80 border-l-4 border-l-blue-500 border-y-transparent border-r-transparent hover:border-r-white/10"
+                        : "bg-gray-900/80 border-r-4 border-r-purple-500 border-y-transparent border-l-transparent hover:border-l-white/10"
                 )}
             >
-                <div className="flex justify-between items-center mb-2">
-                    <span className={cn("text-xs font-bold tracking-wider uppercase opacity-70", isLeft ? "text-blue-300" : "text-pink-300")}>
+                {/* Tech Deco Elements */}
+                <div className={cn("absolute top-0 w-2 h-2 border-t border-white/20", isLeft ? "left-0 border-l" : "right-0 border-r")} />
+                <div className={cn("absolute bottom-0 w-2 h-2 border-b border-white/20", isLeft ? "left-0 border-l" : "right-0 border-r")} />
+
+                <div className="flex justify-between items-baseline mb-3 border-b border-white/5 pb-2">
+                    <span className={cn(
+                        "text-xs font-mono font-bold tracking-[0.2em] uppercase",
+                        isLeft ? "text-blue-400" : "text-purple-400"
+                    )}>
                         {message.speaker}
                     </span>
                     {message.emotion && (
-                        <span className="text-xs py-0.5 px-2 rounded-full bg-black/20 text-white/70">
-                            {message.emotion}
+                        <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest border border-white/10 px-2 py-0.5">
+                            STATUS: {message.emotion}
                         </span>
                     )}
                 </div>
-                <p className="text-base md:text-lg leading-relaxed font-sans">{message.text}</p>
+
+                <p className="text-sm md:text-base leading-relaxed text-gray-200 font-sans tracking-wide">
+                    {message.text}
+                </p>
 
                 {message.internal_thought && (
-                    <div className="mt-3 pt-3 border-t border-white/10 text-xs text-gray-400 font-mono italic flex items-start gap-2">
-                        <span>💭</span>
-                        <span>{message.internal_thought}</span>
+                    <div className="mt-4 pt-4 border-t border-white/5 relative">
+                        <div className="absolute top-0 left-0 text-[10px] text-gray-600 font-mono -translate-y-1/2 bg-gray-900 px-2">
+                            INTERNAL_LOG
+                        </div>
+                        <p className="text-xs text-gray-400 font-mono italic leading-relaxed opacity-70 group-hover:opacity-100 transition-opacity">
+                            {`>> ${message.internal_thought}`}
+                        </p>
                     </div>
                 )}
             </div>

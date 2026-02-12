@@ -33,54 +33,56 @@ export default function DetectivePage() {
 
     if (mode === "landing") {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center p-4">
-                <div className="max-w-2xl text-center space-y-8">
-                    <div className="text-8xl mb-6">🕵️</div>
+            <main className="min-h-screen bg-black text-white flex items-center justify-center p-4 relative overflow-hidden">
+                {/* Aurora Background - Mystery Theme */}
+                <div className="absolute inset-0 bg-black pointer-events-none">
+                    <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-blue-900/30 blur-[100px] rounded-full animate-blob mix-blend-screen" />
+                    <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-purple-900/30 blur-[100px] rounded-full animate-blob animation-delay-2000 mix-blend-screen" />
+                    <div className="absolute top-[20%] right-[20%] w-[40vw] h-[40vw] bg-indigo-900/30 blur-[100px] rounded-full animate-blob animation-delay-4000 mix-blend-screen" />
+                </div>
 
-                    <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent">
-                        The Detective
-                    </h1>
+                <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none mix-blend-overlay" />
 
-                    <p className="text-xl text-gray-300">
-                        Predict where your relationship is headed.
-                        <br />
-                        Get the intel before you catch feelings.
-                    </p>
+                <div className="max-w-3xl w-full relative z-10 text-center">
+                    <div className="glass-card rounded-3xl p-12 border-t border-white/10 shadow-2xl">
 
-                    <div className="bg-gray-900/50 border border-blue-500/30 rounded-2xl p-8 text-left space-y-4">
-                        <h3 className="text-2xl font-semibold text-blue-400">What we'll investigate:</h3>
-                        <ul className="space-y-3 text-gray-300">
-                            <li className="flex items-start gap-3">
-                                <span className="text-2xl">🔍</span>
-                                <span>Communication patterns and effort balance</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-2xl">🚩</span>
-                                <span>Red flags and warning signs</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-2xl">💚</span>
-                                <span>Green flags and positive indicators</span>
-                            </li>
-                            <li className="flex items-start gap-3">
-                                <span className="text-2xl">🔮</span>
-                                <span>Prediction of where this is headed</span>
-                            </li>
-                        </ul>
-                    </div>
+                        <div className="text-8xl mb-8 filter drop-shadow-[0_0_30px_rgba(59,130,246,0.5)] animate-pulse">🕵️</div>
 
-                    <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-4">
-                        <p className="text-sm text-yellow-200">
-                            ⚠️ <strong>Honest answers only.</strong> This is for you, not them. The truth might hurt, but it's better to know now.
+                        <h1 className="text-6xl font-bold font-display tracking-tighter mb-4">
+                            The <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-600">Detective</span>
+                        </h1>
+
+                        <p className="text-xl text-gray-300 font-light mb-12 max-w-2xl mx-auto">
+                            Predict where your relationship is headed. <span className="text-white font-medium">Get the intel before you catch feelings.</span>
                         </p>
-                    </div>
 
-                    <Button
-                        onClick={() => setMode("investigating")}
-                        className="w-full max-w-md bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 py-6 text-lg"
-                    >
-                        Start Investigation →
-                    </Button>
+                        <div className="grid md:grid-cols-2 gap-4 text-left mb-12">
+                            {[
+                                { icon: "🔍", text: "Communication patterns" },
+                                { icon: "🚩", text: "Red flags & warning signs" },
+                                { icon: "💚", text: "Green flags & indicators" },
+                                { icon: "🔮", text: "Future prediction model" }
+                            ].map((item, i) => (
+                                <div key={i} className="glass p-4 rounded-xl flex items-center gap-4 hover:bg-white/5 transition-colors">
+                                    <span className="text-3xl filter drop-shadow-lg">{item.icon}</span>
+                                    <span className="text-sm font-medium text-gray-200">{item.text}</span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="bg-yellow-900/20 border border-yellow-500/30 rounded-xl p-4 mb-8 backdrop-blur-sm">
+                            <p className="text-sm text-yellow-200 font-mono">
+                                ⚠️ <strong>WARNING:</strong> Honest answers only. The truth might hurt.
+                            </p>
+                        </div>
+
+                        <Button
+                            onClick={() => setMode("investigating")}
+                            className="w-full max-w-md bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 py-8 text-xl font-bold rounded-full shadow-[0_0_30px_rgba(59,130,246,0.4)] hover:shadow-[0_0_50px_rgba(59,130,246,0.6)] transition-all transform hover:-translate-y-1"
+                        >
+                            Start Investigation →
+                        </Button>
+                    </div>
                 </div>
             </main>
         );

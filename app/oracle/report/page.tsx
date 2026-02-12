@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import html2canvas from "html2canvas";
+import { motion } from "framer-motion";
 
 interface AnalysisResult {
     label: string;
@@ -69,7 +70,9 @@ export default function OracleReportPage() {
         try {
             const canvas = await html2canvas(element, {
                 backgroundColor: "#000000",
-                scale: 2
+                scale: 2,
+                useCORS: true,
+                logging: false
             });
             const image = canvas.toDataURL("image/png");
 
@@ -86,7 +89,7 @@ export default function OracleReportPage() {
                 if (navigator.canShare({ files: [file] })) {
                     await navigator.share({
                         files: [file],
-                        title: 'My Relationship Verdict',
+                        title: 'The Oracle Verdict',
                         text: `The Oracle says we are ${result?.label}! 🔥 Survival chance: ${result?.survival_probability}%`
                     });
                 }
@@ -102,10 +105,10 @@ export default function OracleReportPage() {
 
     if (loading) {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center">
+            <main className="min-h-screen bg-black text-white flex items-center justify-center font-mono">
                 <div className="text-center space-y-4">
-                    <div className="text-6xl animate-pulse">🔮</div>
-                    <h2 className="text-xl font-mono text-purple-400">Consulting the Oracle...</h2>
+                    <div className="text-6xl animate-pulse filter drop-shadow-[0_0_15px_rgba(168,85,247,0.5)]">🔮</div>
+                    <h2 className="text-xs tracking-[0.3em] text-purple-400 uppercase">Compiling Destiny...</h2>
                 </div>
             </main>
         );
@@ -113,175 +116,172 @@ export default function OracleReportPage() {
 
     if (!result) {
         return (
-            <main className="min-h-screen bg-black text-white flex items-center justify-center">
-                <div className="text-center text-red-500">Failed to generate report. Please try again.</div>
+            <main className="min-h-screen bg-black text-white flex items-center justify-center font-mono">
+                <div className="text-center text-red-500 border border-red-900/50 p-6 bg-red-950/20">
+                    ERROR: FATE_CALCULATION_FAILED
+                </div>
             </main>
         );
     }
 
     return (
         <main className="min-h-screen bg-black text-white p-6 pb-32 flex flex-col items-center justify-center relative overflow-hidden">
+            {/* Background Texture */}
+            <div className="absolute inset-0 bg-noise opacity-20 pointer-events-none mix-blend-overlay" />
+            <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle,rgba(50,20,100,0.2)_0%,transparent_60%)] pointer-events-none" />
 
-            {/* Main Result Display */}
-            <div className="max-w-md w-full space-y-8 text-center relative z-10">
-                <div>
-                    <h1 className="text-sm font-mono text-gray-400 uppercase tracking-widest mb-2">Final Verdict</h1>
-                    <div className="text-8xl mb-4 animate-bounce">{result.vibe}</div>
-                    <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent">
-                        {result.label}
-                    </h2>
-                </div>
-
-                <div className="relative pt-4">
-                    <div className="h-4 bg-gray-800 rounded-full overflow-hidden w-full">
-                        <div
-                            className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500 transition-all duration-1000 ease-out"
-                            style={{ width: `${result.survival_probability}%` }}
-                        />
-                    </div>
-                    <div className="flex justify-between text-xs font-mono text-gray-500 mt-2">
-                        <span>Doomed</span>
-                        <span className="text-white font-bold">{result.survival_probability}% Survival Chance</span>
-                        <span>Forever</span>
-                    </div>
-                </div>
-
-                <div className="bg-gray-900/50 border border-purple-500/30 p-6 rounded-xl backdrop-blur-md">
-                    <p className="text-xl italic text-gray-200">"{result.verdict}"</p>
-                </div>
-
-                {/* Share Actions */}
-                <div className="space-y-4 pt-8">
-                    <h3 className="text-purple-400 font-mono text-sm uppercase tracking-wider">Share Your Fate</h3>
-
-                    <div className="grid grid-cols-2 gap-3">
-                        <Button
-                            onClick={() => captureAndShare(storyRef.current, "oracle-story")}
-                            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500"
-                            disabled={sharing}
-                        >
-                            📸 Insta Story
-                        </Button>
-                        <Button
-                            onClick={() => captureAndShare(postRef.current, "oracle-post")}
-                            className="bg-gray-800 hover:bg-gray-700 border border-purple-500/30"
-                            disabled={sharing}
-                        >
-                            🖼️ Insta Post
-                        </Button>
-                        <Button
-                            onClick={() => window.open(`https://twitter.com/intent/tweet?text=${shareText}`, '_blank')}
-                            className="bg-blue-500 hover:bg-blue-400"
-                        >
-                            🐦 Twitter / X
-                        </Button>
-                        <Button
-                            onClick={() => window.open(`https://wa.me/?text=${shareText}`, '_blank')}
-                            className="bg-green-600 hover:bg-green-500"
-                        >
-                            💬 WhatsApp
-                        </Button>
-                    </div>
-
-                    <Button
-                        onClick={() => router.push("/")}
-                        variant="ghost"
-                        className="w-full mt-4 text-gray-500 hover:text-white"
-                    >
-                        Start New Assessment
-                    </Button>
-                </div>
-
-                <div className="text-xs text-gray-600 font-mono mt-8">
-                    {agentA?.name} & {agentB?.name}
-                </div>
-            </div>
-
-            {/* Hidden Share Cards for Generation */}
-            <div className="fixed -left-[9999px] top-0">
-
-                {/* 1. Instagram Story Layout (9:16) */}
-                <div
-                    ref={storyRef}
-                    className="w-[1080px] h-[1920px] bg-black flex flex-col items-center justify-between p-20 text-center relative overflow-hidden"
-                >
-                    {/* Background Effects */}
-                    <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-10 mix-blend-overlay"></div>
-                    <div className="absolute top-[-20%] left-[-20%] w-[140%] h-[140%] bg-gradient-to-br from-purple-900/40 via-black to-pink-900/40 blur-3xl rounded-full"></div>
-
-                    <div className="z-10 mt-20">
-                        <h1 className="text-6xl font-black font-display text-white tracking-tight uppercase mb-4">The Oracle</h1>
-                        <p className="text-3xl text-purple-400 font-mono uppercase tracking-widest">Verdict</p>
-                    </div>
-
-                    <div className="z-10 flex flex-col items-center gap-10">
-                        <div className="text-[250px] leading-none filter drop-shadow-[0_0_60px_rgba(168,85,247,0.5)] animate-pulse">
-                            {result.vibe}
+            {/* Main Result Receipt */}
+            <motion.div
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.8 }}
+                className="max-w-md w-full relative z-10"
+            >
+                <div className="glass-card p-0 overflow-hidden relative border border-white/10 shadow-2xl">
+                    {/* Receipt Header */}
+                    <div className="bg-white text-black p-6 text-center border-b border-black">
+                        <div className="flex justify-between items-center mb-4">
+                            <span className="text-xs font-mono tracking-widest uppercase">The Oracle™</span>
+                            <span className="text-xs font-mono">{new Date().toLocaleDateString()}</span>
                         </div>
-                        <h2 className="text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 px-4 leading-tight">
+                        <h1 className="text-5xl font-black font-display tracking-tighter uppercase leading-none">
                             {result.label}
-                        </h2>
+                        </h1>
                     </div>
 
-                    <div className="z-10 w-full max-w-2xl bg-gray-900/80 border border-purple-500/50 p-12 rounded-3xl backdrop-blur-xl">
-                        <div className="flex justify-between items-center mb-6">
-                            <span className="text-3xl text-gray-400 font-mono">Survival Chance</span>
-                            <span className="text-5xl font-bold text-white">{result.survival_probability}%</span>
-                        </div>
-                        <div className="h-6 bg-gray-800 rounded-full overflow-hidden w-full mb-8">
-                            <div
-                                className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500"
-                                style={{ width: `${result.survival_probability}%` }}
-                            />
-                        </div>
-                        <p className="text-4xl italic text-gray-200 font-serif leading-relaxed">
-                            "{result.verdict}"
-                        </p>
-                    </div>
+                    {/* Receipt Body */}
+                    <div className="p-8 space-y-8 bg-black/60 backdrop-blur-3xl">
 
-                    <div className="z-10 mb-20">
-                        <p className="text-3xl text-gray-500 font-mono">theplot.vercel.app</p>
-                    </div>
-                </div>
-
-                {/* 2. Instagram Post Layout (1:1) */}
-                <div
-                    ref={postRef}
-                    className="w-[1080px] h-[1080px] bg-black flex flex-col items-center justify-center p-16 text-center relative overflow-hidden"
-                >
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-tr from-purple-900/20 via-black to-pink-900/20"></div>
-
-                    <div className="z-10 flex flex-col items-center gap-8 w-full border-4 border-white/10 p-12 rounded-[60px] h-full justify-center bg-white/5 backdrop-blur-sm">
-
-                        <div className="absolute top-12 left-0 w-full flex justify-center">
-                            <h1 className="text-4xl font-black text-white/30 tracking-widest uppercase">The Oracle</h1>
-                        </div>
-
-                        <div className="text-[180px] leading-none filter drop-shadow-[0_0_40px_rgba(236,72,153,0.5)]">
-                            {result.vibe}
-                        </div>
-
-                        <h2 className="text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600 leading-tight">
-                            {result.label}
-                        </h2>
-
-                        <div className="w-full bg-black/60 p-8 rounded-3xl border border-white/10">
-                            <div className="flex justify-between items-end mb-4">
-                                <span className="text-2xl text-gray-400 font-mono">Survival%</span>
-                                <span className="text-5xl font-bold text-white">{result.survival_probability}%</span>
+                        <div className="text-center">
+                            <div className="text-8xl mb-4 filter drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] animate-[pulse_3s_infinite]">
+                                {result.vibe}
                             </div>
-                            <div className="h-4 bg-gray-800 rounded-full overflow-hidden w-full">
-                                <div
+                            <div className="inline-block border border-white/20 px-4 py-1 rounded-full bg-white/5">
+                                <span className="text-xs font-mono text-gray-300 uppercase tracking-widest">
+                                    Vibe Analysis
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <div className="flex justify-between items-end">
+                                <span className="text-gray-400 font-mono text-sm uppercase">Survival Probability</span>
+                                <span className="text-4xl font-bold font-display text-white">{result.survival_probability}%</span>
+                            </div>
+                            <div className="h-4 bg-gray-800 rounded-none overflow-hidden w-full border border-white/10">
+                                <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${result.survival_probability}%` }}
+                                    transition={{ duration: 1.5, ease: "circOut" }}
                                     className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-green-500"
-                                    style={{ width: `${result.survival_probability}%` }}
                                 />
                             </div>
                         </div>
 
-                        <p className="text-3xl text-gray-400 font-mono mt-4">theplot.vercel.app</p>
+                        <div className="border-t border-dashed border-white/20 pt-6">
+                            <p className="text-lg text-gray-300 font-mono leading-relaxed">
+                                <span className="text-purple-400 mr-2">&gt;&gt;</span>
+                                {result.verdict}
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Barcode Footer */}
+                    <div className="bg-white text-black p-4 flex justify-between items-center">
+                        <div className="h-8 w-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdib3g9IjAgMCAxMDAgMTAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyIiBoZWlnaHQ9IjEwIiBmaWxsPSJibGFjayIvPjxyZWN0IHg9IjQiIHk9IjAiIHdpZHRoPSIxIiBoZWlnaHQ9IjEwIiBmaWxsPSJibGFjayIvPjxyZWN0IHg9IjYiIHk9IjAiIHdpZHRoPSIzIiBoZWlnaHQ9IjEwIiBmaWxsPSJibGFjayIvPjxyZWN0IHg9IjExIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIxNCIgeT0iMCIgd2lkdGg9IjIiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PHJlY3QgeD0iMTgiIHk9IjAiIHdpZHRoPSI0IiBoZWlnaHQ9IjEwIiBmaWxsPSJibGFjayIvPjxyZWN0IHg9IjIzIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxMCIgZmlsbD0iYmxhY2siLz48cmVjdCB4PSIyNiIgeT0iMCIgd2lkdGg9IjIiIGhlaWdodD0iMTAiIGZpbGw9ImJsYWNrIi8+PC9zdmc+')] opacity-50" />
+                        <span className="text-[10px] font-mono whitespace-nowrap ml-4">THE_PLOT_REC_{Math.floor(Math.random() * 10000)}</span>
                     </div>
                 </div>
 
+                {/* Share Actions */}
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                    <Button
+                        onClick={() => captureAndShare(storyRef.current, "oracle-story")}
+                        className="bg-white text-black hover:bg-gray-200 font-bold border-none"
+                        disabled={sharing}
+                    >
+                        📸 IG STORY
+                    </Button>
+                    <Button
+                        onClick={() => window.open(`https://wa.me/?text=${shareText}`, '_blank')}
+                        className="bg-green-500/20 text-green-400 border border-green-500/50 hover:bg-green-500/30"
+                    >
+                        💬 WHATSAPP
+                    </Button>
+                </div>
+                <Button
+                    onClick={() => router.push("/")}
+                    variant="ghost"
+                    className="w-full mt-4 text-xs font-mono text-gray-500 hover:text-white uppercase tracking-widest"
+                >
+                    Initialize New Protocol
+                </Button>
+            </motion.div>
+
+            {/* GENERATION CANVASES (HIDDEN) */}
+            <div className="fixed -left-[9999px] top-0">
+                {/* 1. Instagram Story (9:16) - 1080x1920 */}
+                <div
+                    ref={storyRef}
+                    className="w-[1080px] h-[1920px] bg-black p-20 flex flex-col justify-between relative overflow-hidden text-white"
+                >
+                    {/* Background */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-purple-900/20 to-black z-0 opacity-50" />
+                    <div className="absolute inset-0 z-0 opacity-20 bg-noise" />
+
+                    {/* Content */}
+                    <div className="relative z-10 border-4 border-white p-12 h-full flex flex-col justify-between">
+                        <div className="flex justify-between items-start">
+                            <h1 className="text-8xl font-black font-display tracking-tighter uppercase leading-none">
+                                {result.label}
+                            </h1>
+                            <div className="text-4xl font-mono border border-white px-4 py-2">
+                                {result.survival_probability}%
+                            </div>
+                        </div>
+
+                        <div className="flex-1 flex flex-col items-center justify-center">
+                            <div className="text-[400px] leading-none filter drop-shadow-[0_0_80px_rgba(255,255,255,0.4)]">
+                                {result.vibe}
+                            </div>
+                        </div>
+
+                        <div className="space-y-8">
+                            <p className="text-5xl font-mono leading-tight">
+                                "{result.verdict}"
+                            </p>
+                            <div className="flex justify-between items-end border-t-4 border-white pt-8">
+                                <div>
+                                    <div className="text-3xl font-mono opacity-60 uppercase mb-2">The Oracle Protocol</div>
+                                    <div className="text-2xl font-mono opacity-40">theplot.vercel.app</div>
+                                </div>
+                                <div className="h-16 w-48 bg-white opacity-80" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 2. Instagram Post (1:1) - 1080x1080 */}
+                <div ref={postRef} className="w-[1080px] h-[1080px] bg-black p-12 text-white relative">
+                    <div className="w-full h-full border-4 border-white p-12 flex flex-col justify-between">
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-7xl font-black tracking-tighter uppercase">{result.label}</h1>
+                            <span className="text-4xl font-mono">{result.survival_probability}% SURVIVAL</span>
+                        </div>
+
+                        <div className="flex justify-center my-12">
+                            <div className="text-[350px] leading-none">{result.vibe}</div>
+                        </div>
+
+                        <div className="flex justify-between items-end">
+                            <p className="text-3xl font-mono max-w-2xl">"{result.verdict}"</p>
+                            <div className="text-right">
+                                <div className="text-3xl font-black uppercase">The Oracle</div>
+                                <div className="text-xl font-mono opacity-50">theplot.vercel.app</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     );
