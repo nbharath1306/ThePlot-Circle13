@@ -98,13 +98,13 @@ export async function saveSession(id: string, data: Partial<SessionData>): Promi
         const updated = { ...current, ...data };
 
         try {
-            // SET session:{id} value
+            // SET session:{id} value EX 86400 (24 hours)
             await fetch(url, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(["SET", `session:${id}`, JSON.stringify(updated)])
+                body: JSON.stringify(["SET", `session:${id}`, JSON.stringify(updated), "EX", 86400])
             });
         } catch (e) {
             console.error("KV Save Error", e);
