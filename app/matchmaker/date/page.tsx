@@ -68,8 +68,15 @@ You're on a first date. Be charming, flirty but respectful, ask questions, share
         setIsTyping(true);
 
         try {
+            const apiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
+
+            // Check if API key is set
+            if (!apiKey || apiKey === "your_groq_api_key_here") {
+                throw new Error("API key not configured");
+            }
+
             const groq = new Groq({
-                apiKey: process.env.NEXT_PUBLIC_GROQ_API_KEY,
+                apiKey: apiKey,
                 dangerouslyAllowBrowser: true,
             });
 
@@ -90,11 +97,19 @@ You're on a first date. Be charming, flirty but respectful, ask questions, share
             };
 
             setMessages((prev) => [...prev, assistantMessage]);
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error:", error);
+
+            let errorMessage = "Sorry, I got a bit nervous there. Can you say that again?";
+
+            // Provide specific error message for missing API key
+            if (error.message === "API key not configured" || error.message?.includes("API key")) {
+                errorMessage = "⚠️ Oops! The AI partner needs to be configured. Please add your GROQ API key to the .env.local file. Get a free key at https://console.groq.com/keys";
+            }
+
             setMessages((prev) => [
                 ...prev,
-                { role: "assistant", content: "Sorry, I got a bit nervous there. Can you say that again?" },
+                { role: "assistant", content: errorMessage },
             ]);
         } finally {
             setIsTyping(false);
