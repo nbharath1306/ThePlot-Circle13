@@ -35,6 +35,17 @@ export default function HomePage() {
       stat: "AI Generation"
     },
     {
+      id: "detective",
+      title: "The Detective",
+      subtitle: "For Situationships",
+      description: "Analyze texts and behavior patterns to predict where this is actually going.",
+      emoji: "🕵️",
+      gradient: "from-blue-500 to-cyan-500",
+      bgGradient: "bg-blue-500/10",
+      path: "/detective",
+      stat: "Pattern Analysis"
+    },
+    {
       id: "pitch",
       title: "The Pitch",
       subtitle: "The Un-Rejectable Proposal",

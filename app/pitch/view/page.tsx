@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import Confetti from "react-confetti";
 
 // Helper for safe decoding
@@ -16,7 +16,7 @@ const safeDecode = (str: string) => {
 
 export default function PitchViewer() {
     return (
-        <Suspense fallback={<div className="text-white text-center p-20">Loading...</div>}>
+        <Suspense fallback={<div className="text-white text-center p-20">Loading The Pitch...</div>}>
             <PitchContent />
         </Suspense>
     );
@@ -24,10 +24,16 @@ export default function PitchViewer() {
 
 function PitchContent() {
     const searchParams = useSearchParams();
-    const [data, setData] = useState({ name: "", message: "", spotifyLink: "" });
-    const [phase, setPhase] = useState<"loading" | "intro" | "proposal" | "success">("loading");
+    const [data, setData] = useState({ name: "", message: "", spotifyLink: "", images: [] as string[] });
+    const [phase, setPhase] = useState<"loading" | "intro" | "montage" | "proposal" | "success" | "glitch">("loading");
     const [noBtnPos, setNoBtnPos] = useState({ x: 0, y: 0 });
     const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+
+    // Framer Motion Scroll Parallax
+    const { scrollYProgress } = useScroll();
+    const y1 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+    const y2 = useTransform(scrollYProgress, [0, 1], [0, -200]);
+    const y3 = useTransform(scrollYProgress, [0, 1], [0, -300]);
 
     useEffect(() => {
         // Window resize handler
@@ -45,7 +51,7 @@ function PitchContent() {
         }
 
         // Simulate loading
-        const timer = setTimeout(() => setPhase("intro"), 1000);
+        const timer = setTimeout(() => setPhase("intro"), 1500);
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -54,11 +60,21 @@ function PitchContent() {
     }, [searchParams]);
 
     const handleStart = () => {
-        setPhase("proposal");
+        // If we have images, show montage, otherwise skip to proposal
+        if (data.images && data.images.length > 0) {
+            setPhase("montage");
+        } else {
+            setPhase("proposal");
+        }
     };
 
     const handleYes = () => {
         setPhase("success");
+    };
+
+    const handleNo = () => {
+        setPhase("glitch");
+        setTimeout(() => setPhase("proposal"), 2000);
     };
 
     const moveNoButton = () => {
@@ -72,17 +88,13 @@ function PitchContent() {
         setNoBtnPos({ x: newX, y: newY });
     };
 
-    // Extract video ID for YouTube
+    // Embed URL logic
     const getEmbedUrl = (url: string) => {
         if (!url) return null;
         if (url.includes("spotify")) {
-            // Very basic spotify embed transform. 
-            // Spotify URLs usually: https://open.spotify.com/track/ID?si=...
-            // Embed: https://open.spotify.com/embed/track/ID
             return url.replace("spotify.com/", "spotify.com/embed/");
         }
         if (url.includes("youtube") || url.includes("youtu.be")) {
-            // YouTube Logic
             let videoId = "";
             if (url.includes("v=")) {
                 videoId = url.split("v=")[1]?.split("&")[0];
@@ -97,7 +109,7 @@ function PitchContent() {
     const embedUrl = getEmbedUrl(data.spotifyLink);
 
     return (
-        <main className="min-h-screen bg-black text-white relative overflow-hidden font-sans">
+        <main className={`min-h-screen bg-black text-white relative overflow-hidden font-sans ${phase === "glitch" ? "animate-pulse bg-red-900" : ""}`}>
 
             {/* Background Noise */}
             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none mix-blend-overlay z-0" />
@@ -127,17 +139,66 @@ function PitchContent() {
                         className="flex flex-col items-center justify-center h-screen z-10 relative p-8 text-center"
                     >
                         <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tighter">
-                            INCOMING <span className="text-pink-500">PITCH</span>
+                            A FILM BY <span className="text-pink-500">UNKNOWN</span>
                         </h1>
-                        <p className="text-gray-400 mb-12 max-w-md mx-auto">
-                            {data.name}, you have been sent a secure proposal. Open it when you are ready.
+                        <p className="text-gray-400 mb-12 max-w-md mx-auto font-mono text-sm">
+                            I directed a movie about us.
                         </p>
                         <button
                             onClick={handleStart}
                             className="bg-white text-black font-bold px-8 py-4 rounded-full text-xl hover:scale-105 transition-transform"
                         >
-                            OPEN ENVELOPE 💌
+                            PREMIERE 🎬
                         </button>
+                    </motion.div>
+                )}
+
+                {/* MONTAGE (PARALLAX SCROLL) */}
+                {phase === "montage" && (
+                    <motion.div
+                        key="montage"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="relative min-h-[150vh] z-10 flex flex-col items-center pt-20"
+                    >
+                        <div className="fixed top-10 right-10 z-50">
+                            <button
+                                onClick={() => setPhase("proposal")}
+                                className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-full text-xs font-mono border border-white/20 hover:bg-white/20 transition-all"
+                            >
+                                SKIP INTRO →
+                            </button>
+                        </div>
+
+                        <div className="w-full max-w-4xl mx-auto px-4 space-y-32 pb-40">
+                            {data.images && data.images.map((img, i) => (
+                                <motion.div
+                                    key={i}
+                                    style={{ y: i === 0 ? y1 : i === 1 ? y2 : y3 }}
+                                    className={`relative aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 ${i % 2 === 0 ? 'ml-0' : 'ml-auto max-w-2xl'}`}
+                                >
+                                    <img src={img} alt="Us" className="object-cover w-full h-full" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <div className="fixed bottom-10 left-0 w-full text-center px-4 pointer-events-none">
+                            <motion.p
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="text-white/80 font-serif text-2xl italic max-w-lg mx-auto bg-black/50 p-4 rounded-xl backdrop-blur-sm"
+                            >
+                                "Scroll to continue..."
+                            </motion.p>
+                        </div>
+
+                        {/* Trigger Proposal at bottom */}
+                        <motion.div
+                            onViewportEnter={() => setPhase("proposal")}
+                            className="h-20 w-full absolute bottom-0 pointer-events-none"
+                        />
                     </motion.div>
                 )}
 
@@ -148,16 +209,16 @@ function PitchContent() {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="w-full h-screen relative z-10 flex flex-col items-center justify-center"
+                        className="w-full h-screen relative z-10 flex flex-col items-center justify-center p-4 text-center"
                     >
-                        <h1 className="text-4xl md:text-6xl font-black text-center px-4 mb-20 leading-tight">
-                            <span className="text-pink-500">{data.name}</span>, will you be my Valentine?
+                        <h1 className="text-4xl md:text-7xl font-black mb-12 leading-tight">
+                            <span className="text-pink-500">{data.name}</span>,<br />will you be my Valentine?
                         </h1>
 
-                        <div className="flex gap-8 items-center justify-center w-full relative h-32">
+                        <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full relative min-h-[200px]">
                             <button
                                 onClick={handleYes}
-                                className="bg-pink-600 hover:bg-pink-500 text-white font-black text-2xl px-12 py-6 rounded-2xl shadow-[0_0_50px_rgba(236,72,153,0.5)] animate-pulse hover:animate-none hover:scale-110 transition-all z-20"
+                                className="bg-pink-600 hover:bg-pink-500 text-white font-black text-3xl px-16 py-8 rounded-3xl shadow-[0_0_50px_rgba(236,72,153,0.5)] animate-pulse hover:animate-none hover:scale-105 transition-all z-20"
                             >
                                 YES!
                             </button>
@@ -165,14 +226,14 @@ function PitchContent() {
                             <motion.button
                                 onMouseEnter={moveNoButton}
                                 onTouchStart={moveNoButton}
+                                onClick={handleNo}
                                 animate={{
                                     x: noBtnPos.x ? noBtnPos.x - (window.innerWidth / 2) : 0,
                                     y: noBtnPos.y ? noBtnPos.y - (window.innerHeight / 2) : 0
                                 }}
                                 transition={{ type: "spring", stiffness: 500, damping: 20 }}
-                                className="bg-gray-800 text-gray-500 font-medium text-sm px-6 py-3 rounded-xl absolute z-10"
+                                className="bg-gray-800 text-gray-500 font-medium text-lg px-8 py-4 rounded-xl relative md:absolute z-10"
                                 style={{
-                                    // If un-moved, it sits next to YES. If moved, absolute positioning overrides somewhat via transform
                                     position: noBtnPos.x === 0 ? "relative" : "fixed",
                                     left: noBtnPos.x === 0 ? "auto" : 0,
                                     top: noBtnPos.y === 0 ? "auto" : 0
@@ -182,6 +243,16 @@ function PitchContent() {
                             </motion.button>
                         </div>
                     </motion.div>
+                )}
+
+                {/* GLITCH STATE */}
+                {phase === "glitch" && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-red-600 text-white font-mono text-center p-4">
+                        <h1 className="text-4xl md:text-6xl font-bold glitch-text">
+                            ERR: SCRIPT DEVIATION<br />
+                            TRY AGAIN
+                        </h1>
+                    </div>
                 )}
 
                 {/* SUCCESS (THE CLIMAX) */}
