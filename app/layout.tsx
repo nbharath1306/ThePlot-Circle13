@@ -20,6 +20,12 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "ThePlot | AI Relationship Simulator",
   description: "See your future together, before you live it. Simulate your relationship with AI agents based on your personality.",
@@ -34,11 +40,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ThePlot",
     description: "AI Relationship Simulator",
-  },
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
   },
 };
 
