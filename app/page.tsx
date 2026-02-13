@@ -35,26 +35,15 @@ export default function HomePage() {
       stat: "AI Generation"
     },
     {
-      id: "detective",
-      title: "The Detective",
-      subtitle: "For Situationships",
-      description: "Analyze texts and behavior patterns to predict where this is actually going.",
-      emoji: "🕵️",
-      gradient: "from-blue-500 to-cyan-500",
-      bgGradient: "bg-blue-500/10",
-      path: "/detective",
-      stat: "Pattern Analysis"
-    },
-    {
-      id: "proposal",
-      title: "The Proposal",
-      subtitle: "For The Bold",
-      description: "Initiate the ultimate romantic sequence. Failure is not an option. Literally.",
-      emoji: "💍",
-      gradient: "from-red-600 via-pink-600 to-purple-600",
-      bgGradient: "bg-red-500/10",
-      path: "/proposal",
-      stat: "System Override"
+      id: "pitch",
+      title: "The Pitch",
+      subtitle: "The Un-Rejectable Proposal",
+      description: "Create a cinematic, interactive Valentine's proposal that literally runs away from 'No'.",
+      emoji: "🎬",
+      gradient: "from-pink-600 via-rose-600 to-red-600",
+      bgGradient: "bg-pink-500/10",
+      path: "/pitch",
+      stat: "Zero Friction"
     },
   ];
 
