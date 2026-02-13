@@ -45,6 +45,17 @@ export default function HomePage() {
       path: "/detective",
       stat: "Pattern Analysis"
     },
+    {
+      id: "proposal",
+      title: "The Proposal",
+      subtitle: "For The Bold",
+      description: "Initiate the ultimate romantic sequence. Failure is not an option. Literally.",
+      emoji: "💍",
+      gradient: "from-red-600 via-pink-600 to-purple-600",
+      bgGradient: "bg-red-500/10",
+      path: "/proposal",
+      stat: "System Override"
+    },
   ];
 
   return (
@@ -89,7 +100,7 @@ export default function HomePage() {
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-7xl mx-auto w-full px-4">
+        <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-7xl mx-auto w-full px-4">
           {modes.map((mode, i) => (
             <motion.div
               key={mode.id}
